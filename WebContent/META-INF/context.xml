@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context>
+	<!-- Specify a JDBC datasource -->
+	<!-- url="jdbc:mysql://fancyautofit.dyndns.tv:3306/gwtradejava" --> 
+	<Resource name="jdbc/gwtrade" 
+			auth="Container" 
+			type="javax.sql.DataSource"
+			username="root" 
+			password="gateway" 
+			driverClassName="com.mysql.jdbc.Driver"
+			url="jdbc:mysql://172.17.0.111:3306/pg"       
+			removeAbandonedTimeout="60"
+			autoReconnect="true"
+			maxActive="100" 
+			maxIdle="30"
+			maxWait="10000" />
+</Context>

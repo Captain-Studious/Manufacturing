@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+   "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+   "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<constant name="struts.devMode" value="true" />
+	<package name="suitability" extends="struts-default">
+	
+			<action name="saveSuittypeAction" class="com.controlcentre.settings.suitabilitysettings.suitabilitymaster.ClsSuitabilityMasterAction" method="savetypeAction">
+				<interceptor-ref name="params"/>
+				<result name="success" >typeMaster.jsp</result>
+				<result name="fail">typeMaster.jsp</result>
+			</action>
+			
+			<action name="saveSuitbrandAction" class="com.controlcentre.settings.suitabilitysettings.suitabilitymaster.ClsSuitabilityMasterAction" method="savebrandAction">
+				<interceptor-ref name="params"/>
+				<result name="success" >brand.jsp</result>
+				<result name="fail">brand.jsp</result>
+			</action>
+			
+			<action name="saveSuitmodelAction" class="com.controlcentre.settings.suitabilitysettings.suitabilitymaster.ClsSuitabilityMasterAction" method="savemodelAction">
+				<interceptor-ref name="params"/>
+				<result name="success" >model.jsp</result>
+				<result name="fail">model.jsp</result>
+			</action>
+			
+			<action name="saveSuitsubmodelAction" class="com.controlcentre.settings.suitabilitysettings.suitabilitymaster.ClsSuitabilityMasterAction" method="saveSubmodelAction">
+				<interceptor-ref name="params"/>
+				<result name="success" >subModel.jsp</result>
+				<result name="fail">subModel.jsp</result>
+			</action>
+			
+			<action name="saveSuityomAction" class="com.controlcentre.settings.suitabilitysettings.suitabilitymaster.ClsSuitabilityMasterAction" method="savesuitYomAction">
+				<interceptor-ref name="params"/>
+				<result name="success" >yom.jsp</result>
+				<result name="fail">yom.jsp</result>
+			</action>
+			
+			<action name="saveSuitspec1Action" class="com.controlcentre.settings.suitabilitysettings.suitabilitymaster.ClsSuitabilityMasterAction" method="savesuitspec1Action">
+				<interceptor-ref name="params"/>
+				<result name="success" >spec1.jsp</result>
+				<result name="fail">spec1.jsp</result>
+			</action>
+			
+			<action name="saveSuitspec2Action" class="com.controlcentre.settings.suitabilitysettings.suitabilitymaster.ClsSuitabilityMasterAction" method="savesuitspec2Action">
+				<interceptor-ref name="params"/>
+				<result name="success" >spec2.jsp</result>
+				<result name="fail">spec2.jsp</result>
+			</action>
+			
+			<action name="saveSuitspec3Action" class="com.controlcentre.settings.suitabilitysettings.suitabilitymaster.ClsSuitabilityMasterAction" method="savesuitspec3Action">
+				<interceptor-ref name="params"/>
+				<result name="success" >spec3.jsp</result>
+				<result name="fail">spec3.jsp</result>
+			</action>
+			
+			<action name="savesuitvehaction" class="com.controlcentre.settings.suitabilitysettings.suitabilitymaster.ClsSuitabilityMasterAction" method="saveSuitVehAction">
+				<interceptor-ref name="params"/>
+				<result name="success" >suitVehMaster.jsp</result>
+				<result name="fail">suitVehMaster.jsp</result>
+			</action>
+			
+			
+		</package>	
+</struts>

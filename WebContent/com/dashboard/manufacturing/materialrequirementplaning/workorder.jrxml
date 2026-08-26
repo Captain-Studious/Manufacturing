@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.3.0.final using JasperReports Library version 6.3.0  -->
+<!-- 2021-10-03T12:40:54 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="workorder" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="3443a82e-3107-4f3f-8e9f-0d0e89d9e172">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="workorderpetrogulf"/>
+	<style name="Table_TH" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#2E2D2D"/>
+			<topPen lineWidth="0.5" lineColor="#2E2D2D"/>
+			<leftPen lineWidth="0.5" lineColor="#2E2D2D"/>
+			<bottomPen lineWidth="0.5" lineColor="#2E2D2D"/>
+			<rightPen lineWidth="0.5" lineColor="#2E2D2D"/>
+		</box>
+	</style>
+	<style name="Table_CH" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#2E2D2D"/>
+			<topPen lineWidth="0.5" lineColor="#2E2D2D"/>
+			<leftPen lineWidth="0.5" lineColor="#2E2D2D"/>
+			<bottomPen lineWidth="0.5" lineColor="#2E2D2D"/>
+			<rightPen lineWidth="0.5" lineColor="#2E2D2D"/>
+		</box>
+	</style>
+	<style name="Table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#2E2D2D"/>
+			<topPen lineWidth="0.5" lineColor="#2E2D2D"/>
+			<leftPen lineWidth="0.5" lineColor="#2E2D2D"/>
+			<bottomPen lineWidth="0.5" lineColor="#2E2D2D"/>
+			<rightPen lineWidth="0.5" lineColor="#2E2D2D"/>
+		</box>
+	</style>
+	<style name="commonStyle">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$F{mtypeid} == 9]]></conditionExpression>
+			<style mode="Opaque" backcolor="#FFC800"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$F{mtypeid} == 1]]></conditionExpression>
+			<style mode="Opaque" backcolor="#E1F7A4"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$F{mtypeid} == 4]]></conditionExpression>
+			<style mode="Opaque" backcolor="#FFAFAF"/>
+		</conditionalStyle>
+	</style>
+	<subDataset name="Dataset1" uuid="2fff7a81-2f90-4c24-9eb9-fba78f384075">
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="workorderpetrogulf"/>
+		<parameter name="qrypsrno" class="java.lang.String"/>
+		<parameter name="qryorderno" class="java.lang.String"/>
+		<parameter name="worktype" class="java.lang.String"/>
+		<queryString>
+			<![CDATA[$P!{worktype}]]>
+		</queryString>
+		<field name="mainproduct" class="java.lang.String"/>
+		<field name="mtype" class="java.lang.String"/>
+		<field name="mtypeid" class="java.lang.Integer"/>
+		<field name="wodocno" class="java.lang.Integer"/>
+		<field name="unit" class="java.lang.String"/>
+		<field name="productname" class="java.lang.String"/>
+		<field name="qty" class="java.lang.Double"/>
+		<variable name="groupNo" class="java.lang.Integer" incrementType="Group" incrementGroup="mtype">
+			<variableExpression><![CDATA[$F{mtypeid}]]></variableExpression>
+		</variable>
+		<group name="mainproduct">
+			<groupExpression><![CDATA[$F{mainproduct}]]></groupExpression>
+		</group>
+		<group name="mtype">
+			<groupExpression><![CDATA[$F{mtype}]]></groupExpression>
+		</group>
+	</subDataset>
+	<parameter name="sorno" class="java.lang.String"/>
+	<parameter name="qrypsrno" class="java.lang.String"/>
+	<parameter name="qryorderno" class="java.lang.String"/>
+	<parameter name="worktype" class="java.lang.String"/>
+	<parameter name="workno" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select company,address from my_comp]]>
+	</queryString>
+	<field name="company" class="java.lang.String"/>
+	<field name="address" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<textField>
+				<reportElement x="145" y="2" width="255" height="18" uuid="a34e8cb8-844f-4630-b153-efe249c78a4b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{company}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="121" y="23" width="311" height="13" uuid="c9cb3efb-90d0-40c3-9b6a-892a7d2267d4">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{address}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="180" y="60" width="100" height="14" uuid="85c3444c-37af-4eda-9542-7388d2566da5">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Work Order :-]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="268" splitType="Stretch">
+			<staticText>
+				<reportElement x="-8" y="4" width="68" height="12" uuid="8f6afc83-ec59-41c8-8660-44bf52e8e595">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Sales Order    :]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="62" y="4" width="100" height="12" uuid="2ad018a0-1634-496c-afdb-bf3be6383885">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{sorno}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="432" y="4" width="28" height="12" uuid="3cb194b1-28e2-4383-9740-068579191c84">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Dated :]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" pattern="dd-MM-yyyy" isBlankWhenNull="true">
+				<reportElement x="460" y="4" width="104" height="12" forecolor="#0F0100" uuid="1ce5e78b-d355-4840-9e90-e4d9d89f7906">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<componentElement>
+				<reportElement x="-8" y="68" width="572" height="80" uuid="b72f4af6-2616-4aaf-b5e7-0b8d277547dd">
+					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
+					<property name="com.jaspersoft.studio.table.style.table_header" value="Table_TH"/>
+					<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
+					<property name="com.jaspersoft.studio.table.style.detail" value="Table_TD"/>
+				</reportElement>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="Dataset1" uuid="0455a6f8-680d-4058-8c87-e5d4dc07d5aa">
+						<datasetParameter name="qrypsrno">
+							<datasetParameterExpression><![CDATA[$P{qrypsrno}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="qryorderno">
+							<datasetParameterExpression><![CDATA[$P{qryorderno}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="worktype">
+							<datasetParameterExpression><![CDATA[$P{worktype}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:columnGroup width="572" uuid="28b690e9-4d32-4038-a754-b2036c48c9a7">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Columns [3]"/>
+						<jr:groupHeader groupName="mainproduct">
+							<jr:cell style="Table_CH" height="20" rowSpan="1">
+								<textField>
+									<reportElement key="" mode="Opaque" x="0" y="0" width="572" height="20" uuid="7c01d9ce-b442-4992-b227-5eb4e8967adb"/>
+									<textElement verticalAlignment="Middle">
+										<font size="8" isBold="true"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{mainproduct}]]></textFieldExpression>
+								</textField>
+							</jr:cell>
+						</jr:groupHeader>
+						<jr:groupHeader groupName="mtype">
+							<jr:cell height="20" rowSpan="1">
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textField>
+									<reportElement style="commonStyle" x="0" y="0" width="572" height="20" uuid="ff4eb0ab-a9fc-4ee1-95a7-4c19f08606ce"/>
+									<textElement verticalAlignment="Middle">
+										<font size="8" isBold="true"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{mtype}]]></textFieldExpression>
+								</textField>
+							</jr:cell>
+						</jr:groupHeader>
+						<jr:column width="400" uuid="17289beb-eb3b-49a9-9e85-573ef01fa54d">
+							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
+							<jr:columnHeader style="Table_CH" height="20" rowSpan="1">
+								<staticText>
+									<reportElement x="0" y="0" width="400" height="20" uuid="33382a95-fea5-4f97-bc52-83603575a5fc"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font size="8" isBold="true"/>
+									</textElement>
+									<text><![CDATA[Product Name]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:detailCell style="Table_TD" height="20">
+								<textField isStretchWithOverflow="true">
+									<reportElement x="0" y="0" width="400" height="20" uuid="c2337a18-d56b-4ca5-8d25-e89d99349837"/>
+									<textElement verticalAlignment="Middle">
+										<font size="8"/>
+										<paragraph leftIndent="3"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{productname}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column width="40" uuid="6b667f92-18db-4ab1-8504-e892df1160f5">
+							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column2"/>
+							<jr:columnHeader style="Table_CH" height="20" rowSpan="1">
+								<staticText>
+									<reportElement x="0" y="0" width="40" height="20" uuid="59abd567-717c-461a-a83d-8b95f663ae74"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font size="8" isBold="true"/>
+									</textElement>
+									<text><![CDATA[UOM]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:detailCell style="Table_TD" height="20">
+								<textField>
+									<reportElement x="0" y="0" width="40" height="20" uuid="db41fb70-5533-42dc-83f0-5a911778c73e"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font size="8"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{unit}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column width="132" uuid="ed1348c8-efee-4524-9956-fea376e9f588">
+							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
+							<jr:columnHeader style="Table_CH" height="20" rowSpan="1">
+								<staticText>
+									<reportElement x="0" y="0" width="132" height="20" uuid="5fe85b5d-ed9d-45d4-9480-a5dec2373014"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font size="8" isBold="true"/>
+									</textElement>
+									<text><![CDATA[Qty]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:detailCell style="Table_TD" height="20">
+								<textField pattern="#,##0.000;#,##0.000-" isBlankWhenNull="true">
+									<reportElement x="0" y="0" width="132" height="20" uuid="55934b81-7668-41e5-aa4a-0187575c9c97"/>
+									<textElement textAlignment="Right" verticalAlignment="Middle">
+										<font size="8"/>
+										<paragraph rightIndent="3"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{qty}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+					</jr:columnGroup>
+				</jr:table>
+			</componentElement>
+			<textField isBlankWhenNull="true">
+				<reportElement x="279" y="-19" width="100" height="14" uuid="17f074c8-7c47-4e22-b273-6e820ed8643e">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{workno}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

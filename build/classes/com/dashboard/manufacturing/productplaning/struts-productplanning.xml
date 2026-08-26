@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE struts PUBLIC
+   "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+   "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<constant name="struts.devMode" value="true" />
+	
+
+	<package name="productplanning" extends="struts-default">
+			
+			<action name="printBlendingSheet" class="com.dashboard.manufacturing.productplaning.ClsproductplanningAction" method="printAction">
+				 <interceptor-ref name="params"/>
+			    <result name="print">blendsheetMNF.jrxml</result>
+			</action>
+			<action name="printCertificate" class="com.dashboard.manufacturing.productplaning.ClsproductplanningAction" method="printCerticateAction">
+				 <interceptor-ref name="params"/>
+			    <result name="printns">certificateofanalysis.jrxml</result>
+			</action>
+		</package>	
+</struts>

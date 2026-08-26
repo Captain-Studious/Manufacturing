@@ -1,0 +1,234 @@
+<%@page import="javax.servlet.http.HttpServletRequest"%>
+<%@page import="javax.servlet.http.HttpSession"%>
+<% String contextPath=request.getContextPath();%>
+
+
+<%@page import="com.dashboard.joborder.ClsjobOrderDAO"%>
+<%ClsjobOrderDAO DAO= new ClsjobOrderDAO();%>
+<%-- <%@page import="com.salesandmarketing.Sales.joborder.ClsJobOrderDAO"%>
+<%ClsJobOrderDAO DAO= new ClsJobOrderDAO();%> --%>
+
+<% 
+
+String docno=request.getParameter("docno")==null?"0":request.getParameter("docno").trim();
+
+ 
+String barchval=request.getParameter("barchvals")==null?"0":request.getParameter("barchvals").trim();
+
+ 
+System.out.println("--barchval-- -"+barchval);
+
+
+%>
+
+ 
+
+<script type="text/javascript">
+var prddata;
+$(document).ready(function () {
+ 
+ 
+var temp='<%=docno%>';
+ 
+
+ if(temp>0)
+{
+	
+	prddata='<%=DAO.prdGridReload(barchval,docno)%>';  
+	
+
+
+} 
+ 
+else
+ 
+{   
+	prddata;
+
+ } 
+             
+
+ 
+ var rendererstring2=function (aggregates){
+  	var value=aggregates['sum2'];
+  	return '<div style="float: right; margin: 4px;font-size:12px; overflow: hidden;">' + "  Total" + '</div>';
+  }    
+
+
+
+	  var rendererstring1=function (aggregates){
+    	var value=aggregates['sum1'];
+    	return '<div style="float: right; margin: 4px;font-size:12px; overflow: hidden;">' + "Net Total" + '</div>';
+    }
+	  
+	  var cellclassname = function (row, column, value, data) {
+  		if (data.chkqty==1) {
+  			// document.getElementById("errormsg").innetText="Quantity Should not Be Zero";
+              return "redClass";
+          }
+  		else{
+  			//document.getElementById("errormsg").innetText="";
+  		}
+  		
+  		 var ss= $('#prdgrid').jqxGrid('getcellvalue', row, "qty");
+         if(parseInt(ss)<=0)
+ 		{
+ 		
+ 		return "redClass";
+ 	
+ 		}
+     
+         
+
+  		};
+ 
+var rendererstring=function (aggregates){
+	var value=aggregates['sum'];
+	if(value==""||typeof(value)=="undefined"|| typeof(value)=="NaN")
+	   {
+		value=0.0;
+	   }
+	
+	return '<div style="float: right; margin: 4px;font-size:12px; overflow: hidden;"> ' + value + '</div>';
+}
+ 
+             $('#gridtext').keyup(function(){
+             	
+
+ 			      $("#prosearch").jqxGrid('clearfilters');
+       		  
+             
+                 $('#part_no').val($(this).val());
+                 var dataField = "part_no";
+          applyFilter(dataField,$(this).val());  
+                 
+                 
+                 
+             });
+             
+         
+             $('#gridtext1').keyup(function(){
+             	
+
+ 			      $("#prosearch").jqxGrid('clearfilters');
+     		  
+           
+               $('#productname').val($(this).val());
+               var dataField = "productname";
+    		   applyFilter(dataField,$(this).val());  
+               
+               
+               
+           });            
+           	 
+            var source =
+            {
+                datatype: "json",
+                datafields: [
+     						{name : 'productid', type: 'string' }, 
+     						{name : 'productname', type: 'string'},
+     						{name : 'unit', type: 'string'  },
+     						
+     						
+     						
+     						/* {name : 'size', type: 'number'   },
+     						{name : 'totqty', type: 'number'   }, */
+     						{name : 'qty', type: 'number'   },
+     						/* {name : 'outqty', type: 'number'   },
+     						{name : 'oldqty', type: 'number'   },
+     						{name : 'balqty', type: 'number'   },
+     						{name : 'foc', type: 'int' },
+     						{name : 'refqty', type: 'int'  },
+							{name : 'totwtkg', type: 'number' },
+							{name : 'kgprice', type: 'number'  },
+     						{name : 'unitprice', type: 'number' },
+     						{name : 'total', type: 'number' },
+     						{name : 'discper', type: 'number' },
+     						{name : 'dis', type: 'number' },
+     						{name : 'netotal', type: 'number' },
+     						{name : 'proid', type: 'string'    },
+                    		{name : 'proname', type: 'string'    },
+                    		{name : 'prodoc', type: 'number'    },
+                    		{name : 'specid', type: 'number'    },
+     						{name : 'unitdocno', type: 'number'    },
+     						{name : 'psrno', type: 'number'    },
+     						{name : 'stkid', type: 'number'    },
+     						
+     						{name : 'locid', type: 'number'    }, */
+     						
+     					    {name : 'brandname', type: 'string'  },
+     					    {name : 'productid', type: 'string' }, 
+    						{name : 'productname', type: 'string'},
+    						{name : 'unit', type: 'string'  },
+    						{name : 'qty', type: 'number'   },
+     						
+     					   
+                        ],
+                        
+                        
+                       
+                         localdata: prddata,  
+                
+                pager: function (pagenum, pagesize, oldpagenum) {
+                    // callback called when a page or page size is changed.
+                }
+            };
+            
+            		
+            		
+         		 
+            		
+            		
+            var dataAdapter = new $.jqx.dataAdapter(source);
+            
+            $("#prdgrid").jqxGrid(
+            {
+                width: '99.5%',
+                height: 350,
+                source: dataAdapter,
+               
+                editable: true,
+                
+               
+                selectionmode: 'checkbox',
+ 
+                columns: [
+							{ text: 'Sr. No.', sortable: false, filterable: false, editable: false,
+                              groupable: false, draggable: false, resizable: false,datafield: '',
+                              columntype: 'number', width: '5%',cellsalign: 'center', align: 'center',cellclassname: cellclassname,
+                              cellsrenderer: function (row, column, value) {
+                            	  return "<center><div style='margin:4px;'>" + (value + 1) + "</div></center>";
+                              }  
+							},
+							
+							
+							{ text: 'rdocno', datafield: 'rdocno' ,cellclassname: cellclassname,hidden:true},							
+							{ text: 'Product', datafield: 'productid' ,cellclassname: cellclassname},          							 
+						  	{ text: 'Product Name', datafield: 'productname'  ,cellclassname: cellclassname },							
+							{text: 'Brand Name', datafield: 'brandname', width: '10%' , editable:false,cellclassname: cellclassname  },							
+							{ text: 'Unit', datafield: 'unit', width: '6%',editable:false,cellclassname: cellclassname },	
+							{ text: 'Quantity', datafield: 'qty', width: '10%',cellclassname: cellclassname },						
+							{ text: 'Fixing', datafield: 'fixing', editable: true,  width: '10%',cellsalign: 'center', align: 'center'},
+							
+
+
+							
+							
+						]
+            });
+            
+            $("#overlay, #PleaseWait").hide(); 
+ 
+ 
+});
+
+            
+            
+ 
+ 
+       
+</script>
+<div id="prdgrid"></div>
+<input type="hidden" id="rowindex">
+<input type="hidden" id="datas">
+<input type="hidden" id="datas1">
