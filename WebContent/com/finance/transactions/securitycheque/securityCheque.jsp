@@ -9,6 +9,200 @@
 <title>GatewayERP(i)</title>
 <jsp:include page="../../../../includes.jsp"></jsp:include>
 
+<style>
+   
+    body {
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        font-family: 'Segoe UI', 'Roboto', 'Arial', sans-serif;
+        color: #222;
+        margin: 0;
+        padding: 32px 0;
+        min-height: 100vh;
+        box-sizing: border-box;
+    }
+
+    #mainBG {
+        background: #fff;
+        border-radius: 16px;
+        padding: 20px;
+        max-width: 100%;
+        margin: auto;
+        box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+        
+        text-align: left !important; 
+    }
+
+   
+    center {
+        text-align: left !important;
+        display: block;
+        width: 100%;
+        margin-left: 0;
+    }
+    
+    
+    #formdet {
+        font-size: 24px !important;
+        font-weight: 700 !important;
+        color: #2c3e50;
+        margin-bottom: 15px;
+        display: block;
+        text-align: left !important;
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    
+    .receipt-header {
+        display: grid;
+        grid-template-columns: auto 1fr auto 1fr;
+        gap: 15px;
+        align-items: center;
+        margin-bottom: 20px;
+        padding: 0 0 0 5px; 
+    }
+
+    .form-group {
+        display: grid;
+        grid-template-columns: 120px 1fr;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 12px;
+    }
+
+    .form-group.dual-input {
+        grid-template-columns: 120px 1fr 120px 1fr;
+    }
+
+    .form-group.single-label-dual-input {
+        grid-template-columns: 120px 1fr 1fr;
+    }
+    
+    
+    .form-group.quad-input {
+        grid-template-columns: 120px 100px 160px 1fr;
+    }
+
+    .section-row {
+        display: flex;
+        gap: 26px;
+        margin-bottom: 30px;
+    }
+
+    .section-block {
+        flex: 1;
+        background: #f6f8fa;
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: 0 1px 8px rgba(160,177,217,0.1);
+    }
+
+    .section-block h2 {
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin: 0 0 20px;
+        padding-left: 10px;
+        border-left: 4px solid #007bff;
+        color: #333;
+    }
+
+    
+    input[type="text"], select {
+        height: 32px !important;
+        border: 1px solid #d1d5db;
+        border-radius: 6px;
+        padding: 6px 10px;
+        background: #fff;
+        transition: border-color 0.2s;
+        font-size: 14px;
+        box-sizing: border-box;
+        width: 100%;
+    }
+
+    input[type="text"]:focus, select:focus {
+        border-color: #007bff;
+        outline: none;
+    }
+    
+    input[readonly] {
+        background-color: #f3f4f6;
+        color: #6b7280;
+    }
+    
+    input[type="checkbox"] {
+        width: auto !important;
+        height: auto !important;
+        margin-right: 5px;
+    }
+
+    label {
+        font-weight: 600;
+        color: #253858;
+        white-space: nowrap;
+        text-align: right;
+        padding-right: 10px;
+        font-size: 14px;
+    }
+
+
+    .table-section { margin: 20px 0; }
+    .table-section h3 {
+        color: #253858; font-size: 1.05rem; font-weight: 600; margin-bottom: 12px;
+    }
+    
+    
+
+    .doc-group { display: flex; gap: 5px; }
+    
+  
+    .hidden-scrollbar { overflow: auto;  }
+    .hidden-scrollbar::-webkit-scrollbar { width: 0px; } 
+    
+    #validrate, #validrate1 { color: red; font-size: 12px; }
+    
+
+    .checkbox-label {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end; 
+        font-weight: 600;
+        color: #253858;
+        font-size: 14px;
+        padding-right: 10px;
+    }
+    
+    .checkbox-container {
+        display: flex;
+        align-items: center;
+    }
+    body::-webkit-scrollbar {
+    width: 0px;
+}
+
+.myButton {
+ font-weight: 700;
+    font-size: 13px;
+    width: 130px;
+    height: 38px;
+    padding: 8px 12px;
+    background: linear-gradient(135deg, #0b45a2 0%, #2563eb 100%);
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(59, 130, 246, 0.2);
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    white-space: nowrap;
+    text-align: center;
+}
+
+.myButton:hover {
+  background: linear-gradient(135deg, #083a8a 0%, #1d4ed8 100%);
+  box-shadow: 0 4px 6px rgba(59, 130, 246, 0.3);
+  transform: translateY(-1px);
+</style>
+
 <script type="text/javascript">
 	$(document).ready(function() {
 		 $("#jqxSecurityChequeDate").jqxDateTimeInput({ width: '125px', height: '15px', formatString:"dd.MM.yyyy"});
@@ -22,7 +216,7 @@
 		 $('#accountDetailsFromWindow').jqxWindow({width: '51%', height: '58%',  maxHeight: '70%' ,maxWidth: '51%' , title: 'Accounts Search',position: { x: 300, y: 87 } , theme: 'energyblue', showCloseButton: true, keyboardCloseKey: 27});
 		 $('#accountDetailsFromWindow').jqxWindow('close');
 		 
-		 $('#printWindow').jqxWindow({width: '51%', height: '28%',  maxHeight: '70%' ,maxWidth: '51%' , title: 'Print',position: { x: 300, y: 87 } , theme: 'energyblue', showCloseButton: true, keyboardCloseKey: 27});
+		 $('#printWindow').jqxWindow({width: '51%', height: '31%',  maxHeight: '50%' ,maxWidth: '51%' , title: 'Print',position: { x: 300, y: 87 } , theme: 'energyblue', showCloseButton: true, keyboardCloseKey: 27});
 		 $('#printWindow').jqxWindow('close');
 		 
 		 $('#txtfromaccid').dblclick(function(){
@@ -108,24 +302,48 @@
 	        $('#frmSecurityCheque').validate({
 	                rules: {
 	                txtfromaccid:"required",
+	                chckamount:"required",
 					txtremarks:{maxlength:500}
 	                 },
 	                 messages: {
 	                 txtfromaccid:" *",
+	                 chckamount:{required:" *",number:"Invalid"},
 					 txtremarks: {maxlength:"    Max 500 chars"}
 	                 }
 	        });});
 	   
 	  function funNotify(){	
-		  		$('#jqxSecurityChequeDate').jqxDateTimeInput({disabled: false});
-		  		$('#jqxChequeDate').jqxDateTimeInput({disabled: false});
-		  		$('#jqxValidUpTo').jqxDateTimeInput({disabled: false});
+		 		$('#jqxSecurityChequeDate').jqxDateTimeInput({disabled: false});
+		 		$('#jqxChequeDate').jqxDateTimeInput({disabled: false});
+		 		$('#jqxValidUpTo').jqxDateTimeInput({disabled: false});
 			    $('#frmSecurityCheque select').attr('disabled', false); 
-		  		
-	    		return 1;
-		} 
-	  
-	  
+		 		
+				var date = $('#jqxSecurityChequeDate').jqxDateTimeInput('getDate');
+				var validdate=funDateInPeriod(date);
+				if(parseInt(validdate)==0){
+					document.getElementById("errormsg").innerText="Transaction prior or after Account Period is not valid.";
+					return 0;	
+				}
+				
+	  paidto=document.getElementById("cmbtotype").value;
+		 if(paidto==""){
+			 document.getElementById("errormsg").innerText="Enter Paid To";
+			 return 0;
+		 }
+		 acc=document.getElementById("txttoaccname").value;
+		 if(acc==""){
+			 document.getElementById("errormsg").innerText="Enter Account Details";
+			 return 0;
+		 }
+		 bank=document.getElementById("txtfromaccid").value;
+		 if(bank==""){
+			 document.getElementById("errormsg").innerText="Enter Bank";
+			 return 0;
+		 }
+		 document.getElementById("errormsg").innerText="";
+ 		
+			return 1;
+	} 
 	  function setValues(){
 		  
 		  document.getElementById("cmbtotype").value=document.getElementById("hidcmbtotype").value;
@@ -166,6 +384,8 @@
 		  
 		  document.getElementById("formdet").innerText=$('#formdetail').val()+" ("+$('#formdetailcode').val().trim()+")";
 		  funSetlabel();
+		  funRoundAmt($('#txtamount').val(),"txtamount");
+	        
 			
 		}
 	  
@@ -210,7 +430,7 @@
 		  var validupto = $('#jqxSecurityChequeDate').jqxDateTimeInput('getDate');
 		  var validuptos =new Date(validupto).setDate(chequedate.getDate()+1); 
 		  $('#jqxValidUpTo').jqxDateTimeInput('setDate', new Date(validuptos));
-     }
+      }
 	  	  
 	  function clearClientInfo(){
 		  $("#txttodocno").val('');$("#txttoaccid").val('');$("#txttoaccname").val('');
@@ -240,75 +460,104 @@
 	  
 	  function datechange(){
 		  var date = $('#jqxSecurityChequeDate').jqxDateTimeInput('getDate');
+		  var validdate=funDateInPeriod(date);
+		  if(parseInt(validdate)==0){
+			document.getElementById("errormsg").innerText="Transaction prior or after Account Period is not valid.";
+			return 0;	
+		  }
 		  $("#maindate").jqxDateTimeInput('val', date);
 	  }
 	  
 </script>
 
-<style>
-.hidden-scrollbar {
-  overflow: auto;
-  height: 530px;
-}
-</style>
-
 </head>
 <body onload="setValues();">
-<div id="mainBG" class="homeContent" data-type="background" >
+<div id="mainBG" class="hidden-scrollbar homeContent" data-type="background" >
 <form id="frmSecurityCheque" action="saveSecurityCheque" method="post" autocomplete="off">
-<jsp:include page="../../../../header.jsp"></jsp:include><br/>
+<jsp:include page="../../../../header.jsp"></jsp:include>
 
-<div  class='hidden-scrollbar'>
-<fieldset style="background: #ECF8E0;">
-<table width="100%">
-  <tr>
-    <td width="6%" align="right">Date</td>
-    <td colspan="2"><div id="jqxSecurityChequeDate" name="jqxSecurityChequeDate" onchange="datechange();" value='<s:property value="jqxSecurityChequeDate"/>'></div>
-    <input type="hidden" id="hidjqxSecurityChequeDate" name="hidjqxSecurityChequeDate" value='<s:property value="hidjqxSecurityChequeDate"/>'/></td>
-    <td width="47%" align="right">Doc No.</td>
-    <td width="15%"><input type="text" id="docno" name="txtsecuritychequedocno" value='<s:property value="txtsecuritychequedocno"/>' tabindex="-1"/></td>
-  </tr>
-  <tr>
-    <td align="right">Paid To</td>
-    <td colspan="4"><select id="cmbtotype" name="cmbtotype" style="width:5%;" onchange="clearClientInfo();" value='<s:property value="cmbtotype"/>'>
-      <option value="AP">AP</option><option value="AR">AR</option><option value="GL">GL</option></select>&nbsp;&nbsp;
-      <input type="hidden" id="hidcmbtotype" name="hidcmbtotype" value='<s:property value="hidcmbtotype"/>'/>      
-      <input type="text" id="txttoaccid" name="txttoaccid" style="width:15%;" placeholder="Press F3 to Search" value='<s:property value="txttoaccid"/>'  onkeydown="getAccType(event);"/>&nbsp;&nbsp;
-      <input type="text" id="txttoaccname" name="txttoaccname" style="width:40%;" value='<s:property value="txttoaccname"/>' tabindex="-1"/>
-      <input type="hidden" id="txttodocno" name="txttodocno" value='<s:property value="txttodocno"/>'/></td>
-  </tr>
-  <tr>
-    <td align="right">Bank</td>
-    <td colspan="4"><input type="text" id="txtfromaccid" name="txtfromaccid" style="width:15%;" placeholder="Press F3 to Search" value='<s:property value="txtfromaccid"/>' onkeydown="getAcc(event);"/>&nbsp;&nbsp;
-      <input type="text" id="txtfromaccname" name="txtfromaccname" style="width:46%;" value='<s:property value="txtfromaccname"/>' tabindex="-1"/>
-    <input type="hidden" id="txtfromdocno" name="txtfromdocno" value='<s:property value="txtfromdocno"/>'/></td>
-  </tr>
-   <tr>
-    <td align="right">Cheque Name</td>
-    <td colspan="4"><input type="text" id="txtchequename" name="txtchequename" style="width:62%;" value='<s:property value="txtchequename"/>'/></td>
-  </tr>
-  <tr>
-    <td align="right">Cheque No.</td>
-    <td width="18%"><input type="text" id="txtchequeno" name="txtchequeno" style="width:100%;" onchange="funchequedate();" value='<s:property value="txtchequeno"/>' /></td>
-    <td width="14%" align="right">Valid Up To</td>
-    <td colspan="2"><div id="jqxValidUpTo" name="jqxValidUpTo" value='<s:property value="jqxValidUpTo"/>'></div>
-    <input type="hidden" id="hidjqxValidUpTo" name="hidjqxValidUpTo" value='<s:property value="hidjqxValidUpTo"/>'/></td>
-  </tr>
-  <tr>
-    <td align="right"><input type="checkbox" id="chckchqdate" name="chckchqdate" value="" onchange="checkChequeDate();">Cheque Date
-                                 <input type="hidden" id="hidchckchqdate" name="hidchckchqdate" value='<s:property value="hidchckchqdate"/>'/></td>
-    <td><div id="jqxChequeDate" name="jqxChequeDate" value='<s:property value="jqxChequeDate"/>'></div>
-    				<input type="hidden" id="hidjqxChequeDate" name="hidjqxChequeDate" value='<s:property value="hidjqxChequeDate"/>'/></td>
-    <td align="right"><input type="checkbox" id="chckamount" name="chckamount" value="" onchange="checkAmount();">Amount
-                                 <input type="hidden" id="hidchckamount" name="hidchckamount" value='<s:property value="hidchckamount"/>'/></td>
-    <td colspan="2"><input type="text" id="txtamount" name="txtamount" style="width:15%;text-align: right;" value='<s:property value="txtamount"/>' onblur="funRoundAmt(this.value,this.id);" /></td>
-  </tr>
-  <tr>
-    <td align="right">Remarks</td>
-    <td colspan="4"><input type="text" id="txtremarks" name="txtremarks" style="width:62%;" value='<s:property value="txtremarks"/>' /></td>
-  </tr>
-</table>
-</fieldset>
+    <div class='receipt-header'>
+        <label>Date</label>
+        <div>
+            <div id="jqxSecurityChequeDate" name="jqxSecurityChequeDate" onchange="datechange();" onblur="datechange();" value='<s:property value="jqxSecurityChequeDate"/>'></div>
+            <input type="hidden" id="hidjqxSecurityChequeDate" name="hidjqxSecurityChequeDate" value='<s:property value="hidjqxSecurityChequeDate"/>'/>
+        </div>
+
+        <label style="margin-left:auto;">Doc No.</label>
+        <input type="text" id="docno" name="txtsecuritychequedocno" value='<s:property value="txtsecuritychequedocno"/>' tabindex="-1"/>
+    </div>
+
+
+    <div class="section-row">
+        <div class="section-block">
+            <h2>Cheque Details</h2>
+            
+            <div class="form-group single-label-dual-input">
+                <label>Bank</label>
+                <input type="text" id="txtfromaccid" name="txtfromaccid" placeholder="Press F3 to Search" value='<s:property value="txtfromaccid"/>' onkeydown="getAcc(event);"/>
+                <input type="text" id="txtfromaccname" name="txtfromaccname" value='<s:property value="txtfromaccname"/>' tabindex="-1"/>
+                <input type="hidden" id="txtfromdocno" name="txtfromdocno" value='<s:property value="txtfromdocno"/>'/>
+            </div>
+
+            <div class="form-group">
+                <label>Cheque Name</label>
+                <input type="text" id="txtchequename" name="txtchequename" value='<s:property value="txtchequename"/>'/>
+            </div>
+
+            <div class="form-group dual-input">
+                <label>Cheque No</label>
+                <input type="text" id="txtchequeno" name="txtchequeno" onchange="funchequedate();" value='<s:property value="txtchequeno"/>' />
+                
+                <label>Valid Up To</label>
+                <div>
+                    <div id="jqxValidUpTo" name="jqxValidUpTo" value='<s:property value="jqxValidUpTo"/>'></div>
+                    <input type="hidden" id="hidjqxValidUpTo" name="hidjqxValidUpTo" value='<s:property value="hidjqxValidUpTo"/>'/>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <div class="checkbox-label" style="min-width: 120px;">
+                    <input type="checkbox" id="chckchqdate" name="chckchqdate" value="" onchange="checkChequeDate();">
+                    Cheque Date
+                </div>
+                <div style="flex-grow: 1;">
+                    <div id="jqxChequeDate" name="jqxChequeDate" value='<s:property value="jqxChequeDate"/>'></div>
+                    <input type="hidden" id="hidjqxChequeDate" name="hidjqxChequeDate" value='<s:property value="hidjqxChequeDate"/>'/>
+                    <input type="hidden" id="hidchckchqdate" name="hidchckchqdate" value='<s:property value="hidchckchqdate"/>'/>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-block">
+            <h2>Payment Details</h2>
+            
+            <div class="form-group quad-input">
+                <label>Paid To</label>
+                <select id="cmbtotype" name="cmbtotype" onchange="clearClientInfo();" value='<s:property value="cmbtotype"/>'>
+                    <option value="AP">AP</option><option value="AR">AR</option><option value="GL">GL</option>
+                </select>
+                <input type="hidden" id="hidcmbtotype" name="hidcmbtotype" value='<s:property value="hidcmbtotype"/>'/>      
+                
+                <input type="text" id="txttoaccid" name="txttoaccid" placeholder="Press F3 to Search" value='<s:property value="txttoaccid"/>'  onkeydown="getAccType(event);"/>
+                <input type="text" id="txttoaccname" name="txttoaccname" value='<s:property value="txttoaccname"/>' tabindex="-1"/>
+                <input type="hidden" id="txttodocno" name="txttodocno" value='<s:property value="txttodocno"/>'/>
+            </div>
+
+            <div class="form-group">
+                <div class="checkbox-label" style="min-width: 120px;">
+                    <input type="checkbox" id="chckamount" name="chckamount" value="" onchange="checkAmount();">
+                    Amount
+                </div>
+                <input type="text" id="txtamount" name="txtamount" style="width:100%;text-align: right;" value='<s:property value="txtamount"/>' onblur="funRoundAmt(this.value,this.id);" />
+                <input type="hidden" id="hidchckamount" name="hidchckamount" value='<s:property value="hidchckamount"/>'/>
+            </div>
+
+            <div class="form-group">
+                <label>Remarks</label>
+                <input type="text" id="txtremarks" name="txtremarks" value='<s:property value="txtremarks"/>' />
+            </div>
+        </div>
+    </div>
 
 
 <input type="hidden" id="cmbfromcurrency" name="cmbfromcurrency" value='<s:property value="cmbfromcurrency"/>'/>

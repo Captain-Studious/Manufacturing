@@ -16,9 +16,150 @@ color:red;
 
 }
 </style>
+
+<style>
+/* =========================================================
+SCOPED UI: Modern Layout (Matches Client Master)
+========================================================= */
+body {
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    font-family: 'Segoe UI', 'Roboto', 'Arial', sans-serif;
+    color: #222;
+    margin: 0;
+    padding: 24px 0;
+    box-sizing: border-box;
+    overflow-y: auto !important;
+}
+
+#mainBG {
+    background: #fff;
+    border-radius: 16px;
+    padding: 15px;
+    max-width: 100%;
+    margin: 0 auto;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+}
+
+.modern-ui {
+    font-family: Arial, sans-serif; 
+    color: #333;
+    font-size: 12px; 
+    padding: 5px 15px;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+/* Master Input Heights - Forced to 24px */
+.modern-ui input[type="text"],
+.modern-ui select { 
+    height: 24px !important; 
+    border: 1px solid #b8c6d8; 
+    border-radius: 3px; 
+    padding: 2px 6px;
+    font-size: 12px;
+    box-sizing: border-box; 
+    background-color: #fff; 
+    color: #333;
+    width: 100%;
+}
+
+.modern-ui input[type="text"]:focus,
+.modern-ui select:focus { 
+    border-color: #007bff; 
+    outline: none;
+}
+
+.modern-ui input[readonly],
+.modern-ui input:disabled,
+.modern-ui select:disabled { 
+    background-color: #f8f9fa; 
+    color: #6b7280;
+}
+
+/* Layout Utilities */
+.modern-ui .field-row { 
+    display: flex;
+    align-items: center; 
+    gap: 8px;
+    margin-bottom: 10px; 
+    flex-wrap: wrap;
+}
+
+.modern-ui .lbl-right { 
+    text-align: right; 
+    color: #444;
+    font-size: 12px; 
+    font-weight: bold;
+    white-space: nowrap; 
+    padding-right: 5px;
+}
+
+/* Middle Section Panels */
+.modern-ui .middle-panel {
+    border: 1px solid #c5d3e0; 
+    padding: 20px 10px 10px 10px; 
+    background: #ffffff; 
+    position: relative; 
+    border-radius: 4px; 
+    margin-bottom: 15px;
+    margin-top: 12px;
+}
+
+.modern-ui .middle-panel-title { 
+    position: absolute; 
+    top: -12px;
+    left: 10px; 
+    background: #ffffff; 
+    padding: 0 8px; 
+    color: #0056b3;
+    font-weight: bold; 
+    font-size: 14px; 
+    border-left: 3px solid #0056b3;
+    z-index: 2; 
+    line-height: normal; 
+}
+
+/* Search Icon Wrapper */
+.modern-ui .input-search-container {
+    position: relative;
+    display: flex;
+}
+.modern-ui .input-search-container input {
+    padding-right: 25px !important;
+}
+.modern-ui .magnifier-icon {
+    position: absolute;
+    right: 6px; 
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #64748b; 
+    z-index: 10;
+}
+.modern-ui .magnifier-icon:hover { color: #2563eb; }
+
+/* Scrollbar Logic */
+.hidden-scrollbar {
+    overflow-y: auto;
+    height: calc(100vh - 150px);
+    padding-right: 5px;
+}
+.hidden-scrollbar::-webkit-scrollbar { width: 6px; }
+.hidden-scrollbar::-webkit-scrollbar-thumb { background: #c5d3e0; border-radius: 3px; }
+
+
+.field-row {
+    margin-bottom: 5px; /* or 0 */
+}
+</style>
 <script type="text/javascript">
 
 $(document).ready(function () {    
+	$('.action-bar').append(
+	        '<button type="button" class="action-btn" id="btnExcel" onclick="funExcelBtn()">' +
+	        '<svg viewBox="0 0 20 20"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 16c0 1.1.89 2 1.99 2h8c1.1 0 2-.9 2-2V8l-6-6zm-1 12H7v-2h6v2zm0-4H7V8h6v2zm-3-5V3.5L14.5 8H10z"/></svg> ' +
+	        'CoA</button>'
+	    );
     $("#date_accountmaster").jqxDateTimeInput({ width: '125px', height: '15px' ,formatString : "dd.MM.yyyy" });
     
     
@@ -103,37 +244,37 @@ function funRemoveReadOnly() {
 		 //alert(""+disother);
 				 if(disother==1)
 			 {
-					 $("table#main input").prop("disabled", false);
-					 $("table#main input").prop("readonly", false);
-					 $("table#main select").prop("disabled", false);
+					 $("#main input").prop("disabled", false);
+					 $("#main input").prop("readonly", false);
+					 $("#main select").prop("disabled", false);
 					 $('#category1').attr('disabled', false);
 					 $('#category2').attr('disabled', true);
 					 $('#category3').attr('disabled', true);
-						 $("table#sub input").prop("readonly", true);
+						 $("#sub input").prop("readonly", true);
 						
-						 $("table#trans input").prop("readonly", true);
+						 $("#trans input").prop("readonly", true);
 				$('#interbranch').attr('disabled', true);
 			 }
 		 if(disother==2)
 		 {
-			 $("table#sub input").prop("disabled", false);
-			 $("table#sub input").prop("readonly", false);
-			 $("table#sub select").prop("disabled", false);
+			 $("#sub input").prop("disabled", false);
+			 $("#sub input").prop("readonly", false);
+			 $("#sub select").prop("disabled", false);
 			 $('#subaccgpname').attr('readonly', true);
 			 $('#category2').attr('disabled', false);
 		 $('#category1').attr('disabled', true);
 			$('#category3').attr('disabled', true);
 
-			 $("table#trans input").prop("readonly", true);
+			 $("#trans input").prop("readonly", true);
 			
-			 $("table#main input").prop("readonly", true);
+			 $("#main input").prop("readonly", true);
 			$('#interbranch').attr('disabled', true);
 		 }
 		 if(disother==3)
 		 {
-			 $("table#trans input").prop("disabled", false);
-			 $("table#trans input").prop("readonly", false);
-			 $("table#trans select").prop("disabled", false);
+			 $("#trans input").prop("disabled", false);
+			 $("#trans input").prop("readonly", false);
+			 $("#trans select").prop("disabled", false);
 			 $('#transcaccgpname').attr('readonly', true);
 			 
 			 $('#category3').attr('disabled', false);
@@ -142,7 +283,7 @@ function funRemoveReadOnly() {
 			 $("table#sub input").prop("readonly", true);
 		
 	
-			 $("table#main input").prop("readonly", true);
+			 $("#main input").prop("readonly", true);
 			$('#interbranch').attr('disabled', false);
 		 }
 		 
@@ -156,28 +297,28 @@ function funRemoveReadOnly() {
 		 //alert(""+disother);
 				 if(disother==1)
 			 {
-					 $("table#main input").prop("disabled", false);
-					 $("table#main select").prop("disabled", false);
+					 $("#main input").prop("disabled", false);
+					 $("#main select").prop("disabled", false);
 					 $('#category1').attr('disabled', false);
 					 $('#category2').attr('disabled', true);
 						$('#category3').attr('disabled', true);
-						 $("table#sub input").prop("readonly", true);
+						 $("t#sub input").prop("readonly", true);
 						
-						 $("table#trans input").prop("readonly", true);
+						 $("t#trans input").prop("readonly", true);
 				$('#interbranch').attr('disabled', true);
 			 }
 		 if(disother==2)
 		 {
-			 $("table#sub input").prop("disabled", false);
-			 $("table#sub select").prop("disabled", false);
+			 $("#sub input").prop("disabled", false);
+			 $("#sub select").prop("disabled", false);
 			 $('#subaccgpname').attr('readonly', true);
 			 $('#category2').attr('disabled', false);
 		 $('#category1').attr('disabled', true);
 			$('#category3').attr('disabled', true);
 
-			 $("table#trans input").prop("readonly", true);
+			 $("t#trans input").prop("readonly", true);
 			
-			 $("table#main input").prop("readonly", true);
+			 $("#main input").prop("readonly", true);
 			$('#interbranch').attr('disabled', true);
 		 }
 		 if(disother==3)
@@ -192,7 +333,7 @@ function funRemoveReadOnly() {
 			 $("table#sub input").prop("readonly", true);
 			 $('#currs').attr('readonly', true);
 	
-			 $("table#main input").prop("readonly", true);
+			 $("#main input").prop("readonly", true);
 			$('#interbranch').attr('disabled', false);
 		 }
 		 
@@ -206,32 +347,31 @@ function funRemoveReadOnly() {
 			$('#category1').attr('disabled', false);
 			$('#category2').attr('disabled', false);
 			$('#category3').attr('disabled', false);
-			 $("table#trans input").prop("disabled", false);
-			 $("table#trans select").prop("disabled", false);
-			 $("table#main input").prop("disabled", false);
-			 $("table#main select").prop("disabled", false);
-			 $("table#sub input").prop("disabled", false);
-			 $("table#sub select").prop("disabled", false);
+			 $("#trans input").prop("disabled", false);
+			 $("#trans select").prop("disabled", false);
+			 $("#main input").prop("disabled", false);
+			 $("#main select").prop("disabled", false);
+			 $("#sub input").prop("disabled", false);
+			 $("#sub select").prop("disabled", false);
 			$('#frmAccountmaster select').attr('disabled', false);
 	 }
 	
 	$('#docno').attr('readonly', true);
+	 funhidden();
 }
 function funSearchLoad(){
 	
 	changeContent('masterSearch.jsp', $('#window')); 
  }
 function fundisable(){
-	
-	
-	if (document.getElementById('category1').checked) {
-		$('#frmAccountmaster input').attr('readonly', false);
-		 $("table#sub input").prop("disabled", true);
-		 $("table#sub select").prop("disabled", true);
-		 $("table#trans input").prop("disabled", true);
-		 $("table#trans select").prop("disabled", true);
-		 $("table#main input").prop("disabled", false);
-		 $("table#main select").prop("disabled", false);
+    if (document.getElementById('category1').checked) {
+        $('#frmAccountmaster input').attr('readonly', false);
+        // Use #ID instead of table#ID
+        $("#sub input, #sub select").prop("disabled", true);
+        $("#trans input, #trans select").prop("disabled", true);
+        $("#main input, #main select").prop("disabled", false); 
+        
+        document.getElementById('otherdis').value=1;
 		 document.getElementById('subaccgpname').value="";
 		 document.getElementById('subacccode').value="";
 		 document.getElementById('subaccname').value="";
@@ -256,16 +396,13 @@ function fundisable(){
 		
 		
 		}
-	else if (document.getElementById('category2').checked) {
-		$('#frmAccountmaster input').attr('readonly', false);
-		 $("table#main input").prop("disabled", true);
-		 $("table#main select").prop("disabled", true);
-		 $("table#trans input").prop("disabled", true);
-		 $("table#trans select").prop("disabled", true);
-		 $("table#sub input").prop("disabled", false);
-		 $("table#sub select").prop("disabled", false);
-		 $('#subaccgpname').attr('readonly', true);
-		 $('#docno').attr('readonly', true);
+    else if (document.getElementById('category2').checked) {
+        $('#frmAccountmaster input').attr('readonly', false);
+        $("#main input, #main select").prop("disabled", true);
+        $("#trans input, #trans select").prop("disabled", true);
+        $("#sub input, #sub select").prop("disabled", false);
+        
+        document.getElementById('otherdis').value=2;
 		 document.getElementById('mainacccode').value="";
 		 document.getElementById('mainacconame').value="";
 		 document.getElementById('transcaccgpname').value="";
@@ -280,15 +417,13 @@ function fundisable(){
 		 document.getElementById('sub_account').value="subacc";
 		 
 		}
-	else if (document.getElementById('category3').checked) {
-		$('#frmAccountmaster input').attr('readonly', false);
-		$("table#main input").prop("disabled", true);
-		 $("table#main select").prop("disabled", true);
-		 $("table#sub input").prop("disabled", true);
-		 $("table#sub select").prop("disabled", true);
-		 $("table#trans input").prop("disabled", false);
-		 $("table#trans select").prop("disabled", false);
-		 $('#transcaccgpname').attr('readonly', true);
+    else if (document.getElementById('category3').checked) {
+        $('#frmAccountmaster input').attr('readonly', false);
+        $("#main input, #main select").prop("disabled", true);
+        $("#sub input, #sub select").prop("disabled", true);
+        $("#trans input, #trans select").prop("disabled", false);
+        
+        document.getElementById('otherdis').value=3;
 		 document.getElementById('mainacccode').value="";
 		 document.getElementById('mainacconame').value="";
 		 document.getElementById('subaccgpname').value="";
@@ -342,7 +477,7 @@ function getHead() {
 				optionsauth += '<option value="' + headIdItems[i] + '">'
 						+ headItems[i] + '</option>';
 			}
-			$("select#mainaccgroup").html(optionsauth);
+			$("#mainaccgroup").html(optionsauth);
 			
 			 delvalueChange();
 		} else {
@@ -368,7 +503,7 @@ function getMainac() {
 						+ mainacItems[i] + '</option>';
 			}
 			//$("select#mainaccountgroup").html(optionsauth);
-			$("select#subaccgroup").html(optionsauth);
+			$("#subaccgroup").html(optionsauth);
 			
 			$("select#tansaccgroup").html(optionsauth);
 			
@@ -647,7 +782,7 @@ else {}
 					optionsauth += '<option value="' + headIdItems[i] + '">'
 							+ headItems[i] + '</option>';
 				}
-				$("select#branchone").html(optionsauth);
+				$("#branchone").html(optionsauth);
 				if($('#interbr1').val()!="")
 		 		{
 		 		//alert("1");
@@ -757,7 +892,7 @@ else {}
 
    
    
-function setValues() {
+function setValues() {	
 	if($('#datehidden').val()){
 		$("#date_accountmaster").jqxDateTimeInput('val', $('#datehidden').val());
 	}
@@ -765,9 +900,15 @@ function setValues() {
 		if($('#msg').val()!=""){
 		   $.messager.alert('Message',$('#msg').val());
 		  }
+		 delvalueChange();
 		document.getElementById("formdet").innerText=$('#formdetail').val()+" ("+$('#formdetailcode').val().trim()+")";
-
-	 delvalueChange();
+var second=$('#interbr1').val();
+if(second!=""){
+	document.getElementById('interbranch').checked=true;
+}
+	
+	 funhidden();
+	 getSecbranch(second);
 }
 
 function checkreq()
@@ -834,193 +975,200 @@ function isNumber(evt) {
     document.getElementById("errormsg").innerText="";  
     return true;
 }	
-
+function getConfig() {
+	var x = new XMLHttpRequest();
+	x.onreadystatechange = function() {
+		if (x.readyState == 4 && x.status == 200) {
+		var items = x.responseText.trim();
+		//alert(items)   
+		if(parseInt(items)>0){ 
+			       $('#subaccountfield').show();
+			}else{
+				$('#subaccountfield').hide();
+			}
+	}
+}		
+	x.open("GET", "subaccConfig.jsp",true);
+	x.send();
+}	
 </script>
 
 </head>
 
 
-<body onload="getHead();getMainac();getbranch();setValues();">
+<body onload="getHead();getMainac();getbranch();setValues();getConfig();">
 
 <div id="mainBG" class="homeContent" data-type="background">
 <jsp:include page="../../../../header.jsp"></jsp:include>
 <br>
-<form  id="frmAccountmaster" action="saveAccountmaster" method="post" autocomplete="off">
-<fieldset width="80%">
-<table width="100%" >
-<tr>
-<td>
- <table width="100%" >
- <tr><td width="6%" align="right">Date</td>
- <td width="31%"  align="left"><div id="date_accountmaster" name="date_accountmaster" value='<s:property value="date_accountmaster"/>'></div></td> 
-	<td width="46%" align="right">Doc No.</td><td width="17%"><input type="text" name="docno" id="docno" value='<s:property value="docno"/>' >
-			</td></tr></table>
- <table width="100%"  >
-<tr><td></td>
-<td width="40%">
-<fieldset>
-<table id="main1"><tr><td> <tr><td><input type="radio" id="category1" name="category" value="mainaccount" onchange="fundisable();"><label>Main Account</label></td>
-</tr></td></tr></table>
+<form  id="frmAccountmaster" action="saveAccountmaster" method="post" autocomplete="off"><div class='modern-ui hidden-scrollbar'>
 
-<table width="100%" id="main" >
-  <tr>
-    <td width="50%" align="right"><div><label>Account Group</label></div></td>
-    <td width="%"><select name="mainaccgroup" id="mainaccgroup"  style="width:92%;"  value='<s:property value="mainaccgroup"/>' onchange="funclear1();" >
-      <option value="-1">--Select--</option>
-    </select><%-- <input type="text" id="maindata" name="maindata" value='<s:property value="maindata"/>'> --%></td> 
-    </tr>
-  <tr>
-     <td align="right"><div><label>Account Code</label></div></td>
-    <td><input type="text" name="mainacccode" id="mainacccode" style="width:90%;" value='<s:property value="mainacccode"/>' onblur="maincheck(this.value)" onkeypress="javascript:return isNumber (event);"></td>
-  </tr>
-  <tr>
-     <td align="right"><div><label>Account Name</label></div></td>
-    <td><input type="text" name="mainacconame" id="mainacconame" style="width:90%;"  value='<s:property value="mainacconame"/>' onblur="dismassge()">
-    <input type="hidden" name="main_account" id="main_account"  value='<s:property value="main_account"/>' />
-        </td>
-  </tr>
-  </table>
-  </fieldset>
-  
-    </td>
-  <td>
-  
-  <fieldset>
-  <table id="sub1"> <tr ><td><input type="radio" id="category2" name="category" value="subaccount" onchange="fundisable();"><label>Sub Account</label></td>
-</tr></table>
- 
- <table width="100%"  id="sub"> 
-    <tr>
-    <td width="20%" align="right"><div>Main account Group</div></td>
-   <td width="62%"><select name="subaccgroup" id="subaccgroup"  style="width:40.5%;"  onChange="getAcgroup(this.value,1);" onfocus="funclear2();" value='<s:property value="subaccgroup"/>' > 
-        <option value="-1">--Select--</option>
-        </select>&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id="subaccgpname" name=subaccgpname style="width:40%;" value='<s:property value="subaccgpname"/>'  />
-        
-        
-        </td>
-    </tr>
-  <tr>
-     <td align="right" ><div>Account Code</div></td>
-    <td ><input type="text" name="subacccode" id="subacccode" style="width:40%;" value='<s:property value="subacccode"/>' onblur="subcheck(this.value)" onkeypress="javascript:return isNumber (event);"></td>
-  </tr>
-  <tr>
-     <td align="right"><div>Account Name</div></td>
-    <td ><input type="text" name="subaccname" id="subaccname" style="width:40%;" value='<s:property value="subaccname"/>' onblur="dismassge()" />
-    <input type="hidden" name="sub_account" id="sub_account"  value='<s:property value="sub_account"/>' />
-    </td>
-  </tr>
-  </table>
-  </fieldset>
-  
-    </td> </tr>    </table>
-  
- <table width="100%">
- <tr >
- <td width="60" >
- 
-     <fieldset>
-     <table id="trans1"> <tr align="center"><td><input type="radio" id="category3" name="category" value="transaction" onchange="fundisable();"><label>Transaction</label></td></tr></table>
-
- <table width="100%"  id="trans"   >
-    <tr>  <td width="28.5%" align="right"><div>Main account Group</div></td>
-   <td ><select id="tansaccgroup" name="tansaccgroup" style="width:35.5%;"  onChange="getAcgroup(this.value,2);" value='<s:property value="tansaccgroup"/>'  onfocus="funclear3();" >
-        <option value="-1">--Select--</option>
-        </select>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <input type="text" name="transcaccgpname" id="transcaccgpname" style="width:44%;"  value='<s:property value="transcaccgpname"/>' >
-        </td>   </tr>
-  <tr>
-     <td align="right"><div>Account Code</div></td>
-    <td ><input type="text" name="transacccode" id="transacccode" style="width:35%;"  value='<s:property value="transacccode"/>' onblur="trancheck(this.value)" onkeypress="javascript:return isNumber (event);"></td>
-  </tr>
-  <tr>
-     <td align="right"><div>Account Name</div></td>
-    <td ><input type="text" name="transaccname" id="transaccname" style="width:35%;"  value='<s:property value="transaccname"/>' onblur="dismassge()" >
-    
-    <input type="hidden" name="tran_account" id="tran_account"  value='<s:property value="tran_account"/>' />
-    
-    &nbsp; 
-    Currency   <input type="text" name="currs" id="currs"  value='<s:property value="currs"/>' onkeydown="getaccountdetails(event);" />
-   Rate  <input type="text" name="ratess" id="ratess"  value='<s:property value="ratess"/>' onblur="funRoundRate(this.value,this.id);" onkeypress="javascript:return isNumber (event);"  style="text-align: right;"> 
-    
-    </td>
-  </tr>  <tr>  <td>  </td>  <td> 
- <%--  <div>
-  <input type="checkbox" name="localcurrency"  id="localcurrency" value='<s:property value="localcurrency"/>' checked >local Currency
-  <input type="checkbox" name="ageingdetails" id="ageingdetails" value='<s:property value="ageingdetails"/>' checked>Ageing Details
-    </div> --%>
-    </td>
-         </tr>
-  
-  <tr>
-  <td>
-  <div width="100%">
-    <div align="center">
-    
-        <input type="checkbox" id="interbranch" name="interbranch"  onchange="funhidden();"   value="1"/>Inter branch Account 
-    
+    <div class="middle-panel">
+        <span class="middle-panel-title">General Info</span>
+        <div class="field-row" style="margin-bottom:0;">
+            <label class="lbl-right" style="width:80px;">Date</label>
+            <div style="width: 150px;">
+                <div id="date_accountmaster" name="date_accountmaster" value='<s:property value="date_accountmaster"/>'></div>
+            </div>
+            
+            <label class="lbl-right" style="width:80px; margin-left:auto;">Doc No.</label>
+            <input type="text" name="docno" id="docno" value='<s:property value="docno"/>' style="width:150px;">
+        </div>
     </div>
-  
-    </td>     </tr>  <tr> <td></td>
-  <td>
-  <div  hidden="true" id="branch" >
-    
-        Branch <select name="branchone" id="branchone" required="required"style="width:40%;" value='<s:property value="branchone"/>' onClick="getSecbranch(this.value)">
-       <option value="0">--Select--</option> 
-        </select> -- 
-        <select name="branchtwo" id="branchtwo" required="required"style="width:40%;" value='<s:property value="branchtwo"/>'>
-       <option value="0">--Select--</option> 
-        </select>  
+
+    <div style="display: flex; gap: 15px; align-items: flex-start;">
         
-    </div> </td>  </tr>
-    </table>
-  </fieldset>
-  
-  
-  </td>
-  <td width=30%>
-  <div  hidden="true">
-    <input type="radio" name="data" value="debit" checked>Debit<br>
-    <input type="radio" name="data" value="Credit">Credit
-  
-  </div>
-  
-  </td></tr></table>
-  </td></tr>
-  <tr><td><input type="hidden" id="mode" name="mode" value='<s:property value="mode"/>'></td>
-  	<td><input type="hidden" id="datehidden" name="datehidden" value='<s:property value="datehidden"/>'/>
-  	<input type="hidden" id="deleted" name="deleted" value='<s:property value="deleted"/>'>
-  <input type="hidden" id="radiotick" name="radiotick" value='<s:property value="radiotick"/>'> 
-   <input type="hidden" id="currsid" name="currsid" value='<s:property value="currsid"/>'>
-  
-  <input type="hidden" id="checksetval" name="checksetval" value='<s:property value="checksetval"/>'>
-  <input type="hidden" id="subchecksetval" name="subchecksetval" value='<s:property value="subchecksetval"/>'>
-  <input type="hidden" id="tranchecksetval" name="tranchecksetval" value='<s:property value="tranchecksetval"/>'>
-  </td>         
-  <td>
-  
-  <input type="hidden" id="intertick" name="intertick" value='<s:property value="intertick"/>'>
-  
-  <input type="hidden" id="interbr1" name="interbr1" value='<s:property value="interbr1"/>'>
-  <input type="hidden" id="interbr2" name="interbr2" value='<s:property value="interbr2"/>'>
-  
-    <input type="hidden" id="otherdis" name="otherdis" value='<s:property value="otherdis"/>'>
-  
-  
-   <input type="hidden" id="radiosaveval" name="radiosaveval" value='<s:property value="radiosaveval"/>'>
-  <input type="hidden" id="msg" name="msg"  value='<s:property value="msg"/>'/>
-  
+        <div style="flex: 1;">
+            
+            <div class="middle-panel" id="main1">
+                <span class="middle-panel-title">
+                    <input type="radio" id="category1" name="category" value="mainaccount" onchange="fundisable();">
+                    <label for="category1">Main Account</label>
+                </span>
+                
+                <div id="main">
+                    <div class="field-row">
+                        <label class="lbl-right" style="width:100px;">Account Group</label>
+                        <select name="mainaccgroup" id="mainaccgroup" style="flex:0 0 150px;" value='<s:property value="mainaccgroup"/>' onchange="funclear1();">
+                            <option value="-1">--Select--</option>
+                        </select>
+                    </div>
+                    <div class="field-row">
+                        <label class="lbl-right" style="width:100px;">Account Code</label>
+                        <input type="text" name="mainacccode" id="mainacccode" style="flex:0 0 80px;" value='<s:property value="mainacccode"/>' onblur="maincheck(this.value)" onkeypress="javascript:return isNumber (event);">
+                    </div>
+                    <div class="field-row">
+                        <label class="lbl-right" style="width:100px;">Account Name</label>
+                        <input type="text" name="mainacconame" id="mainacconame" style="flex:0 0 200px;" value='<s:property value="mainacconame"/>' onblur="dismassge()">
+                        <input type="hidden" name="main_account" id="main_account" value='<s:property value="main_account"/>' />
+                    </div>
+                </div>
+            </div>
 
- 
-  <input type="hidden" id="maindel" name="maindel" value='<s:property value="maindel"/>'>  <!--  for delete condition chk -->
- 
-   <input type="hidden" id="codeval" name="codeval" value='<s:property value="codeval"/>'>  <!-- foe code VAL -->
- 
+            <div class="middle-panel" id="subaccountfield">
+                <span class="middle-panel-title">
+                    <input type="radio" id="category2" name="category" value="subaccount" onchange="fundisable();">
+                    <label for="category2">Sub Account</label>
+                </span>
+                
+                <div id="sub">
+                    <div class="field-row">
+                        <label class="lbl-right" style="width:100px;">Main account Group</label>
+                        <select name="subaccgroup" id="subaccgroup" style="width:120px;" onChange="getAcgroup(this.value,1);" onfocus="funclear2();" value='<s:property value="subaccgroup"/>'>
+                            <option value="-1">--Select--</option>
+                        </select>
+                        <input type="text" id="subaccgpname" name="subaccgpname" style="flex:1;" value='<s:property value="subaccgpname"/>' />
+                    </div>
+                    <div class="field-row">
+                        <label class="lbl-right" style="width:100px;">Account Code</label>
+                        <input type="text" name="subacccode" id="subacccode" style="flex:1;" value='<s:property value="subacccode"/>' onblur="subcheck(this.value)" onkeypress="javascript:return isNumber (event);">
+                    </div>
+                    <div class="field-row">
+                        <label class="lbl-right" style="width:100px;">Account Name</label>
+                        <input type="text" name="subaccname" id="subaccname" style="flex:1;" value='<s:property value="subaccname"/>' onblur="dismassge()" />
+                        <input type="hidden" name="sub_account" id="sub_account" value='<s:property value="sub_account"/>' />
+                    </div>
+                </div>
+            </div>
 
-  
-  </td>
-  </tr>          
-  </table>          
-     </fieldset>
+        </div>
+
+        <div style="flex: 1.2;">
+            
+            <div class="middle-panel" id="trans1">
+                <span class="middle-panel-title">
+                    <input type="radio" id="category3" name="category" value="transaction" onchange="fundisable();">
+                    <label for="category3">Transaction</label>
+                </span>
+
+                <div id="trans">
+                    <div class="field-row">
+                        <label class="lbl-right" style="width:110px;">Main account Group</label>
+                        <select id="tansaccgroup" name="tansaccgroup" style="width:120px;" onChange="getAcgroup(this.value,2);" value='<s:property value="tansaccgroup"/>' onfocus="funclear3();">
+                            <option value="-1">--Select--</option>
+                        </select>
+                        <input type="text" name="transcaccgpname" id="transcaccgpname" style="flex:0 0 200px;" value='<s:property value="transcaccgpname"/>'>
+                    </div>
+
+                    <div class="field-row">
+                        <label class="lbl-right" style="width:110px;">Account Code</label>
+                        <input type="text" name="transacccode" id="transacccode" style="width:120px;" value='<s:property value="transacccode"/>' onblur="trancheck(this.value)" onkeypress="javascript:return isNumber (event);">
+                        
+                        <label class="lbl-right" style="width:70px;">Currency</label>
+<div class="input-search-container" style="flex:0 0 200px;">
+    <input type="text" 
+           name="currs" 
+           id="currs" 
+           placeholder="Double click to search..." 
+           value='<s:property value="currs"/>' 
+           onkeydown="getaccountdetails(event);" 
+           ondblclick="openCurrencySearch();" /> <svg class="magnifier-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+    </svg>
+</div>
+</div>
+
+                    <div class="field-row">
+                        <label class="lbl-right" style="width:110px;">Account Name</label>
+                        <input type="text" name="transaccname" id="transaccname" style="width:120px;" value='<s:property value="transaccname"/>' onblur="dismassge()">
+                        <input type="hidden" name="tran_account" id="tran_account" value='<s:property value="tran_account"/>' />
+                        
+                        <label class="lbl-right" style="width:70px;">Rate</label>
+                        <input type="text" name="ratess" id="ratess" value='<s:property value="ratess"/>' onblur="funRoundRate(this.value,this.id);" onkeypress="javascript:return isNumber (event);" style="flex:0 0 200px; text-align: right;">
+                    </div>
+
+                    <div style="margin: 20px 0; border-top: 1px solid #eef2f7; padding-top: 15px;">
+                        <div class="field-row" style="justify-content: center;">
+                            <label style="font-weight: bold; color: #0056b3;">
+                                <input type="checkbox" id="interbranch" name="interbranch" onchange="funhidden();" value="1"/> Inter branch Account
+                            </label>
+                        </div>
+
+                        <div id="branch" hidden="true" style="background: #f8fafb; padding: 10px; border-radius: 4px; border: 1px dashed #c5d3e0; margin-top:10px;">
+                            <div class="field-row">
+                                <label class="lbl-right" style="width:80px;">Branch</label>
+                                <select name="branchone" id="branchone" style="flex:1;" value='<s:property value="branchone"/>' onClick="getSecbranch(this.value)">
+                                    <option value="0">--Select--</option> 
+                                </select>
+                                <span>--</span>
+                                <select name="branchtwo" id="branchtwo" style="flex:1;" value='<s:property value="branchtwo"/>'>
+                                    <option value="0">--Select--</option> 
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="display: none;">
+                <input type="radio" name="data" value="debit" checked>Debit<br>
+                <input type="radio" name="data" value="Credit">Credit
+            </div>
+
+        </div>
+    </div>
+
+    <div style="display:none;">
+        <input type="hidden" id="mode" name="mode" value='<s:property value="mode"/>'>
+        <input type="hidden" id="datehidden" name="datehidden" value='<s:property value="datehidden"/>'/>
+        <input type="hidden" id="deleted" name="deleted" value='<s:property value="deleted"/>'>
+        <input type="hidden" id="radiotick" name="radiotick" value='<s:property value="radiotick"/>'> 
+        <input type="hidden" id="currsid" name="currsid" value='<s:property value="currsid"/>'>
+        <input type="hidden" id="checksetval" name="checksetval" value='<s:property value="checksetval"/>'>
+        <input type="hidden" id="subchecksetval" name="subchecksetval" value='<s:property value="subchecksetval"/>'>
+        <input type="hidden" id="tranchecksetval" name="tranchecksetval" value='<s:property value="tranchecksetval"/>'>
+        <input type="hidden" id="intertick" name="intertick" value='<s:property value="intertick"/>'>
+        <input type="hidden" id="interbr1" name="interbr1" value='<s:property value="interbr1"/>'>
+        <input type="hidden" id="interbr2" name="interbr2" value='<s:property value="interbr2"/>'>
+        <input type="hidden" id="otherdis" name="otherdis" value='<s:property value="otherdis"/>'>
+        <input type="hidden" id="radiosaveval" name="radiosaveval" value='<s:property value="radiosaveval"/>'>
+        <input type="hidden" id="msg" name="msg" value='<s:property value="msg"/>'/>
+        <input type="hidden" id="maindel" name="maindel" value='<s:property value="maindel"/>'>
+        <input type="hidden" id="codeval" name="codeval" value='<s:property value="codeval"/>'>
+    </div>
+
+</div>
 <br>
   </form>
   </div>

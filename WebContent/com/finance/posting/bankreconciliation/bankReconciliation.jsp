@@ -11,7 +11,7 @@
 
 <script type="text/javascript">
 	$(document).ready(function() {
-		 $('#btnExcel').attr('disabled', true );$('#btnDelete').attr('disabled', true );$('#btnAttach').attr('disabled', true );
+		 $('#btnExcel').attr('disabled', false );$('#btnDelete').attr('disabled', true );$('#btnAttach').attr('disabled', true );
 		 
 		 $("#jqxBankReconciliationDate").jqxDateTimeInput({ width: '125px', height: '15px', formatString:"dd.MM.yyyy"});
 		 $("#maindate").jqxDateTimeInput({ width: '125px', height: '15px', formatString:"dd.MM.yyyy"});
@@ -22,14 +22,19 @@
 		 
 		 $('#jqxBankReconciliationDate').on('change', function (event) {
 				var reconciledate = $('#jqxBankReconciliationDate').jqxDateTimeInput('getDate');
-				 funDateInPeriod(reconciledate);
+				var validdate=funDateInPeriod(reconciledate);
+				if(parseInt(validdate)==0){
+					document.getElementById("errormsg").innerText="Transaction prior or after Account Period is not valid.";
+					return 0;	
+				}
 			 });
 			 
 		$('#txtaccid').dblclick(function(){
 			  var date = $('#jqxBankReconciliationDate').jqxDateTimeInput('getDate');
 			  $("#maindate").jqxDateTimeInput('val', date);
 			  accountSearchContent(<%=contextPath+"/"%>+"com/finance/accountsDetailsSearch.jsp?date="+date);
-		   	  $('#txtforsearch').val(3);
+		   	  $('#txtforsearch').val(2);
+		   	 $("#jqxBankReconciliation").jqxGrid('clear');
 		});	 
 		 
 	});
@@ -50,7 +55,7 @@
   				items = items.split('####');
   				var branchIdItems  = items[0].split(",");
   				var branchItems = items[1].split(",");
-  				var optionsbranch = '<option value="">--Select--</option>';
+  				var optionsbranch = '<option value="a">ALL</option>';
   				for (var i = 0; i < branchItems.length; i++) {
   					optionsbranch += '<option value="' + branchIdItems[i].trim() + '">'
   							+ branchItems[i] + '</option>';
@@ -94,7 +99,8 @@
 	   var x= event.keyCode;
 	   if(x==114){
 	  	 accountSearchContent(<%=contextPath+"/"%>+"com/finance/accountsDetailsSearch.jsp");
-   	     $('#txtforsearch').val(3);
+   	     $('#txtforsearch').val(2);
+   	     $("#jqxBankReconciliation").jqxGrid('clear');  
 	      }
 	   }
 	   
@@ -161,12 +167,13 @@
 	  /* Validation */
 		var reconciledate = $('#jqxBankReconciliationDate').jqxDateTimeInput('getDate');
 		var validdate=funDateInPeriod(reconciledate);
-		if(validdate==0){
-		return 0;	
+		if(parseInt(validdate)==0){
+			document.getElementById("errormsg").innerText="Transaction prior or after Account Period is not valid.";
+			return 0;	
 		}
 		
 		document.getElementById("errormsg").innerText="";
-			
+		$('#jqxBankReconciliation').jqxGrid('clearfilters', true);  	
 	/* Validation Ends*/
 			
 		 /*Bank Reconciliation Grid  Saving*/
@@ -230,7 +237,10 @@
 		 if(accId>0){
 			 funloadappliedgrid();
 		 }
-		 
+		 funRoundAmt($('#txtbookbalance').val(),"txtbookbalance");
+         funRoundAmt($('#txtunclrpayments').val(),"txtunclrpayments");
+	     funRoundAmt($('#txtunclrreceipts').val(),"txtunclrreceipts");
+	     funRoundAmt($('#txtbankbalance').val(),"txtbankbalance"); 
 	}
 	
 	function funloadappliedgrid(){
@@ -240,38 +250,63 @@
 		  var accId = document.getElementById("txtdocno").value;
 		  var docno = document.getElementById("docno").value;
 		  var mode = document.getElementById("mode").value;
+		  var brch = document.getElementById("cmbbranch").value;
 		  var check = 1;
 		  
 		  $("#overlay, #PleaseWait").show();
 		  
-		  $("#jqxBankReconciliationGrid").load('bankReconciliationGrid.jsp?accountno='+accId+'&date='+date+'&docno='+docno+'&mode='+mode+'&check='+check); 
+		  $("#jqxBankReconciliationGrid").load('bankReconciliationGrid.jsp?accountno='+accId+'&date='+date+'&docno='+docno+'&mode='+mode+'&check='+check+'&brch='+brch); 
 	}
 	
-	function funPrintBtn() {
-		
-		if (($("#mode").val() == "view") && $("#docno").val()!="") {
-			
-			 var url=document.URL;
-		     var reurl=url.split("saveBankReconciliation");
-		     $("#docno").prop("disabled", false);
-			
-				   $.messager.confirm('Confirm', 'Do you want to have header?', function(r){
-					if (r){
-						 var win= window.open(reurl[0]+"printBankReconciliation?docno="+document.getElementById("docno").value+"&branch="+document.getElementById("brchName").value+"&header=1","_blank","top=150,left=250,Width=1020,Height=500,location=no,scrollbars=no,toolbar=yes");
-					     win.focus();
-					 }
-					else{
-						var win= window.open(reurl[0]+"printBankReconciliation?docno="+document.getElementById("docno").value+"&branch="+document.getElementById("brchName").value+"&header=0","_blank","top=150,left=250,Width=1020,Height=500,location=no,scrollbars=no,toolbar=yes");
-					    win.focus();
-					}
-				   });
-	     }
-	    else {
-			$.messager.alert('Message','Select a Document....!','warning');
-			return;
-		}
-	  }
+	function funExcelBtn(){
+		 JSONToCSVCon(dataExcelExport, 'Bank Reconciliation', true);
+	 }
 	
+	function funPrintBtn() {
+	    if (($("#mode").val() == "view") && $("#docno").val() != "") {
+	        
+	        var url = document.URL;
+	        var reurl = url.split("saveBankReconciliation");
+	        $("#docno").prop("disabled", false);
+
+	        var openAndAutoPrint = function(printUrl) {
+	            var win = window.open(printUrl, "_blank", "top=150,left=250,Width=1020,Height=800,location=no,scrollbars=yes,toolbar=yes");
+	            if (win) {
+	                var checkReady = setInterval(function() {
+	                    if (win.document.readyState === 'complete') {
+	                        clearInterval(checkReady);
+	                        
+	                        setTimeout(function() {
+	                            win.focus();
+	                            win.print();
+	                            
+	                            win.onafterprint = function () {
+	                                win.close();
+	                            };
+	                        }, 1000); 
+	                    }
+	                }, 500);
+	            } else {
+	                $.messager.alert('Message', 'Popup blocked by browser. Please allow popups.', 'warning');
+	            }
+	        };
+
+	        $.messager.confirm('Confirm', 'Do you want to have header?', function(r) {
+	            var baseUrl = reurl[0] + "printBankReconciliation?docno=" + document.getElementById("docno").value + 
+	                          "&branch=" + document.getElementById("brchName").value;
+	            
+	            if (r) {
+	                openAndAutoPrint(baseUrl + "&header=1");
+	            } else {
+	                openAndAutoPrint(baseUrl + "&header=0");
+	            }
+	        });
+	        
+	    } else {
+	        $.messager.alert('Message', 'Select a Document....!', 'warning');
+	        return;
+	    }
+	}
 	function datechange(){
 		  var date = $('#jqxBankReconciliationDate').jqxDateTimeInput('getDate');
 		  $("#maindate").jqxDateTimeInput('val', date);
@@ -289,7 +324,168 @@
   height: 530px;
 }
 </style>
+<style>
+/* =========================================================
+   MODERN ERP LAYOUT - EXACT ALIGNMENT & FULL WIDTH GRID 
+   (Fuses tight horizontal alignment with modern clean UI)
+========================================================= */
+body {
+    background: #f4f6f9;
+    font-family: Arial, sans-serif;
+    color: #333;
+    font-size: 12px;
+    margin: 0;
+    padding: 10px;
+    box-sizing: border-box;
+}
 
+#mainBG {
+    background: #fff;
+    border-radius: 4px;
+    padding: 15px;
+    max-width: 100%;
+    margin: auto;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+    box-sizing: border-box;
+}
+
+/* Master Input Heights - Set to 24px as requested */
+input[type="text"], select {
+    height: 24px !important;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    padding: 2px 6px;
+    font-size: 12px;
+    box-sizing: border-box;
+    width: 100%;
+    background-color: #fff;
+    color: #333;
+}
+
+input[type="text"]:focus, select:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+/* Clean Panels mapping to fieldsets */
+fieldset {
+    border: 1px solid #e1e4e8;
+    background-color: #fff;
+    margin-bottom: 10px;
+    padding: 12px 10px 10px 10px;
+    border-radius: 4px;
+}
+
+legend {
+    font-size: 13px;
+    font-weight: bold;
+    color: #0056b3;
+    padding: 0 0 0 6px;
+    border-left: 3px solid #0056b3;
+    margin-bottom: 5px;
+}
+
+/* Strict Full-Width CSS Grid for Top Section */
+.top-grid {
+    display: grid;
+    /* 5 strict columns + inputs. Stretches perfectly across. */
+    grid-template-columns: 80px minmax(100px, 1fr) 70px minmax(100px, 1fr) 50px minmax(150px, 2fr) 110px minmax(100px, 1fr) 90px minmax(100px, 1fr);
+    column-gap: 8px;
+    row-gap: 8px;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.top-grid > label {
+    text-align: right;
+    color: #444;
+    font-size: 12px;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.flex-row {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    width: 100%;
+}
+
+.chk-container {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+    color: #444;
+    font-size: 12px;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.chk-container input {
+    margin: 0;
+    padding: 0;
+}
+
+/* Middle Section Split */
+.middle-section {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.middle-panel {
+    border: 1px solid #e1e4e8;
+    padding: 15px 10px 10px 10px;
+    background: #fff;
+    position: relative;
+    border-radius: 4px;
+}
+
+.middle-panel-title {
+    position: absolute;
+    top: -10px;
+    left: 10px;
+    background: #fff;
+    padding: 0 5px 0 6px;
+    color: #0056b3;
+    font-weight: bold;
+    font-size: 13px;
+    border-left: 3px solid #0056b3;
+}
+
+/* Clean Tables mapping requested colors */
+.cr-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    border: 1px solid #ddd;
+}
+.cr-table th, .cr-table td {
+    padding: 4px 6px;
+    border: 1px solid #ddd;
+    font-size: 12px;
+}
+.cr-table th {
+    background: #f0f3f5;
+    font-weight: bold;
+    color: #333;
+    text-align: left;
+}
+.lbl-right {
+    text-align: right;
+    color: #444;
+    font-weight: bold;
+    font-size: 12px;
+    padding-right: 5px;
+}
+
+/* Tabs Override */
+#tabs { margin-top: 5px; margin-bottom: 0px; }
+#content { padding-top: 10px; }
+
+</style>
 </head>
 <body onload="setValues();">
 <div id="mainBG" class="homeContent" data-type="background" >
@@ -331,15 +527,15 @@
 <table width="100%">
   <tr>
     <td align="right">Book Balance</td>
-    <td><input type="text" id="txtbookbalance" name="txtbookbalance" style="text-align: right;" value='<s:property value="txtbookbalance"/>' tabindex="-1"/></td>
+    <td><input type="text" id="txtbookbalance" name="txtbookbalance" style="text-align: right;" value='<s:property value="txtbookbalance"/>' tabindex="-1" onblur="funRoundAmt(this.value,this.id);" /></td>
     <td align="right">Uncleared Payments(+ve)</td>
-    <td><input type="text" id="txtunclrpayments" name="txtunclrpayments" style="text-align: right;" value='<s:property value="txtunclrpayments"/>' tabindex="-1"/></td>
+    <td><input type="text" id="txtunclrpayments" name="txtunclrpayments" style="text-align: right;" value='<s:property value="txtunclrpayments"/>' tabindex="-1" onblur="funRoundAmt(this.value,this.id);"/></td>
     <td align="right">Uncleared Receipts(-ve)</td>
-    <td><input type="text" id="txtunclrreceipts" name="txtunclrreceipts" style="text-align: right;" value='<s:property value="txtunclrreceipts"/>' tabindex="-1"/></td>
+    <td><input type="text" id="txtunclrreceipts" name="txtunclrreceipts" style="text-align: right;" value='<s:property value="txtunclrreceipts"/>' tabindex="-1" onblur="funRoundAmt(this.value,this.id);"/></td>
     <td align="right">Bank St. Balance</td>
-    <td><input type="text" id="txtbankbalance" name="txtbankbalance" style="text-align: right;" value='<s:property value="txtbankbalance"/>' tabindex="-1"/></td>
+    <td><input type="text" id="txtbankbalance" name="txtbankbalance" style="text-align: right;" value='<s:property value="txtbankbalance"/>' tabindex="-1" onblur="funRoundAmt(this.value,this.id);"/></td>
   </tr>
-</table>
+</table>    
 
 <input type="hidden" id="mode" name="mode"/>
 <input type="hidden" id="deleted" name="deleted" value='<s:property value="deleted"/>'/>
