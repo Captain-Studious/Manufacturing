@@ -549,9 +549,7 @@ a.l-btn-plain {
   color: var(--c-primary) !important;
 }
 
-/* ============================================================
-   CARD CONTAINERS (used in some dashboard/form pages)
-   ============================================================ */
+
 .card,
 .card-container {
   border-radius: var(--radius-lg) !important;
@@ -560,3 +558,4 @@ a.l-btn-plain {
   background: var(--c-surface) !important;
   padding: 16px !important;
 }
+

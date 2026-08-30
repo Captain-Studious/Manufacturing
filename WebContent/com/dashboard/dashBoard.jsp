@@ -430,7 +430,7 @@
     
 </head>
 <body style="background-color: #fff;">
-<div class='hidden-scrollbar'>
+<div class='hidden-scrollbar' >
 <table  width="100%">
 <tr><td width="30%">
 <table  width="100%">
