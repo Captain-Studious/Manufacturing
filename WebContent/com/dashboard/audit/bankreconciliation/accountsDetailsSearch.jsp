@@ -9,11 +9,7 @@
 <link href="<%=contextPath%>/css/body.css" media="screen" rel="stylesheet" type="text/css" />
 <title>GatewayERP(i)</title>
 
-<style type="text/css">
-#search {
-    background-color: #E0ECF8;
-}
-</style>
+
 
 	<script type="text/javascript">
 	$(document).ready(function () {}); 
@@ -31,22 +27,132 @@
 		}
 
 	</script>
+<style type="text/css">
+
+/* ===== MASTER UI STRICT ===== */
+
+body {
+    margin: 0;
+    background-color: #f5f7fa;
+}
+
+/* FONT LOCK */
+#search.modern-ui,
+#search.modern-ui * {
+    font-family: 'Segoe UI', 'Roboto', 'Arial', sans-serif !important;
+    font-size: 12px !important;
+}
+
+/* PANEL */
+.modern-ui .search-panel {
+    background: #fff;
+    border: 1px solid #c5d3e0;
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 12px;
+}
+
+/* GRID */
+.modern-ui .grid-container {
+    background: #fff;
+    border: 1px solid #c5d3e0;
+    border-radius: 8px;
+    padding: 6px;
+    min-height: 200px;
+}
+
+/* TABLE */
+.modern-ui table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 6px 10px;
+}
+
+/* LABELS */
+.modern-ui td[align="right"] {
+    font-weight: 600;
+    color: #444;
+    white-space: nowrap;
+}
+
+/* INPUTS (STRICT 24px) */
+.modern-ui input[type="text"] {
+    height: 24px !important;
+    line-height: 20px !important;
+    padding: 2px 6px !important;
+    border: 1px solid #b8c6d8;
+    border-radius: 3px;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+/* BUTTON */
+.modern-ui .myButton {
+    height: 24px !important;
+    line-height: 22px !important;
+    padding: 0 16px;
+    font-weight: 700;
+    background: linear-gradient(135deg, #0b45a2 0%, #2563eb 100%);
+    color: #fff;
+    border: 1px solid #083a8a;
+    border-radius: 3px;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+</style>
+
 <body>
-<div id=search>
-<table width="100%">
-  <tr>
-    <td width="13%" align="right" style="font-size:9px;">Account</td>
-    <td width="54%"><input type="text" name="txtaccountno" id="txtaccountno" style="width:70%;height:20px;" value='<s:property value="txtaccountno"/>'></td>
-    <td width="33%" rowspan="2" align="center"><input type="button" name="btnsearch" id="btnsearch" class="myButton" value="Search"  onclick="loadSearch();"></td>
-  </tr>
-  <tr>
-    <td align="right" style="font-size:9px;">Name</td>
-    <td><input type="text" name="txtpartyname" id="txtpartyname" style="width:100%;height:20px;" value='<s:property value="txtpartyname"/>'></td>
-  </tr>
-  <tr>
-    <td colspan="3"><div id="refreshdiv"><jsp:include page="accountsDetailsGrid.jsp"></jsp:include></div></td>
-  </tr>
-</table>
-  </div>
+
+<div id="search" class="modern-ui">
+
+    <!-- SEARCH PANEL -->
+    <div class="search-panel">
+
+        <table>
+            <colgroup>
+                <col width="10%">   <!-- Account label -->
+                <col width="30%">   <!-- Account input -->
+
+                <col width="10%">   <!-- Name label -->
+                <col width="35%">   <!-- Name input -->
+
+                <col width="15%">   <!-- Button -->
+            </colgroup>
+
+            <tr>
+                <td align="right">Account</td>
+                <td>
+                    <input type="text" name="txtaccountno" id="txtaccountno"
+                        value='<s:property value="txtaccountno"/>'>
+                </td>
+
+                <td align="right">Name</td>
+                <td>
+                    <input type="text" name="txtpartyname" id="txtpartyname"
+                        value='<s:property value="txtpartyname"/>'>
+                </td>
+
+                <td align="left">
+                    <input type="button" name="btnsearch" id="btnsearch"
+                        class="myButton"
+                        value="Search"
+                        onclick="loadSearch();">
+                </td>
+            </tr>
+
+        </table>
+    </div>
+
+    <!-- GRID -->
+    <div class="grid-container">
+        <div id="refreshdiv">
+            <jsp:include page="accountsDetailsGrid.jsp"></jsp:include>
+        </div>
+    </div>
+
+</div>
+
 </body>
+
 </html>

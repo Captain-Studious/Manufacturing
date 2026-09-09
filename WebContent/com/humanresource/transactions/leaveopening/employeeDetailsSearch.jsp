@@ -23,11 +23,12 @@
  		var employeeName=document.getElementById("txtpartyname").value;
  		var empId=document.getElementById("txtpartyid").value;
  		var contactNo=document.getElementById("txtcontactno").value;
- 		
-		getdata(employeeName,empId,contactNo);
+ 		var employeebranchchk=window.parent.employeebranchchk.value; 
+ 		var branch=document.getElementById("brchName").value;
+		getdata(employeeName,empId,contactNo, employeebranchchk, branch);
 	}
-	function getdata(employeeName,empId,contactNo){
-		 $("#refreshdiv").load('employeeDetailsSearchGrid.jsp?employeename='+employeeName.replace(/ /g, "%20")+'&empid='+empId+'&contactno='+contactNo);
+	function getdata(employeeName,empId,contactNo, employeebranchchk, branch){
+		 $("#refreshdiv").load('employeeDetailsSearchGrid.jsp?employeename='+employeeName.replace(/ /g, "%20")+'&empid='+empId+'&contactno='+contactNo+'&branchid='+branch+'&employeebranchchk='+employeebranchchk);
 		}
 
 	</script>

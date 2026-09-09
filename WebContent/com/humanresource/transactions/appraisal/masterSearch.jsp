@@ -1,63 +1,198 @@
 <%@ taglib prefix="s" uri="/struts-tags" %>
+<% String contextPath=request.getContextPath();%>
 <!DOCTYPE html>
 <html>
 <head>
-<% String contextPath=request.getContextPath();%>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GatewayERP(i)</title>
+<link href="<%=contextPath%>/css/body.css" media="screen" rel="stylesheet" type="text/css" />
 
 <style>
-<link href="<%=contextPath%>/css/body.css" media="screen" rel="stylesheet" type="text/css" />
+/* =========================================================
+   SCOPED UI: Strict Pixel Grid Alignment & Modern Inputs
+========================================================= */
+body {
+    margin: 0;
+    background-color: #fff;
+    font-family: 'Segoe UI', 'Roboto', 'Arial', sans-serif; 
+}
+
+.modern-ui {
+    font-size: 12px;
+    color: #333;
+    padding: 10px;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+/* Master Input Styles */
+.modern-ui input[type="text"],
+.modern-ui select {
+    height: 24px !important;
+    border: 1px solid #BDBDBD;
+    border-radius: 3px;
+    padding: 2px 6px;
+    font-size: 12px; 
+    font-family: 'Segoe UI', 'Roboto', 'Arial', sans-serif;
+    box-sizing: border-box;
+    background-color: #fff;
+    color: #333;
+    width: 100%;
+}
+
+.modern-ui input[type="text"]:focus,
+.modern-ui select:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+/* Panel Styling */
+.modern-ui .search-panel {
+    background-color: #fff !important; 
+    border: 1px solid #BDBDBD;
+    border-radius: 4px;
+    padding: 12px 10px;
+    margin-bottom: 10px;
+    width: 100%;
+    box-sizing: border-box;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Table Alignment - STRICT PERCENTAGE GRID */
+.modern-ui table {
+    border-collapse: separate;
+    border-spacing: 5px 8px; 
+    width: 100%;
+    table-layout: fixed; /* Locks columns from squishing */
+}
+
+.modern-ui td {
+    vertical-align: middle;
+    padding: 0;
+}
+
+.modern-ui .lbl-right { 
+    text-align: right; 
+    color: #222;
+    font-size: 12px; 
+    font-weight: 600;
+    font-family: 'Segoe UI', 'Roboto', 'Arial', sans-serif;
+    white-space: nowrap; 
+    padding-right: 5px;
+}
+
+/* Search Button - Standard Blue */
+.modern-ui .myButton {
+    height: 26px;
+    padding: 0 20px;
+    background-color: #0056b3;
+    color: #ffffff;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: bold;
+    font-family: 'Segoe UI', 'Roboto', 'Arial', sans-serif;
+    transition: all 0.2s;
+}
+
+.modern-ui .myButton:hover {
+    background-color: #004494;
+}
+
+/* Grid Container */
+.modern-ui .grid-container {
+    border: 1px solid #BDBDBD;
+    background: #fff;
+    overflow: hidden;
+    width: 100%;
+}
 </style>
 
 <script type="text/javascript">
-	$(document).ready(function () {}); 
+    $(document).ready(function () {}); 
 
- 	function mainloadSearch() {
- 		
- 		var empnames=document.getElementById("empnames").value;
- 		var empids=document.getElementById("empids").value;
- 		var docnoss=document.getElementById("docnoss").value;
- 		var mobnos=document.getElementById("mobnos").value;	
- 		var empns = empnames.replace(/ /g, "%20");
-
- 		getdata(empns,empids,docnoss,mobnos);
-	}
- 	
-	function getdata(empns,empids,docnoss,mobnos){
-		 $("#srefreshdiv").load('submainSearch.jsp?empns='+empns+'&empids='+empids+'&docnoss='+docnoss+'&mobnos='+mobnos);
-	}
- 
+    function mainloadSearch() {
+        var empnames = document.getElementById("empnames").value || "";
+        var empids = document.getElementById("empids").value || "";
+        var docnoss = document.getElementById("docnoss").value || "";
+        var mobnos = document.getElementById("mobnos").value || "";    
+        
+        var employeebranchchk = (window.parent && window.parent.employeebranchchk) ? window.parent.employeebranchchk.value : "0"; 
+        var branchElem = document.getElementById("brchName");
+        var branch = branchElem ? branchElem.value : "";  
+        
+        getdata(empnames, empids, docnoss, mobnos, employeebranchchk, branch);
+    }
+    
+    function getdata(empnames, empids, docnoss, mobnos, employeebranchchk, branch){
+        $("#srefreshdiv").load(
+            'submainSearch.jsp?empns=' + encodeURIComponent(empnames) +
+            '&empids=' + encodeURIComponent(empids) +
+            '&docnoss=' + encodeURIComponent(docnoss) +
+            '&mobnos=' + encodeURIComponent(mobnos) +
+            '&branch=' + encodeURIComponent(branch) +
+            '&employeebranchchk=' + encodeURIComponent(employeebranchchk)
+        );
+    }
 </script>
-<body bgcolor="#E0ECF8">
-<div id=search>
-<table width="100%">
-  <tr>
-    <td>
-    <table width="100%">
-    <tr>
-    <td align="right" width="10%">Name</td> 
-    <td align="left" colspan="3"><input type="text" name="empnames" id="empnames"  style="width:99%;" value='<s:property value="empnames"/>'></td>
-    <td align="right"  width="7%">Emp ID</td>
-    <td align="left" width="27%"><input type="text" name="empids" id="empids" value='<s:property value="empids"/>'></td>
-    <tr>
-  <tr>
-    <td  align="right" width="10%">Doc No</td>
-    <td width="24%" align="left"  ><input type="text" name="docnoss" id="docnoss" value='<s:property value="docnoss"/>'>
-    <td width="10%"   align="right">Mobile</td>
-    <td width="12%"  ><input type="text" name="mobnos" id="mobnos" value='<s:property value="mobnos"/>'></td>
-    <td  >&nbsp;</td>
-    <td align="left"  ><input type="button" name="mbtnrasearch" id="mbtnrasearch" class="myButton" value="Search"  onclick="mainloadSearch();"></td>
-  </tr>
-  </table>
-  </td>
-  <tr>
-    <td colspan="8" align="right"><div id="srefreshdiv"><jsp:include  page="submainSearch.jsp"></jsp:include> </div>
-    </td>
-  </tr>
-</table>
-  </div>
+</head>
+
+<body style="background-color: #fff; margin: 0;">
+
+<div id="search" class="modern-ui">
+
+    <div class="search-panel">
+        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <colgroup>
+                <col width="15%" /> <col width="35%" /> <col width="15%" /> <col width="35%" /> </colgroup>
+            
+            <tr>
+                <td class="lbl-right">Name</td>
+                <td colspan="3">
+                    <input type="text" name="empnames" id="empnames" autocomplete="off" value='<s:property value="empnames"/>'>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="lbl-right">Emp ID</td>
+                <td>
+                    <input type="text" name="empids" id="empids" autocomplete="off" value='<s:property value="empids"/>'>
+                </td>
+                
+                <td class="lbl-right">Doc No</td>
+                <td>
+                    <input type="text" name="docnoss" id="docnoss" autocomplete="off" value='<s:property value="docnoss"/>'>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="lbl-right">Mobile</td>
+                <td>
+                    <input type="text" name="mobnos" id="mobnos" autocomplete="off" value='<s:property value="mobnos"/>'>
+                </td>
+                
+                <td colspan="2"></td> 
+            </tr>
+
+            <tr>
+                <td colspan="4" align="center" style="padding-top: 15px;">
+                    <input type="button" name="mbtnrasearch" id="mbtnrasearch" class="myButton" value="Search" onclick="mainloadSearch(); return false;">
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="grid-container">
+        <div id="srefreshdiv">
+            <jsp:include page="submainSearch.jsp"></jsp:include>
+        </div>
+    </div>
+
+</div>
+
 </body>
-</html>

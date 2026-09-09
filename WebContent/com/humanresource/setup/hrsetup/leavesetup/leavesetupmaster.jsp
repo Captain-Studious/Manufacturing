@@ -6,155 +6,199 @@
 <title>GatewayERP(i)</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<jsp:include page="../../../../../includes.jsp"></jsp:include>
-<style>
-form label.error {
- color:red;
- font-weight:bold;
 
+<jsp:include page="../../../../../includes.jsp"></jsp:include>
+
+<style>
+/* =========================================================
+   1. 100% SCOPED CSS - GUARANTEED NOT TO BREAK HEADER
+========================================================= */
+
+/* Validation Errors */
+form label.error {
+    color: red;
+    font-weight: bold;
+    font-size: 11px;
+}
+
+/* Wrapper to isolate our form layout from the header */
+#leavesetup-form-container {
+    padding-top: 15px;
+    width: 100%;
+}
+
+/* Scoped Fieldsets (Replaces the .middle-panel logic cleanly) */
+#leavesetup-form-container .master-fieldset {
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    padding: 20px 15px 15px 15px;
+    margin-bottom: 25px;
+    background-color: transparent; 
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+/* The Blue Left-Border Title */
+#leavesetup-form-container .master-legend {
+    font-size: 15px;
+    font-weight: 600;
+    color: #0056b3;
+    padding: 0 10px;
+    border-left: 4px solid #0056b3;
+    width: auto;
+    margin-bottom: 0;
+    border-bottom: none;
+    line-height: 1.2;
+}
+
+/* Flexbox rows */
+#leavesetup-form-container .master-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+    gap: 15px;
+}
+
+/* Right aligned labels */
+#leavesetup-form-container .master-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #1e293b;
+    text-align: right;
+    min-width: 80px;
+    white-space: nowrap;
+    font-family: 'Segoe UI', 'Roboto', 'Arial', sans-serif;
+}
+
+/* Strict custom class for inputs so it NEVER affects the header */
+#leavesetup-form-container .master-input {
+    height: 26px !important;
+    border: 1px solid #cbd5e0;
+    border-radius: 4px;
+    padding: 2px 8px;
+    font-size: 13px;
+    box-sizing: border-box;
+    color: #333;
+    background-color: #fff;
+    width: 100%;
+    font-family: 'Segoe UI', 'Roboto', 'Arial', sans-serif;
+}
+
+#leavesetup-form-container .master-input:focus {
+    border-color: #3b82f6;
+    outline: none;
+    box-shadow: 0 0 0 1px #3b82f6;
+}
+
+#leavesetup-form-container .master-input[readonly],
+#leavesetup-form-container .master-input:disabled {
+    background-color: #f8f9fa;
+    color: #6b7280;
+}
+
+/* Search Icon Wrapper */
+#leavesetup-form-container .search-wrapper {
+    position: relative;
+    display: flex;
+    flex: 1;
+}
+#leavesetup-form-container .search-wrapper input {
+    padding-right: 28px !important;
+}
+#leavesetup-form-container .search-wrapper svg {
+    position: absolute;
+    right: 6px; 
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #64748b; 
+    z-index: 10;
+}
+#leavesetup-form-container .search-wrapper svg:hover { color: #007bff; }
+
+/* Grid Container */
+.grid-container {
+    border: 1px solid #c5d3e0;
+    border-radius: 4px;
+    overflow: hidden;
+    background: #fff;
+    margin-top: 10px;
+}
+
+/* Custom UI Buttons matching 26px height */
+.myButton1, .myButton4 {
+    height: 26px !important;
+    line-height: 24px !important;
+    padding: 0 14px;
+    font-family: 'Segoe UI', 'Roboto', 'Arial', sans-serif;
+    font-size: 12px;
+    font-weight: bold;
+    border-radius: 4px;
+    cursor: pointer;
+    text-shadow: none;
+    transition: all 0.2s;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    border: none;
 }
 
 .myButton1 {
-	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #768d87), color-stop(1, #6c7c7c));
-	background:-moz-linear-gradient(top, #768d87 5%, #6c7c7c 100%);
-	background:-webkit-linear-gradient(top, #768d87 5%, #6c7c7c 100%);
-	background:-o-linear-gradient(top, #768d87 5%, #6c7c7c 100%);
-	background:-ms-linear-gradient(top, #768d87 5%, #6c7c7c 100%);
-	background:linear-gradient(to bottom, #768d87 5%, #6c7c7c 100%);
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#768d87', endColorstr='#6c7c7c',GradientType=0);
-	background-color:#768d87;
-	-moz-border-radius:4px;
-	-webkit-border-radius:4px;
-	border-radius:4px;
-	border:1px solid #566963;
-	display:inline-block;
-	cursor:pointer;
-	color:#ffffff;
-	font-family:Arial;
-	font-size:12px;
-	padding:2px 12px;
-	text-decoration:none;
+    background-color: #566963;
+    color: #ffffff;
 }
-.myButton1:hover {
-	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #6c7c7c), color-stop(1, #768d87));
-	background:-moz-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
-	background:-webkit-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
-	background:-o-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
-	background:-ms-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
-	background:linear-gradient(to bottom, #6c7c7c 5%, #768d87 100%);
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#6c7c7c', endColorstr='#768d87',GradientType=0);
-	background-color:#6c7c7c;
-}
-.myButton1:active {
-	position:relative;
-	top:1px;
-}
- 
-.myButton4 {
-	-moz-box-shadow:inset 0px 0px 0px -24px #e67a73;
-	-webkit-box-shadow:inset 0px 0px 0px -24px #e67a73;
-	box-shadow:inset 0px 0px 0px -24px #e67a73;
-	background-color:#e4685d;
-	-moz-border-radius:4px;
-	-webkit-border-radius:4px;
-	border-radius:4px;
-	border:1px solid #ffffff;
-	display:inline-block;
-	cursor:pointer;
-	color:#ffffff;
-	font-family:Arial;
-	font-size:12px;
-	padding:3px 12px;
-	text-decoration:none;
-	text-shadow:0px 1px 0px #b23e35;
-}
-.myButton4:hover {
-	background-color:#eb675e;
-}
-.myButton4:active {
-	position:relative;
-	top:1px;
-}
+.myButton1:hover { background-color: #768d87; }
 
+.myButton4 {
+    background-color: #e4685d;
+    color: #ffffff;
+}
+.myButton4:hover { background-color: #eb675e; }
+
+/* Status Text Bounce Effect */
 .bounce {
-	color: #f35626;
+    color: #f35626;
     background-image: -webkit-linear-gradient(92deg,#f35626,#feab3a);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     -webkit-animation: hue 60s infinite linear,bounce 2s infinite; 
+    font-size: 13px;
+    font-family: Tahoma;
+    font-weight: bold;
 }
 
-@-webkit-keyframes bounce {
-  0%, 20%, 50%, 80%, 100% {
-    -moz-transform: translateX(0);
-    -ms-transform: translateX(0);
-    -webkit-transform: translateX(0);
-    transform: translateX(0);
-  }
-  40% {
-    -moz-transform: translateX(-30px);
-    -ms-transform: translateX(-30px);
-    -webkit-transform: translateX(-30px);
-    transform: translateX(-30px);
-  }
-  60% {
-    -moz-transform: translateX(-15px);
-    -ms-transform: translateX(-15px);
-    -webkit-transform: translateX(-15px);
-    transform: translateX(-15px);
-  }
-} 
-
-@media (min-width: 15px) {
-  .mega {
-    font-size: 15px;
-  }
-}
-
-@font-face {
-  font-family: 'Roboto',comic sans ms,Tahoma;
-  font-style: normal;
-  font-weight: 100;
-  unicode-range: U+0460-052F, U+20B4, U+2DE0-2DFF, U+A640-A69F;
-}
-  
 @-webkit-keyframes hue {
-  from {
-    -webkit-filter: hue-rotate(0deg);
-  }
-
-  to {
-    -webkit-filter: hue-rotate(-360deg);
-  }
+    from { -webkit-filter: hue-rotate(0deg); }
+    to { -webkit-filter: hue-rotate(-360deg); }
 }
-
 </style>
 
- 
 <script type="text/javascript">
-
 	$(document).ready(function () {   
 		
-	    document.getElementById("formdet").innerText="Leave Setup(LSP)";
-		document.getElementById("formdetail").value="Leave Setup";
-		document.getElementById("formdetailcode").value="LSP";
-		window.parent.formCode.value="LSP";
-		window.parent.formName.value="Leave Setup";
-		document.getElementById("showlabel").innerText="";
+	    if(document.getElementById("formdet")) document.getElementById("formdet").innerText="Leave Setup(LSP)";
+		if(document.getElementById("formdetail")) document.getElementById("formdetail").value="Leave Setup";
+		if(document.getElementById("formdetailcode")) document.getElementById("formdetailcode").value="LSP";
+		if(window.parent && window.parent.formCode) window.parent.formCode.value="LSP";
+		if(window.parent && window.parent.formName) window.parent.formName.value="Leave Setup";
+		
+		if(document.getElementById("showlabel")) document.getElementById("showlabel").innerText="";
 		
 		$('#refSearchwindow').jqxWindow({ width: '60%', height: '62%',  maxHeight: '75%' ,maxWidth: '60%' , title: 'Ref No Search' ,position: { x: 150, y: 60 } , theme: 'energyblue', showCloseButton: true, keyboardCloseKey: 27});
 		$('#refSearchwindow').jqxWindow('close');
 		
-		$('#btnCreate').attr('disabled', true);
-		$('#btnDelete').attr('disabled', true);
-		$('#btnSearch').attr('disabled', true);
-		$('#btnEdit').attr('disabled', true);
+		// Bulletproof disabling ALL buttons EXCEPT Close and Approval
+		$('#btnNew, #btnCreate, #btnSave, #btnEdit, #btnDelete, #btnSearch, #btnExcel, #btnPrint, #btnAttach, #btnAttachment, #attachBtn, #savebtn, #deltbtn').prop('disabled', true)
+			.css({'pointer-events': 'none', 'opacity': '0.5'})
+			.attr('tabindex', '-1');
+
+		// Keep strictly Close and Approval alive
+		$('#btnClose, #btnApprove, #btnApproval').prop('disabled', false)
+			.css({'pointer-events': 'auto', 'opacity': '1'})
+			.removeAttr('tabindex');
 		
 		$('#refno').dblclick(function(){
 			  $('#refSearchwindow').jqxWindow('open');
 			  refnoSearchContent('refmastersearch.jsp?');
 		});   
-		    
+		   
      });
 	
 	function funSearchLoad(){}
@@ -166,65 +210,72 @@ form label.error {
 		}); 
 	}
 	 
-	 
 	 function gethrsetup(event){
 	 	 var x= event.keyCode;
 	 	 if(x==114){
 		 	  $('#refSearchwindow').jqxWindow('open');
 		 	  refnoSearchContent('refmastersearch.jsp?');    }
 	 	 else{}
-	 	 }
+	 }
       
+    /* SAFE READONLY FUNCTION */
 	function funReadOnly() {
-		$('#frmleavesetup input').attr('readonly', true);
-		//btnCreate btnDelete  btnSearch btnEdit
-	
-		$('#savebtn').attr('disabled', true);
-		$('#deltbtn').attr('disabled', true);
-		 
-		/* 	$('#jqxDateTimeInput').jqxDateTimeInput({ disabled: true}); */
+	    try {
+    		$('#frmleavesetup .master-input').attr('readonly', true);
+    		$('#savebtn').attr('disabled', true);
+    		$('#deltbtn').attr('disabled', true);
+	    } catch(e) { console.error("Error in funReadOnly: ", e); }
 	}
 	
+	/* SAFE REMOVE READONLY FUNCTION */
 	function funRemoveReadOnly() {
-		$('#frmleavesetup input').attr('readonly', false);
-		$('#docno').attr('readonly', true);
+	    try {
+    		$('#frmleavesetup .master-input').attr('readonly', false);
+    		$('#category').attr('readonly', true); 
+	    } catch(e) { console.error("Error in funRemoveReadOnly: ", e); }
 	}
  
+    /* SAFE SET VALUES FUNCTION */
 	function setValues() {
-		 
-		 /* if($('#msg').val()!=""){
-			   $.messager.alert('Message',$('#msg').val()); document.getElementById("newmode").value=='Saved'
-			  } */
-		 //document.getElementById("formdet").innerText=$('#formdetail').val()+" ("+$('#formdetailcode').val().trim()+")";
+	    try {
+			if(document.getElementById("newmode") && document.getElementById("newmode").value=='Saved') {
+			   var leaveid=document.getElementById("leaveid").value;
+			   var refno= document.getElementById("refno").value;
+			   
+			   if($("#lsetup1").length) $("#lsetup1").load("leavesetupgrid.jsp?docno="+refno);
+			  
+			   var disdata="hide";
+			  
+    	       if($("#lsetup2").length) $("#lsetup2").load("condtiongrid.jsp?docno="+refno+"&leaveid="+leaveid+"&disdata="+disdata);
+    	       
+    	       if(document.getElementById("showlabel") && document.getElementById("hidshowlabel")) {
+    	           document.getElementById("showlabel").innerText=document.getElementById("hidshowlabel").value;
+    	       }
+    	       
+               $.messager.alert('Message', '  Record successfully Updated ');
+    	       funReadOnly();
+			} else if(document.getElementById("newmode") && document.getElementById("newmode").value=='notSaved') {
+			      $.messager.alert('Message', '  Not Updated ');
+			} 
 			
-			  if(document.getElementById("newmode").value=='Saved') {
-				   var leaveid=document.getElementById("leaveid").value;
-				   var refno= document.getElementById("refno").value;
-				   $("#lsetup1").load("leavesetupgrid.jsp?docno="+refno);
-				  
-				   var disdata="hide";
-				  
-	        	   $("#lsetup2").load("condtiongrid.jsp?docno="+refno+"&leaveid="+leaveid+"&disdata="+disdata);
-	        	   document.getElementById("showlabel").innerText=document.getElementById("hidshowlabel").value;
-	        	   
-	               $.messager.alert('Message', '  Record successfully Updated ');
-	        	   	funReadOnly();
-				   } else if(document.getElementById("newmode").value=='notSaved') {
-				      $.messager.alert('Message', '  Not Updated ');
-				  } 
+            if (document.getElementById("formdet") && $('#formdetail').length && $('#formdetailcode').length) {
+                var detailVal = $('#formdetail').val() || "";
+                var codeVal = $('#formdetailcode').val() || "";
+                document.getElementById("formdet").innerText = detailVal + " (" + codeVal.trim() + ")";
+            }
+	    } catch(e) { console.error("Error in setValues: ", e); }
 	}
 	
 	 function funNotify(){}
 	 
 	 function fundel() {
-		 
 		 var leavetype="";
 		 var rows = $("#leavesetupgrid").jqxGrid('getrows');      
- 		 for(var i=0;i<rows.length;i++){
+		 for(var i=0;i<rows.length;i++){
 		     if(parseInt(rows[i].checkclick)==1){
 		    	leavetype=rows[i].leavetype; 
 		     }
- 		 }
+		 }
 		 
          $.messager.confirm('Message', 'Do you want to delete all records of '+leavetype, function(r){
 	        	if(r==false) {
@@ -240,7 +291,7 @@ form label.error {
 	        		fundeldata(leaveid,leavetype);
 	        	}
 		     });
-	 	  
+    
        }
 
 	   function fundeldata(leaveid,leavetype) {
@@ -255,9 +306,9 @@ form label.error {
 						 		  var leaveid=document.getElementById("leaveid").value;
 								  var refno= document.getElementById("refno").value;
 								  
-								  $("#lsetup1").load("leavesetupgrid.jsp?docno="+refno);
+								  if($("#lsetup1").length) $("#lsetup1").load("leavesetupgrid.jsp?docno="+refno);
 								  var disdata="hide";
-					        	  $("#lsetup2").load("condtiongrid.jsp?docno="+refno+"&leaveid="+leaveid+"&disdata="+disdata);
+					        	  if($("#lsetup2").length) $("#lsetup2").load("condtiongrid.jsp?docno="+refno+"&leaveid="+leaveid+"&disdata="+disdata);
 						    } else { 
 						    	  $.messager.alert('Message', '  Not Deleted'); 
 						 	}
@@ -316,7 +367,6 @@ form label.error {
 		   }
 
 		    document.getElementById("frmleavesetup").submit();
-	    		/* return 1; */
 		} 
 	     
 	     function funFocus(){}
@@ -326,48 +376,82 @@ form label.error {
 </head>
 <body onLoad="setValues();" >
 
+<div id="mainBG" class="homeContent" data-type="background">
 <form id="frmleavesetup" action="saveLeavesetup" method="post" autocomplete="off"> 
-<jsp:include page="../../../../../header.jsp" /><br/> 
+
+    <jsp:include page="../../../../../header.jsp" />
 	
-<fieldset><legend>Leave Setup</legend>   
-<fieldset>
-<table width="100%">
-		<tr><td width="10%"  align="right">Ref No</td> 
-		<td width="15%" align="left"><input type="text" placeholder="Press F3 To Search" onKeyDown="gethrsetup(event);" name="refno" id="refno" style="width:100%;" value='<s:property value="refno"/>'></td>
-		<td width="8%" align="right">Category</td>
-		<td width="27%" ><input type="text" name="category"  id="category" style="width:99%;" value='<s:property value="category"/>'></td>
-		<td width="40%" class="bounce" style="text-align: center;">&nbsp;&nbsp;&nbsp;<b><label id="showlabel" style="font-size: 13px;font-family: Tahoma; color:#6000FC" value='<s:property value="showlabel"/>'></label></b></td></tr> 
-</table> 
-</fieldset><br/>
+    <div id="leavesetup-form-container">
 
-<table width="100%">
-	 <tr>
-	 <td width="65%"><fieldset><div id="lsetup1"> <jsp:include page="leavesetupgrid.jsp"></jsp:include></div></fieldset></td>
-	 <td  width="35%" >
-	 <table  width="100%"><tr>
-	 <td align="center">
-	 <fieldset><div id="lsetup2"> <jsp:include page="condtiongrid.jsp"></jsp:include></div></fieldset><br/>
-	 <input type="button" id="savebtn" class="myButton1" onclick="funsave();" value="Save"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  <input type="button" id="deltbtn" onclick="fundel()"   class="myButton4"  value="Delete"></td>
-	 </tr></table>
-	 </td></tr>
-</table>
-	 
-<input type="hidden" id="docno" name="docno" value='<s:property value="docno"/>' />
-<input type="hidden" id="hidshowlabel" name="hidshowlabel" value='<s:property value="hidshowlabel"/>' />
-<input type="hidden" id="leaveid" name="leaveid" value='<s:property value="leaveid"/>' />
-<input type="hidden" id="newmode" name="newmode" value='<s:property value="newmode"/>' />
-<input type="hidden" id="algridlength" name="algridlength" value='<s:property value="algridlength"/>' />
-<input type="hidden" id="catid" name="catid" value='<s:property value="catid"/>' />
-<input type="hidden" id="mode" name="mode" value='<s:property value="mode"/>' />
-<input type="hidden" id="msg" name="msg"  value='<s:property value="msg"/>'/> 
-<input type="hidden" name="deleted" id="deleted" value='<s:property value="deleted"/>'/> 
+        <fieldset class="master-fieldset" style="margin-top: 15px;">
+            <legend class="master-legend">Leave Setup</legend>
+            <div class="master-row" style="margin-bottom: 0;">
+                
+                <label class="master-label" style="width: 50px;">Ref No</label>
+                <div class="search-wrapper" style="max-width: 150px;">
+                    <input type="text" class="master-input" placeholder="Press F3 To Search" onKeyDown="gethrsetup(event);" name="refno" id="refno" value='<s:property value="refno"/>'>
+                    <svg onclick="$('#refSearchwindow').jqxWindow('open'); refnoSearchContent('refmastersearch.jsp?');" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                </div>
+                
+                <label class="master-label" style="width: 80px; margin-left: 20px;">Category</label>
+                <input type="text" class="master-input" name="category" id="category" value='<s:property value="category"/>' readonly="readonly" style="max-width: 250px;">
+                
+                <div style="flex: 1; text-align: center;">
+                    <label id="showlabel" class="bounce" value='<s:property value="showlabel"/>'></label>
+                </div>
 
-</fieldset> 
-</form><br/>
+            </div>
+        </fieldset>
+        
+        <div style="display: flex; gap: 20px;">
+            
+            <div style="flex: 6.5; min-width: 600px;">
+                <fieldset class="master-fieldset" style="height: 100%; box-sizing: border-box; margin-bottom: 0;">
+                    <legend class="master-legend">Leave Details</legend>
+                    <div class="grid-container" id="lsetup1" style="margin-top: 10px;"> 
+                        <jsp:include page="leavesetupgrid.jsp"></jsp:include>
+                    </div>
+                </fieldset>
+            </div>
+            
+            <div style="flex: 3.5; min-width: 350px;">
+                <fieldset class="master-fieldset" style="height: 100%; box-sizing: border-box; margin-bottom: 0; display: flex; flex-direction: column;">
+                    <legend class="master-legend">Leave Conditions</legend>
+                    
+                    <div class="grid-container" id="lsetup2" style="margin-top: 10px; margin-bottom: 15px; flex: 1;"> 
+                        <jsp:include page="condtiongrid.jsp"></jsp:include>
+                    </div>
+                    
+                    <div style="text-align: center; margin-top: auto;">
+                        <input type="button" id="savebtn" class="myButton1" onclick="funsave();" value="Save">
+                        &nbsp;&nbsp;&nbsp; 
+                        <input type="button" id="deltbtn" onclick="fundel()" class="myButton4" value="Delete">
+                    </div>
+                </fieldset>
+            </div>
 
-<div id="refSearchwindow">
-   <div></div>
-</div>	 
+        </div>
+        
+        <div style="display:none;">
+            <input type="hidden" id="docno" name="docno" value='<s:property value="docno"/>' />
+            <input type="hidden" id="hidshowlabel" name="hidshowlabel" value='<s:property value="hidshowlabel"/>' />
+            <input type="hidden" id="leaveid" name="leaveid" value='<s:property value="leaveid"/>' />
+            <input type="hidden" id="newmode" name="newmode" value='<s:property value="newmode"/>' />
+            <input type="hidden" id="algridlength" name="algridlength" value='<s:property value="algridlength"/>' />
+            <input type="hidden" id="catid" name="catid" value='<s:property value="catid"/>' />
+            <input type="hidden" id="mode" name="mode" value='<s:property value="mode"/>' />
+            <input type="hidden" id="msg" name="msg" value='<s:property value="msg"/>'/> 
+            <input type="hidden" name="deleted" id="deleted" value='<s:property value="deleted"/>'/> 
+            
+            <input type="hidden" id="formdetail" name="formdetail" value='<s:property value="formdetail"/>'/>
+            <input type="hidden" id="formdetailcode" name="formdetailcode" value='<s:property value="formdetailcode"/>'/>
+        </div>
 
+    </div>
+</form>
+
+<div id="refSearchwindow"><div></div></div> 
+
+</div>
 </body>
 </html>

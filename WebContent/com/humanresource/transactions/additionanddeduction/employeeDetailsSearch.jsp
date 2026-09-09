@@ -1,5 +1,5 @@
- <%@ taglib prefix="s" uri="/struts-tags" %>
- <% String contextPath=request.getContextPath(); %>
+<%@ taglib prefix="s" uri="/struts-tags" %>
+<% String contextPath=request.getContextPath(); %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,48 +9,170 @@
 <link href="<%=contextPath%>/css/body.css" media="screen" rel="stylesheet" type="text/css" />
 <title>GatewayERP(i)</title>
 
-<style type="text/css">
-#search {
-    background-color: #E0ECF8;
+<style>
+/* =========================================================
+   SCOPED UI: Segoe UI Font & Clean White Search Panel
+========================================================= */
+body {
+    margin: 0;
+    background-color: #fff;
+    font-family: 'Segoe UI', 'Roboto', 'Arial', sans-serif; 
+}
+
+.modern-ui {
+    font-size: 12px;
+    color: #333;
+    padding: 10px;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+/* Master Input Styles */
+.modern-ui input[type="text"] {
+    height: 24px !important;
+    border: 1px solid #BDBDBD;
+    border-radius: 3px;
+    padding: 2px 6px;
+    font-size: 12px; 
+    font-family: 'Segoe UI', 'Roboto', 'Arial', sans-serif;
+    box-sizing: border-box;
+    background-color: #fff;
+    color: #333;
+    width: 100%;
+}
+
+.modern-ui input[type="text"]:focus {
+    border-color: #007bff;
+    outline: none;
+    background-color: #FFD6FF; /* Client master focus color */
+}
+
+/* Panel Styling - Clean White Panel */
+.modern-ui .search-panel {
+    background-color: #fff !important; 
+    border: 1px solid #BDBDBD;
+    border-radius: 4px;
+    padding: 12px;
+    margin-bottom: 10px;
+}
+
+/* Table Alignment */
+.modern-ui table {
+    border-collapse: separate;
+    border-spacing: 5px 8px; 
+    width: 100%;
+}
+
+.modern-ui td {
+    vertical-align: middle;
+}
+
+.modern-ui .lbl-right { 
+    text-align: right; 
+    color: #222;
+    font-size: 12px; 
+    font-weight: 600;
+    font-family: 'Segoe UI', 'Roboto', 'Arial', sans-serif;
+    white-space: nowrap; 
+    padding-right: 5px;
+}
+
+/* Search Button - Standard Blue */
+.modern-ui .myButton {
+    height: 26px;
+    padding: 0 20px;
+    background-color: #0056b3;
+    color: #ffffff;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: bold;
+    font-family: 'Segoe UI', 'Roboto', 'Arial', sans-serif;
+    transition: all 0.2s;
+}
+
+.modern-ui .myButton:hover {
+    background-color: #004494;
+}
+
+/* Grid Container */
+.modern-ui .grid-container {
+    border: 1px solid #BDBDBD;
+    background: #fff;
+    overflow: hidden;
 }
 </style>
 
-	<script type="text/javascript">
-	$(document).ready(function () {}); 
+<script type="text/javascript">
+    $(document).ready(function () {}); 
 
- 	function loadSearch() {
-
- 		var employeeName=document.getElementById("txtpartyname").value;
- 		var empId=document.getElementById("txtpartyid").value;
- 		var contactNo=document.getElementById("txtcontactno").value;
- 		
-		getdata(employeeName,empId,contactNo);
-	}
-	function getdata(employeeName,empId,contactNo){
-		 $("#refreshdiv").load('employeeDetailsSearchGrid.jsp?employeename='+employeeName.replace(/ /g, "%20")+'&empid='+empId+'&contactno='+contactNo);
-		}
-
-	</script>
-<body>
-<div id=search>
-<table width="100%">
-  <tr>
-    <td align="right">Name</td>
-    <td colspan="3"><input type="text" name="txtpartyname" id="txtpartyname" style="width:90%;" value='<s:property value="txtpartyname"/>'></td>
-    <td width="32%" align="center">&nbsp;</td>
-  </tr>
-  <tr>
-  <td width="6%" align="right">ID#</td>
-    <td width="22%"><input type="text" name="txtpartyid" id="txtpartyid" style="width:70%;" value='<s:property value="txtpartyid"/>'></td>
-    <td width="15%" align="right">Contact No.</td>
-    <td width="25%"><input type="text" name="txtcontactno" id="txtcontactno" style="width:74%;" value='<s:property value="txtcontactno"/>'>
-     <td width="32%" align="left"><input type="button" name="btnsearch" id="btnsearch" class="myButton" value="Search"  onclick="loadSearch();"></td>
+    function loadSearch() {
+        var employeeName = document.getElementById("txtpartyname").value || "";
+        var empId = document.getElementById("txtpartyid").value || "";
+        var contactNo = document.getElementById("txtcontactno").value || "";
+        
+        var employeebranchchk = "";
+        if(window.parent && window.parent.employeebranchchk) {
+            employeebranchchk = window.parent.employeebranchchk.value; 
+        }
+        
+        var branch = "";
+        if(document.getElementById("brchName")){
+            branch = document.getElementById("brchName").value;
+        }
+        
+        getdata(employeeName, empId, contactNo, employeebranchchk, branch);
+    }
     
-  </tr>
-  <tr>
-    <td colspan="5"><div id="refreshdiv"><jsp:include page="employeeDetailsSearchGrid.jsp"></jsp:include></div></td>
-  </tr>
-</table>
-  </div>
+    function getdata(employeeName, empId, contactNo, employeebranchchk, branch){  
+         /* Safely encoding URI components to prevent breakages on special characters */
+         $("#refreshdiv").load('employeeDetailsSearchGrid.jsp?employeename=' + encodeURIComponent(employeeName) + 
+                               '&empid=' + encodeURIComponent(empId) + 
+                               '&contactno=' + encodeURIComponent(contactNo) + 
+                               '&branchid=' + encodeURIComponent(branch) + 
+                               '&employeebranchchk=' + encodeURIComponent(employeebranchchk));
+    }
+</script>
+</head>
+
+<body style="background-color: #fff; margin: 0;">
+
+<div id="search" class="modern-ui">
+
+    <div class="search-panel">
+        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <td class="lbl-right" width="12%">Name</td>
+                <td colspan="3">
+                    <input type="text" name="txtpartyname" id="txtpartyname" value='<s:property value="txtpartyname"/>'>
+                </td>
+                
+                <td width="30%" rowspan="2" align="center" valign="middle">
+                    <input type="button" name="btnsearch" id="btnsearch" class="myButton" value="Search" onclick="loadSearch();">
+                </td>
+            </tr>
+            <tr>
+                <td class="lbl-right">ID#</td>
+                <td width="25%">
+                    <input type="text" name="txtpartyid" id="txtpartyid" value='<s:property value="txtpartyid"/>'>
+                </td>
+                
+                <td class="lbl-right" width="15%">Contact No.</td>
+                <td width="18%">
+                    <input type="text" name="txtcontactno" id="txtcontactno" value='<s:property value="txtcontactno"/>'>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="grid-container">
+        <div id="refreshdiv">
+            <jsp:include page="employeeDetailsSearchGrid.jsp"></jsp:include>
+        </div>
+    </div>
+
+</div>
+
 </body>
 </html>

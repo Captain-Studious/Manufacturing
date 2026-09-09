@@ -6,42 +6,333 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GatewayERP(i)</title>
-<jsp:include page="../../../../includes.jsp"></jsp:include>
+<jsp:include page="../../../../includeso.jsp"></jsp:include>
+
+<style>
+/* =========================================================
+SCOPED UI: Modern Layout (Matches Cash Receipts / Master)
+========================================================= */
+body {
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    font-family: 'Segoe UI', 'Roboto', 'Arial', sans-serif;
+    color: #222;
+    margin: 0;
+    padding: 24px 0;
+    box-sizing: border-box;
+    overflow-y: auto !important;
+}
+
+#mainBG {
+    background: #fff;
+    border-radius: 16px;
+    padding: 15px;
+    max-width: 100%;
+    margin: 0 auto;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+}
+
+.modern-ui {
+    font-family: Arial, sans-serif; 
+    color: #333;
+    font-size: 12px; 
+    padding: 5px 15px;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+/* Master Input Heights - Forced to 24px */
+.modern-ui input[type="text"],
+.modern-ui input[type="email"],
+.modern-ui select { 
+    height: 24px !important; 
+    border: 1px solid #b8c6d8; 
+    border-radius: 3px; 
+    padding: 2px 6px;
+    font-size: 12px;
+    box-sizing: border-box; 
+    background-color: #fff; 
+    color: #333;
+    width: 100%;
+}
+
+.modern-ui input[type="text"]:focus,
+.modern-ui input[type="email"]:focus,
+.modern-ui select:focus { 
+    border-color: #007bff; 
+    outline: none;
+}
+
+.modern-ui input[readonly],
+.modern-ui input:disabled,
+.modern-ui select:disabled { 
+    background-color: #f8f9fa; 
+    color: #6b7280;
+}
+
+/* Layout Utilities */
+.modern-ui .field-row { 
+    display: flex;
+    align-items: center; 
+    gap: 8px;
+    margin-bottom: 10px; 
+    flex-wrap: wrap;
+}
+
+.modern-ui .lbl-right { 
+    text-align: right; 
+    color: #444;
+    font-size: 12px; 
+    font-weight: bold;
+    white-space: nowrap; 
+    padding-right: 5px;
+}
+
+/* FIXED: Middle Section Panels */
+.modern-ui .middle-panel {
+    border: 1px solid #c5d3e0; 
+    padding: 20px 10px 10px 10px; 
+    background: #ffffff; 
+    position: relative; 
+    border-radius: 4px; 
+    margin-bottom: 15px;
+    margin-top: 12px;
+}
+
+.modern-ui .middle-panel-title { 
+    position: absolute; 
+    top: -12px;
+    left: 10px; 
+    background: #ffffff; 
+    padding: 0 8px; 
+    color: #0056b3;
+    font-weight: bold; 
+    font-size: 14px; 
+    border-left: 3px solid #0056b3;
+    z-index: 2; 
+    line-height: normal; 
+}
+
+/* Search Icon Wrapper */
+.modern-ui .input-search-container {
+    position: relative;
+    display: flex;
+}
+.modern-ui .input-search-container input {
+    padding-right: 25px !important;
+}
+.modern-ui .magnifier-icon {
+    position: absolute;
+    right: 6px; 
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #64748b; 
+    z-index: 10;
+}
+.modern-ui .magnifier-icon:hover { color: #2563eb; }
+
+/* Grid Wrappers */
+.modern-ui .grid-container {
+    border: 1px solid #c5d3e0;
+    border-radius: 4px;
+    background: #fff;
+    overflow: hidden;
+}
+
+/* Validation Label */
+.modern-ui .val-error { color: red; font-size: 11px; font-weight:bold; }
+
+/* Scrollbar Logic */
+.hidden-scrollbar {
+    overflow-y: auto;
+    height: calc(100vh - 150px);
+    padding-right: 5px;
+}
+
+.jqx-grid-header {
+    background: linear-gradient(180deg, #e9ecef 0%, #dee2e6 100%) !important;
+    border-color: #ced4da !important;
+    color: #212529 !important;
+    font-family: 'Segoe UI', 'Roboto', 'Arial', sans-serif;
+}
+
+.jqx-grid-column-header {
+    background: transparent !important;
+    color: #212529 !important;
+    font-weight: 700 !important;
+    font-size: 11px !important;
+    text-align: left !important;
+    border-color: #ced4da !important;
+}
+
+.jqx-grid-column-header a:link,
+.jqx-grid-column-header a:visited {
+    color: #212529 !important;
+    text-align: left !important;
+}
+
+.jqx-grid-column-header > div > div {
+    text-align: left !important;
+    padding-left: 6px !important;
+}
+
+
+.jqx-grid-cell {
+    background: #ffffff;
+    border-color: #dee2e6 !important; 
+    border-width: 0px 0px 1px 0px !important;
+    color: #1f2937;
+    font-size: 11px !important;
+    text-align: left !important;
+}
+
+.jqx-grid-cell-left-align {
+    text-align: left !important;
+    padding-left: 6px !important;
+    margin-left: 0px !important;
+}
+
+.jqx-grid-cell-middle-align {
+    text-align: left !important;
+    padding-left: 6px !important;
+}
+
+.jqx-grid-cell-right-align {
+    text-align: right !important;
+    padding-right: 6px !important;
+}
+
+
+.jqx-grid-cell-alt {
+    background: #f1f3f5 !important; 
+}
+
+
+.jqx-grid-cell-hover {
+    background: #dee2e6 !important; 
+    border-color: #ced4da !important;
+    color: #000000 !important;
+}
+
+.jqx-grid-cell-selected {
+    background: #adb5bd !important; 
+    color: #ffffff !important;
+    border-color: #868e96 !important;
+}
+
+.jqx-grid-table .jqx-grid-cell {
+    border-width: 0px 0px 1px 0px !important;
+    border-color: #dee2e6 !important;
+}
+
+
+.jqx-grid {
+    border: 1px solid #adb5bd !important; 
+    border-radius: 8px !important;
+    overflow: hidden !important;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1) !important;
+}
+
+
+.jqx-grid-cell-sort {
+    background-color: #e9ecef !important;
+}
+.jqx-grid-cell-sort-alt {
+    background-color: #dee2e6 !important;
+}
+
+.jqx-grid-cell-filter,
+.jqx-grid-cell-filter-alt {
+    background-color: #f1f3f5 !important;
+}
+
+.jqx-grid-cell-pinned,
+.jqx-grid-cell-pinned-alt {
+    background-color: #e9ecef !important;
+}
+
+
+.jqx-grid-pager {
+    background: #e9ecef !important; 
+    border-top: 1px solid #ced4da !important;
+    padding: 4px !important;
+}
+
+.jqx-grid-column-menubutton {
+    opacity: 0.5;
+    transition: opacity 0.2s;
+}
+.jqx-grid-column-menubutton:hover {
+    opacity: 1;
+}
+
+
+.jqx-scrollbar-state-normal {
+    background: #f1f3f5 !important;
+}
+.jqx-scrollbar-thumb-state-normal,
+.jqx-scrollbar-thumb-state-normal-horizontal {
+    background: #868e96 !important; 
+    border-color: #868e96 !important;
+    border-radius: 4px !important;
+}
+.jqx-scrollbar-thumb-state-hover,
+.jqx-scrollbar-thumb-state-hover-horizontal {
+    background: #495057 !important; 
+    border-radius: 4px !important;
+}
+.hidden-scrollbar::-webkit-scrollbar { width: 6px; }
+.hidden-scrollbar::-webkit-scrollbar-thumb { background: #c5d3e0; border-radius: 3px; }
+</style>
 
 <script type="text/javascript">
 	$(document).ready(function () {     
-		  $('#accountWindow').jqxWindow({width: '51%', height: '58%',  maxHeight: '70%' ,maxWidth: '51%' , title: 'Accounts Search',position: { x: 300, y: 87 } , theme: 'energyblue', showCloseButton: true, keyboardCloseKey: 27});
-	      $('#accountWindow').jqxWindow('close');
-		  
-	      $('#nationalityWindow').jqxWindow({width: '25%', height: '61%',  maxHeight: '70%' ,maxWidth: '25%' , title: 'Nation Search',position: { x: 420, y: 87 } , theme: 'energyblue', showCloseButton: true});
-		  $('#nationalityWindow').jqxWindow('close');
-		  
-		  $('#stateWindow').jqxWindow({width: '25%', height: '58%',  maxHeight: '70%' ,maxWidth: '25%' , title: 'State Search',position: { x: 420, y: 87 } , theme: 'energyblue', showCloseButton: true, keyboardCloseKey: 27});
-	 	  $('#stateWindow').jqxWindow('close');
-	 		 
-		  $("#staffdate").jqxDateTimeInput({width : '125px',height : '15px',formatString : "dd.MM.yyyy"});
-		  
-		  $('#txtaccno').dblclick(function(){
-	  	    $('#accountWindow').jqxWindow('open');
-	        var url=document.URL;
-		    var reurl=url.split("com/");
-	  	  		accountSearchContent(reurl[0]+'com/search/accountsearch/accountsEmployee.jsp?dtype='+document.getElementById("formdetailcode").value);
-			 }); 
-		  
-		  document.getElementById("formdet").innerText="Staff(STF)";
-   		  document.getElementById("formdetail").value="Staff";
-   		  document.getElementById("formdetailcode").value="STF";
-   		  window.parent.formCode.value="STF";
-   		  
-		});
+			 
+		 $('#accountWindow').jqxWindow({width: '51%', height: '58%',  maxHeight: '70%' ,maxWidth: '51%' , title: 'Accounts Search',position: { x: 300, y: 87 } , theme: 'energyblue', showCloseButton: true, keyboardCloseKey: 27});
+		 $('#accountWindow').jqxWindow('close');
+		 
+		 $('#nationalityWindow').jqxWindow({width: '25%', height: '61%',  maxHeight: '70%' ,maxWidth: '25%' , title: 'Nation Search',position: { x: 420, y: 87 } , theme: 'energyblue', showCloseButton: true});
+		 $('#nationalityWindow').jqxWindow('close');
+		 
+		 $('#stateWindow').jqxWindow({width: '25%', height: '58%',  maxHeight: '70%' ,maxWidth: '25%' , title: 'State Search',position: { x: 420, y: 87 } , theme: 'energyblue', showCloseButton: true, keyboardCloseKey: 27});
+ 		 $('#stateWindow').jqxWindow('close');
+ 			
+		 $("#staffdate").jqxDateTimeInput({width : '125px', height: 24, formatString : "dd.MM.yyyy", theme: 'energyblue'});
+		 
+         /* force internal alignment AFTER render */
+         setTimeout(function () {
+             $("#staffdate").find("input").css({
+                 "margin-top": "0px",
+                 "line-height": "24px",
+                 "font-size": "12px", 
+                 "font-family": "Arial, sans-serif", 
+                 "padding": "0 6px", 
+                 "box-sizing":"border-box"
+             });
+             $("#staffdate").find(".jqx-action-button").css({
+                 "top": "0px",
+                 "height": "24px"
+             });
+         }, 0);
+
+		 $('#txtaccno').dblclick(function(){
+            openAccountSearch();
+		 }); 
+		 
+		 document.getElementById("formdet").innerText="Staff(STF)";
+   		 document.getElementById("formdetail").value="Staff";
+   		 document.getElementById("formdetailcode").value="STF";
+   		 window.parent.formCode.value="STF";
+   		 window.parent.formName.value="Staff";
+	});
 	
 	 function nationalitySearchContent(url) {
 		    $('#nationalityWindow').jqxWindow('open');
-	  	    $.get(url).done(function (data) {
+	 	    $.get(url).done(function (data) {
 		    $('#nationalityWindow').jqxWindow('setContent', data);
 		    $('#nationalityWindow').jqxWindow('bringToFront');
 		   }); 
-		  }
+	 }
 	 
 	 function stateSearchContent(url) {
 		 	$('#stateWindow').jqxWindow('open');
@@ -49,24 +340,28 @@
 			$('#stateWindow').jqxWindow('setContent', data);
 			$('#stateWindow').jqxWindow('bringToFront');
 		}); 
-		}
+	}
 	 
+     /* Helper to handle SVG click and double clicks uniformly */
+     function openAccountSearch() {
+         $('#accountWindow').jqxWindow('open');
+         var url = document.URL;
+         var reurl = url.split("/com/");
+         accountSearchContent(reurl[0]+'/com/search/accountsearch/accountsEmployee.jsp?dtype='+document.getElementById("formdetailcode").value);
+     }
+
 	function getAcc(event){
 		 var x= event.keyCode;
 		 if(x==114){
-		  $('#accountWindow').jqxWindow('open');
-	      var url=document.URL;
-		  var reurl=url.split("com/");
-	   		accountSearchContent(reurl[0]+'com/search/accountsearch/accountsEmployee.jsp?dtype='+document.getElementById("formdetailcode").value);
+             openAccountSearch();
 		 }
-		 else{}
-		 }
+	 }
 	
 	function accountSearchContent(url) {
 			 $.get(url).done(function (data) {
 			 $('#accountWindow').jqxWindow('setContent', data);
 		}); 
-		}
+	}
 	
 	function funReadOnly(){
 		$('#frmStaff input').attr('readonly', true );
@@ -109,8 +404,8 @@
 		var length=0;
 		for(var i=0 ; i < rows.length ; i++){
 			var chk=rows[i].dob;
-			if(typeof(chk) != "undefined"){
-				length=length+1;
+			if(typeof(chk) != "undefined" && typeof(chk) !== "undefined" && chk != "" &&  chk != null && typeof(chk) != "NaN"){
+				
 				newTextBox = $(document.createElement("input"))
 			    .attr("type", "dil")
 			    .attr("id", "test"+i)
@@ -119,6 +414,7 @@
 		     
 				newTextBox.val(rows[i].hiddob+"::"+rows[i].nation1+"::"+rows[i].mobno+"::"+rows[i].passport_no+"::"+rows[i].hidpassexp+"::"+rows[i].dlno+"::"+rows[i].hidissdate+"::"+rows[i].issfrm+"::"+rows[i].hidled+"::"+rows[i].ltype+"::"+rows[i].visano+"::"+rows[i].hidvisaexp+"::"+rows[i].dr_id);
 		    	newTextBox.appendTo('form');
+		    	length=length+1;
 			   }
 		    }
  		$('#gridlength').val(length);
@@ -127,14 +423,12 @@
 		return 1;		
 	}
 	
-	function funChkButton() {
-		   /* funReset(); */
-		  }
+	function funChkButton() { }
 		  
 	function setValues() {
 		
 			if($('#hidstaffdate').val()){
-				$("#staffdate").jqxDateTimeInput('val', $('#staffdate').val());
+				$("#staffdate").jqxDateTimeInput('val', $('#hidstaffdate').val());
 			  }
 			
 			if($('#msg').val()!=""){
@@ -145,7 +439,7 @@
 			   var code=$('#formdetailcode').val().trim();
 	           var doc=document.getElementById("docno").value;
 	           $('#staffdiv').load("driver2.jsp?docno="+doc+"&dtype="+code);
-	}
+	        }
 		   
 	}
 	
@@ -159,83 +453,100 @@
 	 
 	 $(function(){
 		    $('#frmStaff').validate({
-	            rules: {
-	            code: {required:true,maxlength:10},
-	            name:{required:true,maxlength:40},
-	            txtaccname:{required:true},
-	            mail:{email:true}
-	            },
-	            messages: {
-	             code:{required:" *",maxlength:"Max 10 Chars"},
-	             name:{required:" *",maxlength:"Max 40 Chars"},
-	             txtaccname:{required:" *"},
-	             mail:{email:"Not a valid Email."}
-	             }
+	             rules: {
+	             code: {required:true,maxlength:10},
+	             name:{required:true,maxlength:40},
+	             txtaccname:{required:true},
+	             mail:{email:true}
+	             },
+	             messages: {
+	              code:{required:" *",maxlength:"Max 10 Chars"},
+	              name:{required:" *",maxlength:"Max 40 Chars"},
+	              txtaccname:{required:" *"},
+	              mail:{email:"Not a valid Email."}
+	              }
 	   });});
 	 
 	 function funExcelBtn(){
 		   	if(document.getElementById("docno").value!=""){
-		   		
 		   		$("#jqxDriver").jqxGrid('exportdata', 'xls', 'Staff '+document.getElementById("name").value);	
 		   	} 
 		   	else{
 		   	 $.messager.alert('Warning','Select a valid Document');
 		   	 return false;
 		   	}
-			
 		   }
 </script>
 </head>
-<body onLoad="setValues();"><div id="mainBG" class="homeContent" data-type="background">
-<form id="frmStaff" action="saveActionStaff"  autocomplete="off">
-<jsp:include page="../../../../header.jsp" /><br/> 
-<fieldset>
-<legend>Staff Details</legend>
-<table width="100%">
-  <tr>
-    <td width="5%" align="right">Date</td>
-    <td width="16%"><div id="staffdate" name="staffdate" value='<s:property value="staffdate"/>'></div></td>
-    <td colspan="3" align="right">Doc No.</td>
-    <td width="27%"><input type="text" id="docno" name="docno" value='<s:property value="docno"/>' readonly tabindex="-1"></td>
-  </tr>
-  <tr>
-    <td align="right">Code</td>
-    <td><input type="text" id="code" name="code" placeholder="Code" value='<s:property value="code"/>'/></td>
-    <td width="15%" align="right">Name</td>
-    <td width="33%"><input type="text" name="name" id="name" placeholder="Name" value='<s:property value="name"/>' style="width:81%;" ></td>
-    <td width="4%" align="right">Email</td>
-    <td><input type="email" name="mail" id="mail" style="width:80%;" placeholder="someone@example.com" value='<s:property value="mail"/>'></td>
-  </tr>
-  <tr>
-    <td align="right">Account</td>
-    <td><input type="text" name="txtaccno" id="txtaccno" value='<s:property value="txtaccno"/>' onKeyDown="getAcc(event);" readonly placeholder="Press F3 to Search"></td>
-    <td colspan="4"><input type="text" name="txtaccname" style="width:53%;" id="txtaccname" value='<s:property value="txtaccname"/>' readonly></td>
-  </tr>
-</table>
-</fieldset><br/>
-<div id="staffdiv"><jsp:include page="driver2.jsp"></jsp:include></div>
 
-<input type="hidden" name="hidstaffdate" id="hidstaffdate" value='<s:property value="hidstaffdate"/>'>
-<input type="hidden" name="mode" id="mode" value='<s:property value="mode"/>'>
-<input type="hidden" name="deleted" id="deleted" value='<s:property value="deleted"/>'>
-<input type="hidden" name="gridlength" id="gridlength" value='<s:property value="gridlength"/>'>
-<input type="hidden" name="msg" id="msg" value='<s:property value="msg"/>'>
-<input type="hidden" name="hidacno" id="hidacno" value='<s:property value="hidacno"/>'>
+<body onLoad="setValues();">
+<div id="mainBG" class="homeContent" data-type="background">
+<form id="frmStaff" action="saveActionStaff" autocomplete="off">
+<jsp:include page="../../../../header.jsp" />
+
+    <div class='modern-ui hidden-scrollbar'>
+        
+        <div class="middle-panel">
+            <span class="middle-panel-title">General Info</span>
+            <div class="field-row" style="margin-bottom:0;">
+                <label class="lbl-right" style="width:80px;">Date</label>
+                <div style="width: 125px;">
+                    <div id="staffdate" name="staffdate" value='<s:property value="staffdate"/>'></div>
+                </div>
+
+                <label class="lbl-right" style="width:80px; margin-left:auto;">Doc No.</label>
+                <input type="text" id="docno" name="docno" value='<s:property value="docno"/>' readonly tabindex="-1" style="width:120px;">
+            </div>
+        </div>
+
+        <div class="middle-panel">
+            <span class="middle-panel-title">Staff Details</span>
+
+            <div class="field-row">
+                <label class="lbl-right" style="width:80px;">Code</label>
+                <input type="text" id="code" name="code" placeholder="Code" value='<s:property value="code"/>' style="width:120px;">
+
+                <label class="lbl-right" style="width:80px;">Name</label>
+                <input type="text" name="name" id="name" placeholder="Name" value='<s:property value="name"/>' style="flex:1;">
+            </div>
+            
+            <div class="field-row">
+                <label class="lbl-right" style="width:80px;">Email</label>
+                <input type="email" name="mail" id="mail" placeholder="someone@example.com" value='<s:property value="mail"/>' style="width:250px;">
+            </div>
+            
+            <div class="field-row" style="margin-bottom:0;">
+                <label class="lbl-right" style="width:80px;">Account</label>
+                <div class="input-search-container" style="width: 120px;">
+                    <input type="text" name="txtaccno" id="txtaccno" value='<s:property value="txtaccno"/>' onKeyDown="getAcc(event);" readonly placeholder="Press F3">
+                    <svg class="magnifier-icon" onclick="openAccountSearch();" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                </div>
+                <input type="text" name="txtaccname" id="txtaccname" value='<s:property value="txtaccname"/>' readonly style="flex:1; max-width: 350px;">
+            </div>
+        </div>
+
+        <div class="middle-panel">
+            <span class="middle-panel-title">Details List</span>
+            <div id="staffdiv" class="grid-container">
+                <jsp:include page="driver2.jsp"></jsp:include>
+            </div>
+        </div>
+
+        <div style="display:none;">
+            <input type="hidden" name="hidstaffdate" id="hidstaffdate" value='<s:property value="hidstaffdate"/>'>
+            <input type="hidden" name="mode" id="mode" value='<s:property value="mode"/>'>
+            <input type="hidden" name="deleted" id="deleted" value='<s:property value="deleted"/>'>
+            <input type="hidden" name="gridlength" id="gridlength" value='<s:property value="gridlength"/>'>
+            <input type="hidden" name="msg" id="msg" value='<s:property value="msg"/>'>
+            <input type="hidden" name="hidacno" id="hidacno" value='<s:property value="hidacno"/>'>
+        </div>
+
+        <div id="accountWindow"><div></div></div>
+        <div id="nationalityWindow"><div></div></div>
+        <div id="stateWindow"><div></div></div>
+        
+    </div>
 </form>
-
-<div id="accountWindow">
-	<div ></div>
 </div>
-
-<div id="nationalityWindow">
-   <div></div>
-</div>	
-
-<div id="stateWindow">
-   <div></div>
-</div>
-</div>
-
 </body>
 </html>
-
