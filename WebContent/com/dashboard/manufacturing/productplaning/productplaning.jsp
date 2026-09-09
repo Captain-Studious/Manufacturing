@@ -1,4 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<jsp:include page="../../../../includes.jsp"></jsp:include>    
+<%@ taglib prefix="s" uri="/struts-tags" %>
 <%  String contextPath=request.getContextPath();%>
 <!DOCTYPE html>   
 <html lang="en">
@@ -12,220 +13,259 @@
 <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
 <jsp:include page="../../../../floorMgmtIncludes.jsp"></jsp:include> 
-  <style type="text/css"> 
-   #border1 {
-	  border-radius: 25px;
-	  padding: 8px;
-	  -moz-box-shadow:    inset 0 0 3px #000000;
-      -webkit-box-shadow: inset 0 0 3px #000000;
-      box-shadow:         inset 0 0 3px #000000;   
-    }   
-  .btn-group>.btn:first-child:not(:last-child):not(.dropdown-toggle) {     
-    border-radius: 30px !important;       
-} 
-  .btn:focus,.btn:active {
-   outline: none !important;
-   box-shadow: none;
-   }
-   .modalStyle {      
-    background-color:#33b5e5; 
-    padding: 10px; 
-   }
-   .borderStyle{  
-    margin-bottom: 0;
-    white-space: nowrap;
-    vertical-align: middle;
-    -ms-touch-action: manipulation;
-    touch-action: manipulation;
-    border: none;
-    line-height: 1.42857143;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    box-shadow: 1px 2px 7px 3px #d4cece;                          
-    position: relative;
-   -webkit-transition: all 0.3s;
-   -moz-transition: all 0.3s;
-   transition: all 0.3s;
-  }   
-  .iconStyle{
-	color: #000000 !important;  
-	display: inline-block;
-	border: none;
-	transition: all 0.4s ease 0s;   
-  }
-  .btnStyle{  
-  	display: inline-block;   
-    margin-bottom: 0;
-    font-weight: 400;
-    margin-right:5px;
-    text-align: center;
-    white-space: nowrap;
-    vertical-align: middle;
-    -ms-touch-action: manipulation;
-    touch-action: manipulation;
+
+<style type="text/css"> 
+/* ===== MODERN TOP ACTION BAR ===== */
+.top-action-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+    background: #f8fafc;
+    border: 1px solid #e3e8ee;
+    border-radius: 8px;
+    padding: 12px 15px;
+    margin: 5px 5px 15px 5px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.action-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    background-color: #ffffff;
+    border: 1px solid #ccd6e0;
+    color: #333;
+    padding: 6px 12px;
+    font-size: 13px;
+    font-weight: 500;
+    border-radius: 6px;
+    transition: all 0.2s ease-in-out;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.02);
     cursor: pointer;
-    background-image: none;
-    border: none;
-    padding: 3px 8px;  
+}
+
+.action-btn:hover {
+    background-color: #f0f4f8;
+    border-color: #2563eb;
+    color: #2563eb;
+}
+
+.action-btn i {
     font-size: 14px;
-    line-height: 1.42857143;
-    border-radius: 30px;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    box-shadow: 0px 2px 3px 0.1px rgba(0, 0, 0, 0.6);                     
-    position: relative;
-   -webkit-transition: all 0.3s;
-   -moz-transition: all 0.3s;
-   transition: all 0.3s;
-  }
-   @media (min-width: 900px) {               
-  .modal-xl {
-    width: 100%;  
-   max-width:70%;  
-  }
+}
+
+.action-btn:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
+}
+
+.action-divider {
+    width: 1px;
+    height: 24px;
+    background-color: #ccd6e0;
+    margin: 0 4px;
+}
+
+/* Updated inner buttons (Load Data, Submit, etc) */
+.myButtons, .myButton {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #2563eb;
+    color: #fff;
+    border: none;
+    padding: 6px 16px;
+    font-size: 13px;
+    font-weight: 600;
+    border-radius: 6px;
+    cursor: pointer;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    transition: background 0.2s;
+    text-decoration: none;
+    margin-right: 4px;
+}
+.myButtons:hover, .myButton:hover {
+    background-color: #1d4ed8;
+    color: #fff;
+}
+.myButtons:disabled, .myButton:disabled {
+    background-color: #9ca3af;
+    cursor: not-allowed;
+}
+
+/* Modals & Layout */
+.modalStyle {      
+    background-color:#f4f7f9; 
+    padding: 15px;
+    border-bottom: 1px solid #e1e8ed;
+}
+.borderStyle {  
+    margin-bottom: 0;
+    background: #fff;
+    border: 1px solid #e1e8ed;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+    overflow: hidden;
+}   
+.badge-notify{
+   position:absolute;right:-5px;top:-8px;z-index:2;background-color:red; border-radius:10px; padding:3px 6px; font-size:10px;
 } 
-   .textpanel{
-    color: blue;
-  }   
-    .custompanel{
-      float: left;
-      display: inline-block;
-      margin-top: 0px; 
-      padding-top: 10px;
-      padding-bottom: 0px;
-      border-radius: 8px;
-    }
-    .badge-notify{
-	   position:absolute;right:-5px;top:-8px;z-index:2;background-color:red;
-	} 
-	.comment{
-      background-image: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: #fff;
-      clear:both;
-      float: right;
-      display: block;
-      padding-top: 8px;
-      padding-bottom: 2px;
-      padding-left: 10px;
-      padding-right: 5px;
-      border-radius: 12px;
-      border-top-right-radius: 0;
-      margin-bottom: 8px;
-      transition:all 0.5s ease-in;
-    }
-    .msg-details{
-      text-align: right;
-    }
-    .comments-container{
-      height: 400px;
-      overflow-y: auto;
-      margin-bottom: 8px;
-      padding-right: 5px;
-    }
-    .comments-outer-container{
-      width: 100%;
-      height: 100%;
-    }
-    .msg{
-    	word-break:break-all;
-    }
-    .rowgap{
-    	margin-bottom:6px;
-    }
-    
+.comment{
+  background: #f8fafc;
+  border: 1px solid #e1e8ed;
+  color: #333;
+  clear:both;
+  float: right;
+  display: block;
+  padding-top: 8px;
+  padding-bottom: 2px;
+  padding-left: 10px;
+  padding-right: 5px;
+  border-radius: 12px;
+  border-top-right-radius: 0;
+  margin-bottom: 8px;
+  transition:all 0.5s ease-in;
+}
+.msg-details{
+  text-align: right;
+  font-size: 11px;
+  color: #888;
+}
+.comments-container{
+  height: 400px;
+  overflow-y: auto;
+  margin-bottom: 8px;
+  padding-right: 5px;
+}
+.comments-outer-container{
+  width: 100%;
+  height: 100%;
+}
+.msg{
+    word-break:break-all;
+}
 .select2-selection--single {
     width: 100%;
 }
 .status {
-	color: #FD8725;
-	font-family: comic sans ms;
-	font-size: 15px;
-	font-weight: bold;
+    color: #FD8725;
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    font-size: 15px;
+    font-weight: bold;
+    margin: 0;
 }
-
 #lblclientstatus {
-  -moz-animation-duration: 1s;
-  -moz-animation-name: blink;
-  -moz-animation-iteration-count: infinite;
-  -moz-animation-direction: alternate;
-  
-  -webkit-animation-duration: 1s;
-  -webkit-animation-name: blink;
-  -webkit-animation-iteration-count: infinite;
-  -webkit-animation-direction: alternate;
-  
-  animation-duration: 1s;
-  animation-name: blink;
-  animation-iteration-count: infinite;
-  animation-direction: alternate;
+  animation: blink 1s infinite alternate;
+}
+@keyframes blink {
+  from { opacity: 1; }
+  to { opacity: 0.5; }
 }
 #divname {
-     
-    background-color: #e2c791;
-    box-shadow: 10px 10px grey;
-     position:fixed;z-index:1000;right:30px;top:100px;  
+    background-color: #f8fafc;
+    border: 1px solid #e1e8ed;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    position:fixed; z-index:1000; right:30px; top:100px; padding: 10px;
 }
-  </style>
+.hidden-scrollbar {
+    height: 630px;
+    overflow-x: hidden;
+}
+</style>
 </head>       
 <body onload="getBranch();getLocation();getQualityConfig();">
 <div class='hidden-scrollbar'>                                   
   <div class="container-fluid" >
-    <div class="row" >
+    
+    <div class="row">
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-      <div class="primarypanel custompanel" style="margin-left:5px;">  
-             <div id="border1">           
-	  			<button type="button" class="btn btn-default btnStyle" id="btnsubmit"  data-toggle="tooltip" title="Submit" data-placement="bottom"><i class="fa fa-refresh iconStyle" aria-hidden="true"></i></button>    
-	          	<!-- <button type="button" class="btn btn-default btnStyle" id="btnexcel" data-toggle="tooltip" title="Excel Export" data-placement="bottom"><i class="fa fa-file-excel-o " aria-hidden="true"></i></button> -->    
-            </div>                                    
-	  	 </div>
-	  	 <div class="primarypanel custompanel" style="margin-left:5px;">  
-             <div id="border1">           
-	  			<button type="button" class="btn btn-default btnStyle" id="btnprocess"  data-tooltip="tooltip" title="View BoM" data-placement="bottom"><i class="fa fa-vine " aria-hidden="true"></i></button>
-	        	 <button type="button" class="btn btn-default btnStyle" id="btnstartmarking"  data-tooltip="tooltip" title="Product Start Marking" data-toggle="modal" data-target="#modalstartmarkupdate" data-placement="bottom"><i class="fa fa-calendar-check-o" aria-hidden="true"></i></button>
-                <button type="button" class="btn btn-default btnStyle" id="btnendmarking"  data-tooltip="tooltip" title="Product End Marking" data-toggle="modal" data-target="#modalendmarkupdate" data-placement="bottom"><i class="fa fa-calendar-minus-o" aria-hidden="true"></i></button>
-	        	
-	        	<button type="button" class="btn btn-default btnStyle" id="btnconfirm"  data-tooltip="tooltip" title="Create Batch" data-toggle="modal" data-target="#modalbatchcreation" data-placement="bottom"><i class="fa fa-plus" aria-hidden="true"></i></button>
-	             <button type="button" class="btn btn-default btnStyle" id="btnpreproductiontest"  data-tooltip="tooltip" title="Blend Sheet Creation" data-toggle="modal" data-target="#modalpreproductiontest" data-placement="bottom"><i class="fa fa-check-circle" aria-hidden="true"></i></button>
-	             <button type="button" class="btn btn-default btnStyle" id="btnblensheetprint"  data-tooltip="tooltip" title="Blending Sheet Print" data-placement="bottom"><i class="fa fa-print" aria-hidden="true"></i></button>
-	            <button type="button" class="btn btn-default btnStyle" id="btnmaterialrequest"  data-tooltip="tooltip" title="Material Request" data-toggle="modal" data-target="#modalmaterialrequest" data-placement="bottom"><i class="fa fa-credit-card-alt" aria-hidden="true"></i></button>
-	            <button type="button" class="btn btn-default btnStyle" id="btngoodsissuenote"  data-tooltip="tooltip" title="Material Issue Note" data-toggle="modal" data-target="#modalgoodsissuenote" data-placement="bottom"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
-	            
-	             <button type="button" class="btn btn-default btnStyle" id="btnqualityassuarance"  data-tooltip="tooltip" title="Quality Assuarance" data-toggle="modal" data-target="#modalqualityassuarance" data-placement="bottom"><i class="fa fa-thumbs-up" aria-hidden="true"></i></button>
-                <button type="button" class="btn btn-default btnStyle" id="btnqualityinprocess"  data-tooltip="tooltip" title="Quality In Process" data-toggle="modal" data-target="#modalqualityinprocess" data-placement="bottom"><i class="fa fa-random" aria-hidden="true"></i></button>
-               <button type="button" class="btn btn-default btnStyle" id="btncertificateanalysisprint"  data-tooltip="tooltip" title="Certificate Analysis Print" data-placement="bottom"><i class="fa fa-certificate" aria-hidden="true"></i></button>
-                <button type="button" class="btn btn-default btnStyle" id="btnproductioncomplete"  data-tooltip="tooltip" title="Production Completion" data-toggle="modal" data-target="#modalproductioncompletion" data-placement="bottom"><i class="fa fa-life-ring" aria-hidden="true"></i></button>
-	          <!--   <button type="button" class="btn btn-default btnStyle" id="btntaskmanagement"  data-tooltip="tooltip" title="Update Process" data-placement="bottom"><i class="fa fa-pencil" aria-hidden="true"></i></button> -->
-	            
-	            
-                              
-                          </div>                                    
-	  	 </div>    
-	  	 <div class="primarypanel custompanel" style="margin-left:5px;">  
-             <div id="border1">           
-	  			 <button type="button" class="btn btn-default btnStyle" id="btnattachs" data-toggle="modal" data-target="#modalattach" ><i class="fa fa-download" aria-hidden="true" data-toggle="tooltip" title="Attach" data-placement="bottom"></i></button>
-	            <button type="button" class="btn btn-default btnStyle" id="btncomment"  data-toggle="modal"  data-tooltip="tooltip" title="Comments" data-placement="bottom"><i class="fa fa-comments" aria-hidden="true"></i></button>
-	            <button type="button" class="btn btn-default btnStyle" id="btnsalesman"  data-toggle="modal" data-target="#modalsalesman" data-tooltip="tooltip" title="Date Statistics" data-placement="bottom"><i class="fa fa-bar-chart" aria-hidden="true"></i></button>
-	            <button type="button" class="btn btn-default btnStyle" id="btnclient"  data-toggle="modal" data-target="#modalclient" data-tooltip="tooltip" title="Client Statistics" data-placement="bottom"><i class="fa fa-bar-chart" aria-hidden="true"></i></button>
-	            <button type="button" class="btn btn-default btnStyle" id="btnwork"  data-toggle="modal" data-target="#modalworkorderlog" data-tooltip="tooltip" title="Work Order Log" data-placement="bottom"><i class="fa fa-building" aria-hidden="true"></i></button>
-          </div>                                    
-	  	 </div>
-         <!--  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-3" style="padding-top:0;margin-top:0;padding-bottom:0;margin-bottom:0;">                      
-			<p  style="font-size:75%;margin:0px;padding-top:15px;padding-left:6px;">&nbsp;</p>
-        </div>  -->  
-        <h6 class="modal-title" style="text-align:left"><label class="status" id="lblclientstatushead" name="lblclientstatushead"></label></h6>     
-      </div>
+        <div class="top-action-bar">
             
+            <button type="button" class="action-btn" id="btnsubmit" data-toggle="tooltip" title="Submit/Refresh">
+                <i class="fa fa-refresh"></i> Refresh
+            </button>
+            
+            <div class="action-divider"></div>
+
+            <button type="button" class="action-btn" id="btnprocess" data-tooltip="tooltip" title="View BoM">
+                <i class="fa fa-vine"></i> View BoM
+            </button>
+            <button type="button" class="action-btn" id="btnstartmarking" data-toggle="modal" data-target="#modalstartmarkupdate" title="Product Start Marking">
+                <i class="fa fa-calendar-check-o"></i> Start Mark
+            </button>
+            <button type="button" class="action-btn" id="btnendmarking" data-toggle="modal" data-target="#modalendmarkupdate" title="Product End Marking">
+                <i class="fa fa-calendar-minus-o"></i> End Mark
+            </button>
+            
+            <div class="action-divider"></div>
+
+            <button type="button" class="action-btn" id="btnconfirm" data-toggle="modal" data-target="#modalbatchcreation" title="Create Batch">
+                <i class="fa fa-plus"></i> Create Batch
+            </button>
+            <button type="button" class="action-btn" id="btnpreproductiontest" data-toggle="modal" data-target="#modalpreproductiontest" title="Blend Sheet Creation">
+                <i class="fa fa-check-circle"></i> Blend Sheet
+            </button>
+            <button type="button" class="action-btn" id="btnblensheetprint" title="Blending Sheet Print">
+                <i class="fa fa-print"></i> Print Blend Sheet
+            </button>
+            <button type="button" class="action-btn" id="btnmaterialrequest" data-toggle="modal" data-target="#modalmaterialrequest" title="Material Request">
+                <i class="fa fa-credit-card-alt"></i> Material Req
+            </button>
+            <button type="button" class="action-btn" id="btngoodsissuenote" data-toggle="modal" data-target="#modalgoodsissuenote" title="Material Issue Note">
+                <i class="fa fa-pencil-square-o"></i> Mat. Issue Note
+            </button>
+            <button type="button" class="action-btn" id="btnproductioncomplete" data-toggle="modal" data-target="#modalproductioncompletion" title="Production Completion">
+                <i class="fa fa-life-ring"></i> Prod. Complete
+            </button>
+
+            <div class="action-divider"></div>
+
+            <button type="button" class="action-btn" id="btnqualityinprocess" data-toggle="modal" data-target="#modalqualityinprocess" title="Quality In Process">
+                <i class="fa fa-random"></i> Qty In-Process
+            </button>
+            <button type="button" class="action-btn" id="btnqualityassuarance" data-toggle="modal" data-target="#modalqualityassuarance" title="Quality Assuarance">
+                <i class="fa fa-thumbs-up"></i> Qty Assurance
+            </button>
+            <button type="button" class="action-btn" id="btncertificateanalysisprint" title="Certificate Analysis Print">
+                <i class="fa fa-certificate"></i> Cert. Print
+            </button>
+
+            <div class="action-divider"></div>
+
+            <button type="button" class="action-btn" id="btnattachs" data-toggle="modal" data-target="#modalattach" title="Attach">
+                <i class="fa fa-download"></i> Attach
+            </button>
+            <button type="button" class="action-btn" id="btncomment" data-toggle="modal" title="Comments">
+                <i class="fa fa-comments"></i> Comments
+            </button>
+            <button type="button" class="action-btn" id="btnwork" data-toggle="modal" data-target="#modalworkorderlog" title="Work Order Log">
+                <i class="fa fa-building"></i> WO Log
+            </button>
+            <button type="button" class="action-btn" id="btnsalesman" data-toggle="modal" data-target="#modalsalesman" title="Date Statistics">
+                <i class="fa fa-bar-chart"></i> Date Stats
+            </button>
+            <button type="button" class="action-btn" id="btnclient" data-toggle="modal" data-target="#modalclient" title="Client Statistics">
+                <i class="fa fa-users"></i> Client Stats
+            </button>
+
+            <div style="margin-left: auto;">
+                <label class="status" id="lblclientstatushead" name="lblclientstatushead"></label>
+            </div>
+            
+        </div>
+      </div>
     </div>         
-    <div class="row"  style="padding-top:5px;">      
+    
+    <div class="row" style="padding-top:5px;">      
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">          
         <div id="productdiv" class="borderStyle"><jsp:include page="productGrid.jsp"></jsp:include></div>                     
       </div>
     </div>
-    <div class="row"  style="padding-top:5px;">          
+    
+    <div class="row" style="padding-top:15px;">          
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4">          
         <div id="subdiv" class="borderStyle"><jsp:include page="subGrid.jsp"></jsp:include></div>                     
       </div>
@@ -236,7 +276,7 @@
         <div id="processdiv" class="borderStyle"><jsp:include page="processGrid.jsp"></jsp:include></div>                     
       </div>
     </div>
-     <!-- Comments Modal-->     
+
     <div id="modalcomments" class="modal fade" role="dialog">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -249,26 +289,21 @@
               <div class="comments-container">                
               </div>
               <div class="create-msg-container">
-                <!-- <div class="container-fluid"> -->
                   <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">   
                       <div class="input-group">
                         <input type="text" class="form-control" placeholder="Please Type In" id="txtcomment">
                         <div class="input-group-btn">
-                          <button type="button" id="btncommentsend" class="btn btn-default">
+                          <button type="button" id="btncommentsend" class="btn btn-primary">
                             <i class="fa fa-paper-plane"></i>
                           </button>
                         </div>
                       </div>
                     </div>
                   </div>
-                <!-- </div> -->
               </div>
             </div>
           </div>  
-          <!-- <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          </div> -->
         </div>
       </div>
     </div>
@@ -276,48 +311,46 @@
     <div id="modalstartmarkupdate" class="modal fade" role="dialog">  
       <div class="modal-dialog">
         <div class="modal-content">
-          <div class="modal-header" style="background-color:#CDFDFA">
+          <div class="modal-header modalStyle">
             <button type="button" class="close" data-dismiss="modal">&times;</button>
             <h4 class="modal-title" style="text-align:center">Product Start Marking</h4> 
             <h6 class="modal-title" style="text-align:center"><label class="status" id="lblclientstatus1" name="lblclientstatus1"></label></h6>     
           </div>
           <div class="modal-body">
           <table width="100%" >
-         
           <tr>
-          <td align="right"><label class="branch">Start Time</label></td>
-           <td align="left"><div id="startdate" style="width:17%;" name="startdate" value='<s:property value="startdate"/>'></div></td>
+          <td align="right"><label class="branch" style="padding-right: 15px;">Start Time</label></td>
+           <td align="left"><div id="startdate" style="width:100%; max-width: 200px;" name="startdate" value='<s:property value="startdate"/>'></div></td>
           </tr>
           </table>
           </div>
-          <div class="modal-footer" style="background-color:#CDFDFA">
-          <button type="button" id="btnstartsave" class="btn btn-default" data-dismiss="modal" style="background-color:red;color:yellow">Save</button>
-            <button type="button" class="btn btn-default" data-dismiss="modal" style="background-color:red;color:yellow">Close</button>
+          <div class="modal-footer">
+            <button type="button" id="btnstartsave" class="btn btn-primary" data-dismiss="modal">Save</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
           </div>  
         </div>  
       </div>
     </div>
       
-       <div id="modalendmarkupdate" class="modal fade" role="dialog">  
+    <div id="modalendmarkupdate" class="modal fade" role="dialog">  
       <div class="modal-dialog">
         <div class="modal-content">
-          <div class="modal-header" style="background-color:#CDFDFA">
+          <div class="modal-header modalStyle">
             <button type="button" class="close" data-dismiss="modal">&times;</button>
             <h4 class="modal-title" style="text-align:center">Product End Marking</h4>  
             <h6 class="modal-title" style="text-align:center"><label class="status" id="lblclientstatus2" name="lblclientstatus2"></label></h6>    
           </div>
           <div class="modal-body">
           <table width="100%" >
-         
           <tr>
-          <td align="right"><label class="branch">End Time</label></td>
-           <td align="left"><div id="enddate" style="width:17%;" name="enddate" value='<s:property value="enddate"/>'></div></td>
+          <td align="right"><label class="branch" style="padding-right: 15px;">End Time</label></td>
+           <td align="left"><div id="enddate" style="width:100%; max-width: 200px;" name="enddate" value='<s:property value="enddate"/>'></div></td>
           </tr>
           </table>
           </div>
-          <div class="modal-footer" style="background-color:#CDFDFA">
-          <button type="button" id="btnendsave" class="btn btn-default" data-dismiss="modal" style="background-color:red;color:yellow">Save</button>
-            <button type="button" class="btn btn-default" data-dismiss="modal" style="background-color:red;color:yellow">Close</button>
+          <div class="modal-footer">
+            <button type="button" id="btnendsave" class="btn btn-primary" data-dismiss="modal">Save</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
           </div>  
         </div>  
       </div>
@@ -326,33 +359,30 @@
     <div id="modalbatchcreation" class="modal fade" role="dialog">  
       <div class="modal-dialog">
         <div class="modal-content">
-          <div class="modal-header" style="background-color:#CDFDFA">
+          <div class="modal-header modalStyle">
             <button type="button" class="close" data-dismiss="modal">&times;</button>
             <h4 class="modal-title" style="text-align:center">Batch Creation</h4> 
             <h6 class="modal-title" style="text-align:center"><label class="status" id="lblclientstatus3" name="lblclientstatus3"></label></h6>     
           </div>
           <div class="modal-body">
-          <table width="100%" >
-         
+          <table width="100%" style="border-spacing: 0 10px; border-collapse: separate;">
           <tr>
-          <td align="right"><label class="branch">Batch Date</label></td>
-           <td align="left"><div id="batchdate" style="width:17%;" name="batchdate" value='<s:property value="batchdate"/>'></div></td>
-          <td align="right"><label class="branch">Batch No</label></td>
-           <td align="left"><input type="text" id="batchno" name="batchno" style="width:80%;" onkeypress="javascript:return isNumber(event);" /></td>
-          
+          <td align="right" style="padding-right: 10px;"><label class="branch">Batch Date</label></td>
+           <td align="left"><div id="batchdate" style="width:100%;" name="batchdate" value='<s:property value="batchdate"/>'></div></td>
+          <td align="right" style="padding-right: 10px;"><label class="branch">Batch No</label></td>
+           <td align="left"><input type="text" class="form-control" id="batchno" name="batchno" style="width:100%;" onkeypress="javascript:return isNumber(event);" /></td>
           </tr>
           <tr>
-          <td align="right"><label class="branch">Time</label></td>
-           <td align="left"><div id="batchtime" style="width:17%;" name="batchtime" value='<s:property value="batchtime"/>'></div></td>
-          <td align="right"><label class="branch">Qty</label></td>
-           <td align="left"><input type="text" id="batchqty" name="batchqty" style="width:80%;" onblur="funRoundAmt(this.value,this.id);" onkeypress="javascript:return isNumber (event);" /></td>
-          
+          <td align="right" style="padding-right: 10px;"><label class="branch">Time</label></td>
+           <td align="left"><div id="batchtime" style="width:100%;" name="batchtime" value='<s:property value="batchtime"/>'></div></td>
+          <td align="right" style="padding-right: 10px;"><label class="branch">Qty</label></td>
+           <td align="left"><input type="text" class="form-control" id="batchqty" name="batchqty" style="width:100%;" onblur="funRoundAmt(this.value,this.id);" onkeypress="javascript:return isNumber (event);" /></td>
           </tr>
           </table>
           </div>
-          <div class="modal-footer" style="background-color:#CDFDFA">
-          <button type="button" id="btnbatchsave" class="btn btn-default" data-dismiss="modal" style="background-color:red;color:yellow">Save</button>
-            <button type="button" class="btn btn-default" data-dismiss="modal" style="background-color:red;color:yellow">Close</button>
+          <div class="modal-footer">
+            <button type="button" id="btnbatchsave" class="btn btn-primary" data-dismiss="modal">Save</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
           </div>  
         </div>  
       </div>
@@ -361,205 +391,189 @@
     <div id="modalpreproductiontest" class="modal fade" role="dialog">  
       <div class="modal-dialog modal-lg">
         <div class="modal-content">
-          <div class="modal-header" style="background-color:#CDFDFA">
+          <div class="modal-header modalStyle">
             <button type="button" id="upclosepreprodtest" class="close" data-dismiss="modal">&times;</button>
             <h4 class="modal-title" style="text-align:center">Blend Sheet Creation</h4>
             <h6 class="modal-title" style="text-align:center"><label class="status" id="lblclientstatus4" name="lblclientstatus4"></label></h6>      
           </div>
           <div class="modal-body">
-          <button type="button" id="btnpreprodload" class="btn btn-default" style="background-color:green ;color:yellow;">Load</button>
-          <div id="preproddiv"><jsp:include page="preProductionGrid.jsp"></jsp:include></div>
+          <button type="button" id="btnpreprodload" class="myButton" style="margin-bottom: 10px;">Load</button>
+          <div id="preproddiv" style="border: 1px solid #ccc;"><jsp:include page="preProductionGrid.jsp"></jsp:include></div>
           </div>
-          <div class="modal-footer" style="background-color:#CDFDFA">
-            <button type="button" id="btnpreprodsave" class="btn btn-default" data-dismiss="modal" style="background-color:red;color:yellow">Create Blending Sheet</button>
-            <button type="button" id="downclosepreprodtest" class="btn btn-default" data-dismiss="modal" style="background-color:red;color:yellow">Close</button>
+          <div class="modal-footer">
+            <button type="button" id="btnpreprodsave" class="btn btn-primary" data-dismiss="modal">Create Blending Sheet</button>
+            <button type="button" id="downclosepreprodtest" class="btn btn-default" data-dismiss="modal">Close</button>
           </div>  
         </div>  
       </div>
     </div>  
       
-      <div id="modalmaterialrequest" class="modal fade" role="dialog">  
+    <div id="modalmaterialrequest" class="modal fade" role="dialog">  
       <div class="modal-dialog modal-lg">
         <div class="modal-content">
-          <div class="modal-header" style="background-color:#CDFDFA">
+          <div class="modal-header modalStyle">
             <button type="button" id="upmaterialrequest" class="close" data-dismiss="modal">&times;</button>
             <h4 class="modal-title" style="text-align:center">Material Request</h4> 
             <h6 class="modal-title" style="text-align:center"><label class="status" id="lblclientstatus5" name="lblclientstatus5"></label></h6>     
           </div>
           <div class="modal-body">
-          <button type="button" id="btnmaterialreqload" class="btn btn-default" style="background-color:green ;color:yellow;">Load</button>
-          <div id="materialreqdiv"><jsp:include page="materialRequestGrid.jsp"></jsp:include></div>
+          <button type="button" id="btnmaterialreqload" class="myButton" style="margin-bottom: 10px;">Load</button>
+          <div id="materialreqdiv" style="border: 1px solid #ccc;"><jsp:include page="materialRequestGrid.jsp"></jsp:include></div>
           </div>
-          <div class="modal-footer" style="background-color:#CDFDFA">
-            <button type="button" id="btnmaterialreqsave" class="btn btn-default" data-dismiss="modal" style="background-color:red;color:yellow">Create Material Request</button>
-            <button type="button" id="downmaterialrequest" class="btn btn-default" data-dismiss="modal" style="background-color:red;color:yellow">Close</button>
+          <div class="modal-footer">
+            <button type="button" id="btnmaterialreqsave" class="btn btn-primary" data-dismiss="modal">Create Material Request</button>
+            <button type="button" id="downmaterialrequest" class="btn btn-default" data-dismiss="modal">Close</button>
           </div>  
         </div>  
       </div>
     </div>  
       
-       <div id="modalqualityinprocess" class="modal fade" role="dialog">  
-      <div class="modal-dialog">
+    <div id="modalqualityinprocess" class="modal fade" role="dialog">  
+      <div class="modal-dialog modal-lg">
         <div class="modal-content">
-          <div class="modal-header" style="background-color:#CDFDFA">
+          <div class="modal-header modalStyle">
             <button type="button" id="upqltyinprocess" class="close" data-dismiss="modal">&times;</button>
             <h4 class="modal-title" style="text-align:center">Quality In Process</h4> 
             <h6 class="modal-title" style="text-align:center"><label class="status" id="lblclientstatus10" name="lblclientstatus10"></label></h6>     
           </div>
           <div class="modal-body">
-           <table width="100% "  >
-           <tr>
-          <td><button type="button" id="btnqualityinprocessload" class="btn btn-default" style="background-color:green ;color:yellow;">Load</button></td>
-           <td><input type="button" id="loads" class="myButtons" value="Load Data" onclick="loaddatass()"> </td></tr>
-         <tr><td colspan="2"> <div id="qltyprcsdiv"><jsp:include page="qualityInProcessGrid.jsp"></jsp:include></div></td></tr>
+           <div style="display:flex; gap:10px; margin-bottom: 10px;">
+              <button type="button" id="btnqualityinprocessload" class="myButton">Load</button>
+              <input type="button" id="loads" class="myButton" value="Load Data" onclick="loaddatass()"> 
+           </div>
+           
+           <div id="qltyprcsdiv" style="border: 1px solid #ccc;"><jsp:include page="qualityInProcessGrid.jsp"></jsp:include></div>
           
-           <tr>
-           <td>
-            <div id="divname" hidden="true">
-   <table width="100%" id="prdetails"> 
+           <div id="divname" hidden="true">
+               <table width="100%" id="prdetails" class="table table-bordered"> 
+                   <tr style="height: 25px" bgcolor="#2563eb">  
+                       <td align="center"><font color="#fff"><b>Quantity</b></font></td> 
+                       <td align="center"><font color="#fff"><b>Stock Qty</b></font></td>  
+                       <td align="center"><font color="#fff"><b>Batch No</b></font></td>
+                       <td align="center"><font color="#fff"><b>Expiry Date</b></font></td>
+                       <td align="center" hidden="true"></td> 
+                   </tr>
+                   <tr class="trhideclass1">
+                       <td><input type="text" id="qty1" class="form-control" onchange="chkstocksval(this.value,1)"></td>     
+                       <td><input type="text" tabindex="-1" id="stkqty1" class="form-control"></td> 
+                       <td><input type="text" tabindex="-1" id="bt1" class="form-control"></td>
+                       <td><input type="text" tabindex="-1" id="ed1" class="form-control"></td>
+                       <td><input type="hidden" id="stkid1"></td> 
+                   </tr>
+                   <tr class="trhideclass2">
+                       <td><input type="text" id="qty2" class="form-control" onchange="chkstocksval(this.value,2)"></td>    
+                       <td><input type="text" tabindex="-1" id="stkqty2" class="form-control"></td>   
+                       <td><input type="text" tabindex="-1" id="bt2" class="form-control"></td>
+                       <td><input type="text" tabindex="-1" id="ed2" class="form-control"></td>  
+                       <td><input type="hidden" id="stkid2"></td> 
+                   </tr>
+                   <tr class="trhideclass3">
+                       <td><input type="text" id="qty3" class="form-control" onchange="chkstocksval(this.value,3)"></td>    
+                       <td><input type="text" tabindex="-1" id="stkqty3" class="form-control"></td>    
+                       <td><input type="text" tabindex="-1" id="bt3" class="form-control"></td>
+                       <td><input type="text" tabindex="-1" id="ed3" class="form-control"></td>  
+                       <td><input type="hidden" id="stkid3"></td> 
+                   </tr>
+                   <tr class="trhideclass4">
+                       <td><input type="text" id="qty4" class="form-control" onchange="chkstocksval(this.value,4)"></td>    
+                       <td><input type="text" tabindex="-1" id="stkqty4" class="form-control"></td>   
+                       <td><input type="text" tabindex="-1" id="bt4" class="form-control"></td>
+                       <td><input type="text" tabindex="-1" id="ed4" class="form-control"></td>  
+                       <td><input type="hidden" id="stkid4"></td> 
+                   </tr>
+                   <tr class="trhideclass5">
+                       <td><input type="text" id="qty5" class="form-control" onchange="chkstocksval(this.value,5)"></td>   
+                       <td><input type="text" tabindex="-1" id="stkqty5" class="form-control"></td>   
+                       <td><input type="text" tabindex="-1" id="bt5" class="form-control"></td>
+                       <td><input type="text" tabindex="-1" id="ed5" class="form-control"></td>   
+                       <td><input type="hidden" id="stkid5"></td> 
+                   </tr>
+                   <tr class="trhideclass6">
+                       <td><input type="text" id="qty6" class="form-control" onchange="chkstocksval(this.value,6)"></td>     
+                       <td><input type="text" tabindex="-1" id="stkqty6" class="form-control"></td>  
+                       <td><input type="text" tabindex="-1" id="bt6" class="form-control"></td>
+                       <td><input type="text" tabindex="-1" id="ed6" class="form-control"></td>  
+                       <td><input type="hidden" id="stkid6"></td> 
+                   </tr>
+                   <tr class="trhideclass7">
+                       <td><input type="text" id="qty7" class="form-control" onchange="chkstocksval(this.value,7)"></td>     
+                       <td><input type="text" tabindex="-1" id="stkqty7" class="form-control"></td>  
+                       <td><input type="text" tabindex="-1" id="bt7" class="form-control"></td>
+                       <td><input type="text" tabindex="-1" id="ed7" class="form-control"></td>
+                       <td><input type="hidden" id="stkid7"></td> 
+                   </tr>
+                   <tr class="trhideclass8">
+                       <td><input type="text" id="qty8" class="form-control" onchange="chkstocksval(this.value,8)"></td>     
+                       <td><input type="text" tabindex="-1" id="stkqty8" class="form-control"></td>   
+                       <td><input type="text" tabindex="-1" id="bt8" class="form-control"></td>
+                       <td><input type="text" tabindex="-1" id="ed8" class="form-control"></td>
+                       <td><input type="hidden" id="stkid8"></td> 
+                   </tr>   
+                   <tr class="trhideclass9">
+                       <td><input type="text" id="qty9" class="form-control" onchange="chkstocksval(this.value,9)"></td>     
+                       <td><input type="text" tabindex="-1" id="stkqty9" class="form-control"></td> 
+                       <td><input type="text" tabindex="-1" id="bt9" class="form-control"></td>
+                       <td><input type="text" tabindex="-1" id="ed9" class="form-control"></td>  
+                       <td><input type="hidden" id="stkid9"></td> 
+                   </tr>
+                   <tr class="trhideclass10">
+                       <td><input type="text" id="qty10" class="form-control" onchange="chkstocksval(this.value,10)"></td>    
+                       <td><input type="text" tabindex="-1" id="stkqty10" class="form-control"></td>   
+                       <td><input type="text" tabindex="-1" id="bt10" class="form-control"></td>
+                       <td><input type="text" tabindex="-1" id="ed10" class="form-control"></td>
+                       <td><input type="hidden" id="stkid10"></td> 
+                   </tr>
+                   <tr><td colspan="7" > &nbsp; </td></tr>
+                   <tr> 
+                       <td colspan="7" align="center" style="display:flex; gap:10px; justify-content:center;"> 
+                           <input type="button" name="searchs1" id="searchs1" class="myButton" value="Submit" onclick="chkfocss(1)">
+                           <input type="button" name="searchss1" id="searchss1" class="myButton" style="background:#64748b;" value="Close" onclick="closes()">
+                       </td>
+                   </tr>
+               </table>
+           </div>
    
-   <tr style="height: 25px" bgcolor="#e5ab69">  
-   <td align="center"> <font color="#fff"><b>Quantity</b></font></td> <td  align="center"><font color="#fff"><b>Stock Qty</b></font></td>  <td  align="center"><font color="#fff"><b>Batch No</b></font></td><td  align="center"><font color="#fff"><b>Expiry Date</b></font></td><td  align="center" hidden="true"></td> </tr>
-     <tr  class="trhideclass1">
-   <td > <input type="text" id="qty1" onchange="chkstocksval(this.value,1)" ></td>     <td><input type="text"  tabindex="-1"id="stkqty1"></td> <td><input type="text" tabindex="-1"  id="bt1"></td><td><input type="text" tabindex="-1"  id="ed1"></td><td><input type="hidden" id="stkid1"></td> </tr>
-       <tr class="trhideclass2">
-   <td>  <input type="text" id="qty2" onchange="chkstocksval(this.value,2)"></td>    <td><input type="text"  tabindex="-1"id="stkqty2"></td>   <td><input type="text" tabindex="-1"  id="bt2"></td><td><input type="text" tabindex="-1"  id="ed2"></td>  <td><input type="hidden" id="stkid2"></td> </tr>
-         <tr class="trhideclass3">
-   <td>  <input type="text" id="qty3" onchange="chkstocksval(this.value,3)"></td>    <td><input type="text" tabindex="-1"id="stkqty3"></td>    <td><input type="text" tabindex="-1"  id="bt3"></td><td><input type="text" tabindex="-1"  id="ed3"></td>  <td><input type="hidden" id="stkid3"></td> </tr>
-      <tr class="trhideclass4">
-   <td>  <input type="text" id="qty4" onchange="chkstocksval(this.value,4)"></td>    <td><input type="text" tabindex="-1"  id="stkqty4"></td>   <td><input type="text" tabindex="-1"  id="bt4"></td><td><input type="text" tabindex="-1"  id="ed4"></td>  <td><input type="hidden" id="stkid4"></td> </tr>
-     <tr class="trhideclass5">
-   <td>  <input type="text" id="qty5" onchange="chkstocksval(this.value,5)"></td>   <td><input type="text" tabindex="-1" id="stkqty5"></td>   <td><input type="text" tabindex="-1"  id="bt5"></td><td><input type="text" tabindex="-1"   id="ed5"></td>   <td><input type="hidden" id="stkid5"></td> </tr>
-       <tr class="trhideclass6">
-   <td>  <input type="text" id="qty6" onchange="chkstocksval(this.value,6)"></td>     <td><input type="text" tabindex="-1" id="stkqty6"></td>  <td><input type="text" tabindex="-1"  id="bt6"></td><td><input type="text" tabindex="-1"  id="ed6"></td>  <td><input type="hidden" id="stkid6"></td> </tr>
-      <tr class="trhideclass7">
-   <td>  <input type="text" id="qty7" onchange="chkstocksval(this.value,7)"></td>     <td><input type="text" tabindex="-1" id="stkqty7"></td>  <td><input type="text" tabindex="-1"  id="bt7"></td><td><input type="text" tabindex="-1"  id="ed7"></td><td><input type="hidden" id="stkid7"></td> </tr>
-      <tr class="trhideclass8">
-   <td>  <input type="text" id="qty8" onchange="chkstocksval(this.value,8)"></td>     <td><input type="text" tabindex="-1" id="stkqty8"></td>   <td><input type="text" tabindex="-1"  id="bt8"></td><td><input type="text" tabindex="-1"  id="ed8"></td><td><input type="hidden" id="stkid8"></td> </tr>   <tr>
-  <tr class="trhideclass9">
-   <td>  <input type="text" id="qty9" onchange="chkstocksval(this.value,9)"></td>     <td><input type="text" tabindex="-1" id="stkqty9"></td> <td><input type="text"  tabindex="-1"  id="bt9"></td><td><input type="text" tabindex="-1"  id="ed9"></td>  <td><input type="hidden" id="stkid9"></td> </tr>
-      <tr class="trhideclass10">
-   <td>  <input type="text" id="qty10" onchange="chkstocksval(this.value,10)"></td>    <td><input type="text" tabindex="-1" id="stkqty10"></td>   <td><input type="text" tabindex="-1"  id="bt10"></td><td><input type="text" tabindex="-1"  id="ed10"> </td><td><input type="hidden" id="stkid10"></td> </tr>
-  
-       <tr>  <td colspan="7" > &nbsp; </td></tr>
-  
-  
-   <tr> <td colspan="7" align="center"> 
-   
-    
-      <input type="button" name="searchs1" id="searchs1" class="myButtons" value="Submit"  onclick="chkfocss(1)">
-      
-      
-      
-       <input type="button" name="searchss1" id="searchss1" class="myButton" value="Close" onclick="closes()"  >
-   
-   </td>
-          <tr>  <td > &nbsp; </td> <td > &nbsp; </td> <td > &nbsp; </td> <td > &nbsp; </td> <td > &nbsp; </td> <td > &nbsp; </td> <td > &nbsp; </td></tr>
-   
-   </table>
-   
-   
-   </div>
-   
-   
-<div id="batchdiv"  hidden="true"  ><jsp:include page="batchdet.jsp"></jsp:include></div> 
-           </td>
-           </tr>
-           </table>
+           <div id="batchdiv" hidden="true"><jsp:include page="batchdet.jsp"></jsp:include></div> 
           </div>
-          <div class="modal-footer" style="background-color:#CDFDFA">
-            <button type="button" id="btnqltyinprcssave" class="btn btn-default" data-dismiss="modal" style="background-color:red;color:yellow">Save</button>
-            <button type="button" id="downqltyinprocess" class="btn btn-default" data-dismiss="modal" style="background-color:red;color:yellow">Close</button>
+          <div class="modal-footer">
+            <button type="button" id="btnqltyinprcssave" class="btn btn-primary" data-dismiss="modal">Save</button>
+            <button type="button" id="downqltyinprocess" class="btn btn-default" data-dismiss="modal">Close</button>
           </div>  
         </div>  
       </div>
     </div>  
       
-      <div id="modalgoodsissuenote" class="modal fade" role="dialog">  
+    <div id="modalgoodsissuenote" class="modal fade" role="dialog">  
       <div class="modal-dialog modal-lg">
         <div class="modal-content">
-          <div class="modal-header" style="background-color:#CDFDFA">
+          <div class="modal-header modalStyle">
             <button type="button" id="upmaterialissue" class="close" data-dismiss="modal">&times;</button>
             <h4 class="modal-title" style="text-align:center">Material Issue Note</h4>
            <h6 class="modal-title" style="text-align:center"><label class="status" id="lblclientstatus6" name="lblclientstatus6"></label></h6>
-                     
           </div>
           <div class="modal-body">
-           <table width="100% "  >
-           <tr>
-           <td><button type="button" id="btnGISload" class="btn btn-default" style="background-color:green ;color:yellow;">Load</button></td>
-           <td><input type="button" id="loads" class="myButtons" value="Load Data" onclick="loaddatass()"> </td>
-           </tr>
-           <tr>
-            <td colspan="2"> <div id="gisdiv"><jsp:include page="goodsIssueGrid.jsp"></jsp:include></div></td>
-           </tr>
-           <tr>
-           <td>
-            <div id="divname" hidden="true">
-   <table width="100%" id="prdetails"> 
-   
-   <tr style="height: 25px" bgcolor="#e5ab69">  
-   <td align="center"> <font color="#fff"><b>Quantity</b></font></td> <td  align="center"><font color="#fff"><b>Stock Qty</b></font></td>  <td  align="center"><font color="#fff"><b>Batch No</b></font></td><td  align="center"><font color="#fff"><b>Expiry Date</b></font></td><td  align="center" hidden="true"></td> </tr>
-     <tr  class="trhideclass1">
-   <td > <input type="text" id="qty1" onchange="chkstocksval(this.value,1)" ></td>     <td><input type="text"  tabindex="-1"id="stkqty1"></td> <td><input type="text" tabindex="-1"  id="bt1"></td><td><input type="text" tabindex="-1"  id="ed1"></td><td><input type="hidden" id="stkid1"></td> </tr>
-       <tr class="trhideclass2">
-   <td>  <input type="text" id="qty2" onchange="chkstocksval(this.value,2)"></td>    <td><input type="text"  tabindex="-1"id="stkqty2"></td>   <td><input type="text" tabindex="-1"  id="bt2"></td><td><input type="text" tabindex="-1"  id="ed2"></td>  <td><input type="hidden" id="stkid2"></td> </tr>
-         <tr class="trhideclass3">
-   <td>  <input type="text" id="qty3" onchange="chkstocksval(this.value,3)"></td>    <td><input type="text" tabindex="-1"id="stkqty3"></td>    <td><input type="text" tabindex="-1"  id="bt3"></td><td><input type="text" tabindex="-1"  id="ed3"></td>  <td><input type="hidden" id="stkid3"></td> </tr>
-      <tr class="trhideclass4">
-   <td>  <input type="text" id="qty4" onchange="chkstocksval(this.value,4)"></td>    <td><input type="text" tabindex="-1"  id="stkqty4"></td>   <td><input type="text" tabindex="-1"  id="bt4"></td><td><input type="text" tabindex="-1"  id="ed4"></td>  <td><input type="hidden" id="stkid4"></td> </tr>
-     <tr class="trhideclass5">
-   <td>  <input type="text" id="qty5" onchange="chkstocksval(this.value,5)"></td>   <td><input type="text" tabindex="-1" id="stkqty5"></td>   <td><input type="text" tabindex="-1"  id="bt5"></td><td><input type="text" tabindex="-1"   id="ed5"></td>   <td><input type="hidden" id="stkid5"></td> </tr>
-       <tr class="trhideclass6">
-   <td>  <input type="text" id="qty6" onchange="chkstocksval(this.value,6)"></td>     <td><input type="text" tabindex="-1" id="stkqty6"></td>  <td><input type="text" tabindex="-1"  id="bt6"></td><td><input type="text" tabindex="-1"  id="ed6"></td>  <td><input type="hidden" id="stkid6"></td> </tr>
-      <tr class="trhideclass7">
-   <td>  <input type="text" id="qty7" onchange="chkstocksval(this.value,7)"></td>     <td><input type="text" tabindex="-1" id="stkqty7"></td>  <td><input type="text" tabindex="-1"  id="bt7"></td><td><input type="text" tabindex="-1"  id="ed7"></td><td><input type="hidden" id="stkid7"></td> </tr>
-      <tr class="trhideclass8">
-   <td>  <input type="text" id="qty8" onchange="chkstocksval(this.value,8)"></td>     <td><input type="text" tabindex="-1" id="stkqty8"></td>   <td><input type="text" tabindex="-1"  id="bt8"></td><td><input type="text" tabindex="-1"  id="ed8"></td><td><input type="hidden" id="stkid8"></td> </tr>   <tr>
-  <tr class="trhideclass9">
-   <td>  <input type="text" id="qty9" onchange="chkstocksval(this.value,9)"></td>     <td><input type="text" tabindex="-1" id="stkqty9"></td> <td><input type="text"  tabindex="-1"  id="bt9"></td><td><input type="text" tabindex="-1"  id="ed9"></td>  <td><input type="hidden" id="stkid9"></td> </tr>
-      <tr class="trhideclass10">
-   <td>  <input type="text" id="qty10" onchange="chkstocksval(this.value,10)"></td>    <td><input type="text" tabindex="-1" id="stkqty10"></td>   <td><input type="text" tabindex="-1"  id="bt10"></td><td><input type="text" tabindex="-1"  id="ed10"> </td><td><input type="hidden" id="stkid10"></td> </tr>
-  
-       <tr>  <td colspan="7" > &nbsp; </td></tr>
-  
-  
-   <tr> <td colspan="7" align="center"> 
-   
-    
-      <input type="button" name="searchs1" id="searchs1" class="myButtons" value="Submit"  onclick="chkfocss(2)">
-      
-      
-      
-       <input type="button" name="searchss1" id="searchss1" class="myButton" value="Close" onclick="closes()"  >
-   
-   </td>
-          <tr>  <td > &nbsp; </td> <td > &nbsp; </td> <td > &nbsp; </td> <td > &nbsp; </td> <td > &nbsp; </td> <td > &nbsp; </td> <td > &nbsp; </td></tr>
-   
-   </table>
-   
-   
-   </div>
-   
-   
-<div id="batchdiv"  hidden="true"  ><jsp:include page="batchdet.jsp"></jsp:include></div> 
-           </td>
-           </tr>
-           </table>
-          
-         
+           <div style="display:flex; gap:10px; margin-bottom: 10px;">
+               <button type="button" id="btnGISload" class="myButton">Load</button>
+               <input type="button" id="loads" class="myButton" value="Load Data" onclick="loaddatass()"> 
+           </div>
+           
+           <div id="gisdiv" style="border: 1px solid #ccc;"><jsp:include page="goodsIssueGrid.jsp"></jsp:include></div>
+           
+           <div id="divname" hidden="true">
+               </div>
           </div>
-          <div class="modal-footer" style="background-color:#CDFDFA">
-            <button type="button" id="btnGISsave" class="btn btn-default" data-dismiss="modal" style="background-color:red;color:yellow">Create MIN</button>
-            <button type="button" id="downmaterialissue" class="btn btn-default" data-dismiss="modal" style="background-color:red;color:yellow">Close</button>
+          <div class="modal-footer">
+            <button type="button" id="btnGISsave" class="btn btn-primary" data-dismiss="modal">Create MIN</button>
+            <button type="button" id="downmaterialissue" class="btn btn-default" data-dismiss="modal">Close</button>
           </div>  
         </div>  
       </div>
     </div>  
-       <div id="modalqualityassuarance" class="modal fade" role="dialog">  
+
+    <div id="modalqualityassuarance" class="modal fade" role="dialog">  
       <div class="modal-dialog modal-xl">
         <div class="modal-content">
-          <div class="modal-header" style="background-color:#CDFDFA">
+          <div class="modal-header modalStyle">
             <button type="button" id="upqualityassurance" class="close" data-dismiss="modal">&times;</button>
             <h4 class="modal-title" style="text-align:center">Quality Assuarance</h4> 
             <h6 class="modal-title" style="text-align:center"><label class="status" id="lblclientstatus7" name="lblclientstatus7"></label></h6>     
@@ -567,150 +581,130 @@
           <div class="modal-body">
            <table width="100%">
            <tr>
-           <td  width="20%"><button type="button" id="btnload" class="btn btn-default" style="background-color:green ;color:yellow;">Load</button></td>
-            <td align="right" width="40%" id="finlabel"><label class="branch">Final</label></td>
-           <td align="left" width="40%">
-           <input type="checkbox" id="qaid" name="qaid" onclick="$(this).attr('value', this.checked ? 1 : 0)" />
-           </td>
+               <td width="20%"><button type="button" id="btnload" class="myButton" style="margin-bottom:10px;">Load</button></td>
+               <td align="right" width="40%" id="finlabel"><label class="branch" style="margin-right:10px;">Final</label></td>
+               <td align="left" width="40%">
+                   <input type="checkbox" id="qaid" name="qaid" onclick="$(this).attr('value', this.checked ? 1 : 0)" />
+               </td>
            </tr>
            <tr>
-           <td colspan="3">
-           <div id="qadiv" style="width:100%;"><jsp:include page="qualityAssuaranceGrid.jsp"></jsp:include></div>
-           <div id="qasubdiv"  style="width:100%;"><jsp:include page="qualitysubGrid.jsp"></jsp:include></div>
-           <div id="qaconfdiv"  style="width:100%;"><jsp:include page="qualityConfigGrid.jsp"></jsp:include></div>
-           </td>
+               <td colspan="3">
+                   <div id="qadiv" style="width:100%; border:1px solid #ccc;"><jsp:include page="qualityAssuaranceGrid.jsp"></jsp:include></div>
+                   <div id="qasubdiv" style="width:100%; border:1px solid #ccc;"><jsp:include page="qualitysubGrid.jsp"></jsp:include></div>
+                   <div id="qaconfdiv" style="width:100%; border:1px solid #ccc;"><jsp:include page="qualityConfigGrid.jsp"></jsp:include></div>
+               </td>
            </tr>
            </table>
-          
           </div>
-          <div class="modal-footer" style="background-color:#CDFDFA">
-            <button type="button" id="btnqasave" class="btn btn-default" data-dismiss="modal" style="background-color:red;color:yellow">Save</button>
-            <button type="button" id="downqualityassurance" class="btn btn-default" data-dismiss="modal" style="background-color:red;color:yellow">Close</button>
+          <div class="modal-footer">
+            <button type="button" id="btnqasave" class="btn btn-primary" data-dismiss="modal">Save</button>
+            <button type="button" id="downqualityassurance" class="btn btn-default" data-dismiss="modal">Close</button>
           </div>  
         </div>  
       </div>
     </div>  
       
-   <div id="modalproductioncompletion" class="modal fade" role="dialog">  
+    <div id="modalproductioncompletion" class="modal fade" role="dialog">  
       <div class="modal-dialog modal-xl">
         <div class="modal-content">
-          <div class="modal-header" style="background-color:#CDFDFA">
+          <div class="modal-header modalStyle">
             <button type="button" id="upproduction" class="close" data-dismiss="modal">&times;</button>
             <h4 class="modal-title" style="text-align:center">Production Completion</h4>   
             <h6 class="modal-title" style="text-align:center"><label class="status" id="lblclientstatus8" name="lblclientstatus8"></label></h6>   
           </div>
           <div class="modal-body">
-          <table width="100%" >
-         <tr>
-          <td  width="20%"><button type="button" id="btnlstgridload" class="btn btn-default" style="background-color:green ;color:yellow;">Load</button></td>
-         </tr>
-          <tr>
-         
-          <td> <div id="productiondiv"><jsp:include page="productionCompleteGrid.jsp"></jsp:include></div></td>
+          <button type="button" id="btnlstgridload" class="myButton" style="margin-bottom:10px;">Load</button>
           
-          </tr>
-          <tr><td  width="20%"><button type="button" id="btnCreateMIR" class="btn btn-default" style="background-color:blue ;color:yellow;">Create Material Issue Note Return</button></td></tr>
-          <tr>
-          <td><fieldset>
-          <h4>Production Details</h4>
-          <table width="100%">
-          <tr>
+          <div id="productiondiv" style="border: 1px solid #ccc; margin-bottom:15px;"><jsp:include page="productionCompleteGrid.jsp"></jsp:include></div>
           
-           <td align="left"  width="20%"><label class="branch">Generated Product</label><input type="text" id="genproduct" name="genproduct" style="width:96%;" /></td>
+          <button type="button" id="btnCreateMIR" class="myButton" style="margin-bottom:15px; background-color:#8b5cf6;">Create Material Issue Note Return</button>
           
-           <td align="left" width="5%"><label class="branch">Quantity</label><input type="text" id="genqty" name="genqty" style="width:96%;" onblur="funRoundAmt(this.value,this.id);" onkeypress="javascript:return isNumber (event);"/></td>
-            
-           <td align="left"  width="5%" colspan="2"><label class="branch">Uom</label><input type="text" id="genuom" name="genuom"  style="width:96%;"/></td>
+          <fieldset style="border:1px solid #e1e8ed; padding:15px; border-radius:8px;">
+          <h4 style="margin-top:0; font-size:14px; font-weight:600; color:#333;">Production Details</h4>
+          <table width="100%" style="border-spacing:0 10px; border-collapse:separate;">
+          <tr>
+           <td align="left" width="20%"><label class="branch">Generated Product</label><br><input type="text" class="form-control" id="genproduct" name="genproduct" style="width:96%;" /></td>
+           <td align="left" width="10%"><label class="branch">Quantity</label><br><input type="text" class="form-control" id="genqty" name="genqty" style="width:96%;" onblur="funRoundAmt(this.value,this.id);" onkeypress="javascript:return isNumber (event);"/></td>
+           <td align="left" width="10%" colspan="2"><label class="branch">Uom</label><br><input type="text" class="form-control" id="genuom" name="genuom" style="width:96%;"/></td>
           </tr>
           <tr>
-          
-           <td align="left" width="20%"><label class="branch">Std Production Cost</label><input type="text" id="stdprodcost" style="width:96%;" name="stdprodcost" onblur="funRoundAmt(this.value,this.id);" onkeypress="javascript:return isNumber (event);"  text-align: right;" /></td>
-           
-           <td align="left" width="5%"><label class="branch">Lumpsum</label>
-           <input type="checkbox" id="lmpsm" style="width:96%;" name="lmpsm" onclick="$(this).attr('value', this.checked ? 1 : 0)" />
+           <td align="left" width="20%"><label class="branch">Std Production Cost</label><br><input type="text" class="form-control" id="stdprodcost" style="width:96%;" name="stdprodcost" onblur="funRoundAmt(this.value,this.id);" onkeypress="javascript:return isNumber (event);" /></td>
+           <td align="left" width="10%"><label class="branch">Lumpsum</label><br>
+           <input type="checkbox" id="lmpsm" name="lmpsm" onclick="$(this).attr('value', this.checked ? 1 : 0)" />
            </td>
-          
-		<td width="10%" align="left"><label class="branch">Branch</label><select id="cmbbranch" onclick="getLocation();" name="cmbbranch" style="width:96%;"  value='<s:property value="cmbbranch"/>' > <option value="">--Select--</option></select></div><input type="hidden" id="hidcmbbranch" name="hidcmbbranch" value='<s:property value="hidcmbbranch"/>'/></td>
-		
-	 <td align="left" width="10%"><label class="branch">Location</label><select id="txtlocation" name="txtlocation" style="width:96%;"  value='<s:property value="txtlocation"/>' > <option value="">--Select--</option></select></div><input type="hidden" id="txtlocationid" name="txtlocationid" value='<s:property value="txtlocationid"/>'/></td> 
-  
-          </tr>
-          
-          
-          </table>
-          </fieldset></td>
-         
-          
+		   <td width="20%" align="left"><label class="branch">Branch</label><br><select class="form-control" id="cmbbranch" onclick="getLocation();" name="cmbbranch" style="width:96%;" value='<s:property value="cmbbranch"/>'><option value="">--Select--</option></select><input type="hidden" id="hidcmbbranch" name="hidcmbbranch" value='<s:property value="hidcmbbranch"/>'/></td>
+	       <td align="left" width="20%"><label class="branch">Location</label><br><select class="form-control" id="txtlocation" name="txtlocation" style="width:96%;" value='<s:property value="txtlocation"/>'><option value="">--Select--</option></select><input type="hidden" id="txtlocationid" name="txtlocationid" value='<s:property value="txtlocationid"/>'/></td> 
           </tr>
           </table>
+          </fieldset>
+          
           </div>
-          <div class="modal-footer" style="background-color:#CDFDFA">
-          <button type="button" id="btncompletionsave" class="btn btn-default" data-dismiss="modal" style="background-color:red;color:yellow">Save</button>
-            <button type="button" id="downproduction" class="btn btn-default" data-dismiss="modal" style="background-color:red;color:yellow">Close</button>
+          <div class="modal-footer">
+            <button type="button" id="btncompletionsave" class="btn btn-primary" data-dismiss="modal">Save</button>
+            <button type="button" id="downproduction" class="btn btn-default" data-dismiss="modal">Close</button>
           </div>  
         </div>  
       </div>
     </div> 
        
-       <!-- Comments Modal--> 
-         <!-- Salesman Details Modal-->
-     <div id="modalsalesman" class="modal fade" role="dialog">  
+    <div id="modalsalesman" class="modal fade" role="dialog">  
       <div class="modal-dialog">
         <div class="modal-content">
-          <div class="modal-header" style="background-color:#CDFDFA">
+          <div class="modal-header modalStyle">
             <button type="button" class="close" data-dismiss="modal">&times;</button>
             <h4 class="modal-title" style="text-align:center">Date Statistics</h4>      
           </div>
           <div class="modal-body">
-          <div id="salmdiv"><jsp:include page="salesmanGrid.jsp"></jsp:include></div>
+          <div id="salmdiv" style="border:1px solid #ccc; height:350px;"><jsp:include page="salesmanGrid.jsp"></jsp:include></div>
           </div>
-          <div class="modal-footer" style="background-color:#CDFDFA">
-            <button type="button" class="btn btn-default" data-dismiss="modal" style="background-color:red">Close</button>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
           </div>  
         </div>  
       </div>
     </div>
-    <!-- Salesman Details Modal-->
-        <!-- Client Details Modal-->
+
     <div id="modalclient" class="modal fade" role="dialog">  
       <div class="modal-dialog">
         <div class="modal-content">
-          <div class="modal-header" style="background-color:#CDFDFA">
+          <div class="modal-header modalStyle">
             <button type="button" class="close" data-dismiss="modal">&times;</button>
             <h4 class="modal-title" style="text-align:center">Client Statistics</h4>    
           </div>
           <div class="modal-body">
-          <div id="crmdiv"><jsp:include page="clientGrid.jsp"></jsp:include></div>
+          <div id="crmdiv" style="border:1px solid #ccc; height:350px;"><jsp:include page="clientGrid.jsp"></jsp:include></div>
           </div>
-          <div class="modal-footer" style="background-color:#CDFDFA">
-            <button type="button" class="btn btn-default" data-dismiss="modal" style="background-color:red">Close</button>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
           </div>  
         </div>  
       </div>
     </div>
+    
     <div id="modalworkorderlog" class="modal fade" role="dialog">  
       <div class="modal-dialog">
         <div class="modal-content">
-          <div class="modal-header" style="background-color:#CDFDFA">
+          <div class="modal-header modalStyle">
             <button type="button" class="close" data-dismiss="modal">&times;</button>
             <h4 class="modal-title" style="text-align:center">Workorder Log</h4>  
             <h6 class="modal-title" style="text-align:center"><label class="status" id="lblclientstatus9" name="lblclientstatus9"></label></h6>  
           </div>
           <div class="modal-body">
-          <div id="wrkdiv"><jsp:include page="workOrderLogGrid.jsp"></jsp:include></div>
+          <div id="wrkdiv" style="border:1px solid #ccc; height:350px;"><jsp:include page="workOrderLogGrid.jsp"></jsp:include></div>
           </div>
-          <div class="modal-footer" style="background-color:#CDFDFA">
-            <button type="button" class="btn btn-default" data-dismiss="modal" style="background-color:red">Close</button>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
           </div>  
         </div>  
       </div>
-       <div id="sidesearchwndow">
-	   <div ></div>
-	</div>
     </div>
-   </div>
-    <!-- Client Details Modal-->
-   <div>    <input type="hidden" name="hidbrhid" id="hidbrhid">  
+    
+    <div id="sidesearchwndow">
+	   <div></div>
+	</div>
+
+   <div>    
+       <input type="hidden" name="hidbrhid" id="hidbrhid">  
        <input type="hidden" name="hidvocno" id="hidvocno">
        <input type="hidden" name="hidpsrno" id="hidpsrno"> 
        <input type="hidden" name="hidworkno" id="hidworkno">
@@ -719,29 +713,28 @@
        <input type="hidden" name="hidgisno" id="hidgisno">  
        <input type="hidden" name="hidqualityno" id="hidqualityno">
        <input type="hidden" name="hidgenproduct" id="hidgenproduct">
-        <input type="hidden" name="hidgenqty" id="hidgenqty">
-         <input type="hidden" name="hidgenuom" id="hidgenuom">
-          <input type="hidden" name="hidbatchno" id="hidbatchno">
-           <input type="hidden" name="hidgenuomid" id="hidgenuomid">
-           <input type="hidden" name="hidgenspecid" id="hidgenspecid">
-            <input type="hidden" name="hidbomdoc" id="hidbomdoc">
-             <input type="hidden" name="focvalidate" id="focvalidate">
-              <input type="hidden" name="hidrow" id="hidrow">
-              <input type="hidden" name="hidgispsrno" id="hidgispsrno">
-              <input type="hidden" name="hidgisunit" id="hidgisunit">
-               <input type="hidden" name="hidcomptrno" id="hidcomptrno">
-               <input type="hidden" name="hidcomments" id="hidcomments">
-                <input type="hidden" name="rowindexg" id="rowindexg">
-                 <input type="hidden" name="prdname" id="prdname"> 
-                  <input type="hidden" name="prdname" id="prdname">
-                  <input type="hidden" name="hidsordoc" id="hidsordoc">
-                  <input type="hidden" name="hidDept" id="hidDept">
-                   <input type="hidden" name="hidqltychk" id="hidqltychk">
-                   <input type="hidden" name="hidsorddoc" id="hidsorddoc">
-                   <input type="hidden" name="hidmnpsrno" id="hidmnpsrno">
-            </div>
+       <input type="hidden" name="hidgenqty" id="hidgenqty">
+       <input type="hidden" name="hidgenuom" id="hidgenuom">
+       <input type="hidden" name="hidbatchno" id="hidbatchno">
+       <input type="hidden" name="hidgenuomid" id="hidgenuomid">
+       <input type="hidden" name="hidgenspecid" id="hidgenspecid">
+       <input type="hidden" name="hidbomdoc" id="hidbomdoc">
+       <input type="hidden" name="focvalidate" id="focvalidate">
+       <input type="hidden" name="hidrow" id="hidrow">
+       <input type="hidden" name="hidgispsrno" id="hidgispsrno">
+       <input type="hidden" name="hidgisunit" id="hidgisunit">
+       <input type="hidden" name="hidcomptrno" id="hidcomptrno">
+       <input type="hidden" name="hidcomments" id="hidcomments">
+       <input type="hidden" name="rowindexg" id="rowindexg">
+       <input type="hidden" name="prdname" id="prdname">
+       <input type="hidden" name="hidsordoc" id="hidsordoc">
+       <input type="hidden" name="hidDept" id="hidDept">
+       <input type="hidden" name="hidqltychk" id="hidqltychk">
+       <input type="hidden" name="hidsorddoc" id="hidsorddoc">
+       <input type="hidden" name="hidmnpsrno" id="hidmnpsrno">
+   </div>
 </div>		
-  <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
+
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@7.24.4/dist/sweetalert2.all.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
@@ -752,12 +745,12 @@
     $('[data-tooltip="tooltip"]').tooltip();
     $('#sidesearchwndow').jqxWindow({ width: '55%', height: '92%',  maxHeight: '85%' ,maxWidth: '80%' ,title: 'Product Search ' , position: { x: 300, y: 0 }, keyboardCloseKey: 27});
     $('#sidesearchwndow').jqxWindow('close');
-    $("#batchdate").jqxDateTimeInput({ width: '85px', height: '15px', formatString:"dd.MM.yyyy"});
-    $("#batchtime").jqxDateTimeInput({ width: '85px', height: '15px', formatString: 'HH:mm', showCalendarButton: false ,value: new Date()});
-    $("#startdate").jqxDateTimeInput({ width: '85px', height: '15px', formatString: 'HH:mm', showCalendarButton: false ,value: new Date()});
-    $("#enddate").jqxDateTimeInput({ width: '85px', height: '15px', formatString: 'HH:mm', showCalendarButton: false ,value: new Date()});
-    	 $("body").prepend('<div id="overlay" class="ui-widget-overlay" style="z-index: 1; display: none;"></div>');
-	     $("body").prepend("<div id='PleaseWait' style='display: none;position:absolute; z-index: 1;top:180px;right:550px;'><img src='../../../../icons/31load.gif'/></div>");
+    $("#batchdate").jqxDateTimeInput({ width: '100%', height: '24px', formatString:"dd.MM.yyyy"});
+    $("#batchtime").jqxDateTimeInput({ width: '100%', height: '24px', formatString: 'HH:mm', showCalendarButton: false ,value: new Date()});
+    $("#startdate").jqxDateTimeInput({ width: '100%', height: '24px', formatString: 'HH:mm', showCalendarButton: false ,value: new Date()});
+    $("#enddate").jqxDateTimeInput({ width: '100%', height: '24px', formatString: 'HH:mm', showCalendarButton: false ,value: new Date()});
+    	 $("body").prepend('<div id="overlay" class="ui-widget-overlay" style="z-index: 1000; display: none;"></div>');
+	     $("body").prepend("<div id='PleaseWait' style='display: none;position:absolute; z-index: 1001;top:50%;left:50%;transform:translate(-50%,-50%);'><img src='../../../../icons/31load.gif'/></div>");
     	 $('[data-toggle="tooltip"]').tooltip(); 
     	 $('#btnattachs').click(function(){ 
            	funAttachs(event);      
@@ -779,14 +772,6 @@
              $('#crmdiv').load('clientGrid.jsp?id='+1); 
         });          
         $('#btnexcel').click(function(){         
-	       /*  $("#ppdiv").excelexportjs({
-				containerid: "ppdiv",   
-				datatype: 'json',
-				dataset: null,
-				gridId: "jqxsapGrid",
-				columns: getColumns("jqxsapGrid") ,   
-				worksheetName:"Maintenance Review"       
-			}); */   
         });
         $('#btnblensheetprint').click(function(){        
         	  funPrintBlendsheet(); 
@@ -811,8 +796,6 @@
 				$.messager.alert('Warning','Select a document.');
 				return false;
 			}
-//alert("selectedrows==="+selectedrows.length);
-		
         	if(txtcomment==""){
         		swal({
 					type: 'error',
@@ -827,14 +810,11 @@
           	 getComments();  
            	var rows = $("#jqxpdpGrid").jqxGrid('getrows');
            	var workno=$('#hidworkno').val();
-   			
-
    			if(workno==0){
    				$("#overlay, #PleaseWait").hide();
    				$.messager.alert('Warning','Select a document.');
    				return false;
    			}
-  
      	      	$('#modalcomments').modal('toggle');              
              });
         $('#upqltyinprocess').click(function(){        
@@ -859,129 +839,78 @@
             
           });
         $('#btnendsave').click(function(){        
-    	                    
         	var mark="end";
 	           funMarking(mark); 
-        
         });
         
         $('#btnbatchsave').click(function(){        
-            
         	funbatchcreate();
-        
         });
     
        $('#btnpreprodsave').click(function(){        
-            
         	funpreproductiontest();
-        
         });
      $('#btnpreprodload').click(function(){        
-            
         	funpreprodload();
-        
         });
      
      $('#btnmaterialreqload').click(function(){        
-         
     	 funloadmaterial();
-     
      });
      
  $('#btnmaterialreqsave').click(function(){        
-         
     	 funmaterialreqsave();
-     
      });
 $('#btnGISload').click(function(){        
-         
     	 funloadGIS();
-     
      });
 $('#btnGISsave').click(function(){        
-    
 	 funGISsave();
-
 });
 $('#btnqasave').click(function(){        
-    
 	 funQualitySave();
-
 });
-
 $('#btnlstgridload').click(function(){        
-    
 	 funLoadCompleteGrid();
-
 });
-
 $('#btncompletionsave').click(function(){        
-    
 	 funCompletionSave();
-
 });
-
 $('#btnCreateMIR').click(function(){        
-    
 	funCreateMIR();
-
 });
-
 $('#btnprocess').click(function(){        
-    
 	funbom();
-
 });
-
 $('#upclosepreprodtest').click(function(){        
-    
 	funclose();
-
 });
 $('#downclosepreprodtest').click(function(){        
-    
 	funclose();
-
 });
 $('#downmaterialrequest').click(function(){        
-    
 	funclose();
-
 });
 $('#upmaterialrequest').click(function(){        
-    
 	funclose();
-
 });
 $('#downmaterialissue').click(function(){        
-    
 	funclose();
-
 });
 $('#upmaterialissue').click(function(){        
-    
 	funclose();
-
 });
 $('#upqualityassurance').click(function(){        
-    
 	funclose();
-
 });
 $('#downqualityassurance').click(function(){        
-    
 	funclose();
-
 });
 $('#downproduction').click(function(){        
-    
 	funclose();
-
 });
 $('#upproduction').click(function(){        
-    
 	funclose();
-
 });
        $('.warningpanel div button').click(function(){
         	var gridrows=$('#jqxsapGrid').jqxGrid('getrows');
@@ -1007,9 +936,7 @@ $('#upproduction').click(function(){
 		var x = new XMLHttpRequest();
 		x.onreadystatechange = function() {
 			if (x.readyState == 4 && x.status == 200) {
-				 
 				 var items= x.responseText.trim();
-				 //alert("items===="+items);
 			       if(parseFloat(items)==1){
 			    	   $('#finlabel').hide();
 			    	   $('#qaid').hide();
@@ -1031,12 +958,9 @@ $('#upproduction').click(function(){
 	}
     
     function productSearchContent(url) {
-      	 //alert(url);
       		 $.get(url).done(function (data) {
-      			 
       			 $('#sidesearchwndow').jqxWindow('open');
-      		$('#sidesearchwndow').jqxWindow('setContent', data);
-      
+      		     $('#sidesearchwndow').jqxWindow('setContent', data);
       	}); 
       	} 
     
@@ -1055,11 +979,9 @@ $('#upproduction').click(function(){
    	var workno=$('#hidworkno').val();
 		if(workno==0){
 			$("#overlay, #PleaseWait").hide();
-			//$.messager.alert('Warning','Select a document.');
 			return false;
 		}
 
-		
 			var x=new XMLHttpRequest();
 			x.onreadystatechange=function(){
 				if (x.readyState==4 && x.status==200)
@@ -1068,28 +990,18 @@ $('#upproduction').click(function(){
 					$('#txtcomment').val(''); 
 					getComments(); 		
 				}
-				else
-				{
-				}
 			}
 			x.open("GET","saveComment.jsp?comment="+encodeURIComponent($('#hidcomments').val())+"&enqno="+workno,true);
 			x.send();
-		
-    	
     }
     function getComments(){
     	var rows = $("#jqxpdpGrid").jqxGrid('getrows');
     	var workno=$('#hidworkno').val();
-	
 
 		if(workno==0){
 			$("#overlay, #PleaseWait").hide();
-			//$.messager.alert('Warning','Select a document.');
 			return false;
 		}
-//alert("selectedrows==="+selectedrows.length);
-	
-	
 		
 			var x=new XMLHttpRequest();
 			x.onreadystatechange=function(){
@@ -1104,14 +1016,9 @@ $('#upproduction').click(function(){
 					$('.comments-container').html($.parseHTML(str));		
 					}else{}	
 				}   
-				else
-				{
-				}
 			}
 			x.open("GET","getComments.jsp?enqno="+workno,true);
 			x.send(); 
-		
-    	
     }
     
     function funPrintBlendsheet(){
@@ -1165,11 +1072,9 @@ $('#upproduction').click(function(){
     	var rows="0",chkrowlength=0;
     	var workno=$('#hidworkno').val();
     	
-    	 
-    	
     	var temp=$('#qaid').val();
     	var temp2=$('#hidqltychk').val();
-   	 var psrno=$('#hidpsrno').val();
+   	    var psrno=$('#hidpsrno').val();
     	if(parseInt(temp2)==1){
     		 $("#jqxqacnfGrid").jqxGrid('clearfilters',true);
     		rows = $("#jqxqacnfGrid").jqxGrid('getrows');
@@ -1201,7 +1106,6 @@ $('#upproduction').click(function(){
 			else
 			{
 			$("#overlay, #PleaseWait").show();
-			//$("#jqxbomGrid").jqxGrid('clear');
 			var i=0;var temptrno="";           
 			var j=0;
 			var tmpcount=rows.length;
@@ -1237,7 +1141,6 @@ $('#upproduction').click(function(){
 				
 			}
 			savequality(blndArray);
-				//alert("productarray=="+prdtArray+"==size=="+prdtArray.length);
 			}
 			});
     }
@@ -1248,7 +1151,6 @@ $('#upproduction').click(function(){
     	var rows = $("#jqxpreProdGrid").jqxGrid('getrows');
     	var blndno=$('#hidblendsheetno').val();
     	
-    	//alert("blndno=="+blndno);
     	if(parseInt(blndno)>0){
     		$.messager.alert('Warning','Blending Sheet Already Created.');
     		return false;
@@ -1275,7 +1177,6 @@ $('#upproduction').click(function(){
             
             var chkpsrno=rows[i].psrno;
             var blndqty=rows[i].worder;
-           // alert("qty==="+blndqty);
             if(!(typeof(chkpsrno)==="undefined" || chkpsrno==null || chkpsrno=="")){
                        
             	blndArray.push(rows[i].psrno+" :: "+rows[i].uomid+" :: "+rows[i].qty+" :: "+workno+" :: "+rows[i].qtykg+" :: "+rows[i].stdper+" :: ");
@@ -1283,7 +1184,6 @@ $('#upproduction').click(function(){
 				
 			}
 			saveblendingsheet(blndArray);
-				//alert("productarray=="+prdtArray+"==size=="+prdtArray.length);
 			}
 			});
     }
@@ -1304,8 +1204,6 @@ $('#upproduction').click(function(){
   				if(parseInt(method)>0)  
   				{	
   					$("#overlay, #PleaseWait").hide();
-  				//	$('#hidblendsheetno').val(aa);
-  				//	funloadbom();
   				$.messager.alert('Message', '  Quality Assuarance '+aa+' Successfully Created ');
   			    funclose();
   				
@@ -1327,10 +1225,7 @@ $('#upproduction').click(function(){
     	var workno=$('#hidworkno').val();
     	 var psrno=$('#hidpsrno').val();
     	 var blndno=$('#hidblendsheetno').val();
-     	/* if(parseInt(blndno)>0){
-     		$.messager.alert('Warning','Blending Sheet Already Created.');
-     		return false;
-     	} */
+     	
     	 var x=new XMLHttpRequest();
    		x.onreadystatechange=function(){
    		if (x.readyState==4 && x.status==200){
@@ -1365,11 +1260,6 @@ $('#upproduction').click(function(){
    	 var blndno=$('#hidblendsheetno').val();
    	 var qty=$('#batchqty').val();
    	 var workno=$('#hidworkno').val();
-    //	alert("blndno=="+blndno);
-    	/* if(parseInt(blndno)>0){
-    		$.messager.alert('Warning','Blending Sheet Already Created.');
-    		return false;
-    	} */
    	$('#qltyprcsdiv').load("qualityInProcessGrid.jsp?id="+1+"&docno="+workno);
    	
    }
@@ -1378,23 +1268,16 @@ $('#upproduction').click(function(){
     	 var blndno=$('#hidblendsheetno').val();
     	 var qty=$('#batchqty').val();
     	 var workno=$('#hidworkno').val();
-     //	alert("blndno=="+blndno);
-     	/* if(parseInt(blndno)>0){
-     		$.messager.alert('Warning','Blending Sheet Already Created.');
-     		return false;
-     	} */
     	$('#preproddiv').load("preProductionGrid.jsp?id="+1+"&docno="+psrno+"&wqty="+qty+"&wono="+workno);
     	
     }
     function funloadbom(){
-    	//alert("bomdoc==="+aa);
     	var workno=$('#hidworkno').val();
     	var qty=$('#batchqty').val();
     	var blndno=$('#hidblendsheetno').val();
     	$('#bomdiv').load("bomGrid.jsp?id="+1+"&docno="+workno+"&cond="+2+"&wqty="+qty+"&blndno="+blndno);
     }
     function funloadmaterial(){
-    	//alert("bomdoc==="+aa);
     	var workno=$('#hidworkno').val();
     	var blndno=$('#hidblendsheetno').val();
     	var mrno=$('#hidmaterialrequestno').val();
@@ -1426,13 +1309,11 @@ $('#upproduction').click(function(){
     }
     
     function funloadGIS(){
-    	//alert("bomdoc==="+aa);
     	var workno=$('#hidworkno').val();
     	var mrno=$('#hidmaterialrequestno').val();
     	var gisno=$('#hidgisno').val();
     	var blndno=$('#hidblendsheetno').val();
     	var cond=0;
-    	//alert("Minnos==="+gisno);
     	if(parseInt(gisno)>0){
     		$.messager.alert('Warning','MIN Already Created.');
 			return false;
@@ -1466,7 +1347,6 @@ $('#upproduction').click(function(){
 			else
 			{
 			$("#overlay, #PleaseWait").show();
-			//$("#jqxbomGrid").jqxGrid('clear');
 			var i=0;var temptrno="";           
 			var j=0;
 			var tmpcount=rows.length;
@@ -1474,15 +1354,12 @@ $('#upproduction').click(function(){
 			for (i = 0; i < rows.length; i++) {
             
             var chkpsrno=rows[i].psrno;
-          //  var blndqty=rows[i].worder;
-           // alert("qty==="+blndqty);
             if(!(typeof(chkpsrno)==="undefined" || chkpsrno==null || chkpsrno=="")){
             	
             	blndArray.push(rows[i].psrno+" :: "+rows[i].psrno+" :: "+rows[i].uomid+" :: "+rows[i].qty.toFixed(2)+" :: "+"0"+" :: "+"0"+" :: "+rows[i].specid+" :: "+"0"+" :: "+"0"+" :: "+"0"+" :: "+rows[i].stockid+" :: "+"0"+" :: ");
             }
 				
 			}
-			//alert("productarray=="+blndArray+"==size=="+blndArray.length);
 			saveGIS(blndArray);
 				
 			}
@@ -1509,7 +1386,6 @@ $('#upproduction').click(function(){
 			else
 			{
 			$("#overlay, #PleaseWait").show();
-			//$("#jqxbomGrid").jqxGrid('clear');
 			var i=0;var temptrno="";           
 			var j=0;
 			var tmpcount=rows.length;
@@ -1517,15 +1393,12 @@ $('#upproduction').click(function(){
 			for (i = 0; i < rows.length; i++) {
             
             var issqty=rows[i].tobeissued;
-          //  var blndqty=rows[i].worder;
-           // alert("qty==="+blndqty);
             if(!(typeof(issqty)==="undefined" || issqty==null || issqty=="")){
             	
             	blndArray.push(rows[i].psrno+" :: "+rows[i].psrno+" :: "+rows[i].uomid+" :: "+rows[i].tobeissued.toFixed(2)+" :: "+"0"+" :: "+"0"+" :: "+rows[i].specid+" :: "+"0"+" :: "+"0"+" :: "+"0"+" :: "+rows[i].stockid+" :: "+"0"+" :: ");
             }
 				
 			}
-			//alert("productarray=="+blndArray+"==size=="+blndArray.length);
 			saveGIS(blndArray);
 				
 			}
@@ -1556,7 +1429,6 @@ $('#upproduction').click(function(){
 			else
 			{
 			$("#overlay, #PleaseWait").show();
-			//$("#jqxbomGrid").jqxGrid('clear');
 			var i=0;var temptrno="";           
 			var j=0;
 			var tmpcount=rows.length;
@@ -1565,8 +1437,6 @@ $('#upproduction').click(function(){
             
             var chkpsrno=rows[i].psrno;
             var chkqty=rows[i].retqty;
-          //  var blndqty=rows[i].worder;
-           // alert("qty==="+blndqty);
             if(!(typeof(chkpsrno)==="undefined" || chkpsrno==null || chkpsrno=="")){
             	if(parseInt(chkqty)>0){
             	blndArray.push(rows[i].psrno+" :: "+rows[i].psrno+" :: "+rows[i].uomid+" :: "+rows[i].retqty.toFixed(2)+" :: "+"0"+" :: "+"0"+" :: "+rows[i].specid+" :: "+"0"+" :: "+"0"+" :: "+"0"+" :: "+"0"+" :: "+gis+" :: "+"0"+" :: "+rows[i].batch_no)
@@ -1574,7 +1444,6 @@ $('#upproduction').click(function(){
             }
 				
 			}
-			//alert("productarray=="+blndArray+"==size=="+blndArray.length);
 			saveMIR(blndArray);
 				
 			}
@@ -1598,14 +1467,8 @@ $('#upproduction').click(function(){
   				if(parseInt(method)>0)  
   				{	
   					$("#overlay, #PleaseWait").hide();
-  					//$('#hidblendsheetno').val(aa);
-  					//funloadbom();
-  					
   						$.messager.alert('Message', '  Material Issue Note Return'+aa+' Successfully Created ');
   						funLoadCompleteGrid();
-  					// funclose();
-  			    
-  				
   				}
   				else
   				{
@@ -1639,8 +1502,6 @@ $('#upproduction').click(function(){
   				if(parseInt(method)>0)  
   				{	
   					$("#overlay, #PleaseWait").hide();
-  					//$('#hidblendsheetno').val(aa);
-  					//funloadbom();
   					if(parseInt(method)==2){
   						$.messager.alert('Message', ' Product -'+name+'- Not In Stock ');
   					}else{
@@ -1685,7 +1546,6 @@ $('#upproduction').click(function(){
 			else
 			{
 			$("#overlay, #PleaseWait").show();
-			//$("#jqxbomGrid").jqxGrid('clear');
 			var i=0;var temptrno="";           
 			var j=0;
 			var tmpcount=rows.length;
@@ -1693,15 +1553,12 @@ $('#upproduction').click(function(){
 			for (i = 0; i < rows.length; i++) {
             
             var chkpsrno=rows[i].psrno;
-          //  var blndqty=rows[i].worder;
-           // alert("qty==="+blndqty);
             if(!(typeof(chkpsrno)==="undefined" || chkpsrno==null || chkpsrno=="")){
             	
             	blndArray.push(rows[i].psrno+" :: "+rows[i].psrno+" :: "+rows[i].uomid+" :: "+rows[i].qty.toFixed(2)+" :: "+"0"+" :: "+"0"+" :: "+rows[i].specid+" :: "+"0"+" :: "+"0"+" :: "+"0"+" :: " );
             }
 				
 			}
-			//alert("productarray=="+blndArray+"==size=="+blndArray.length);
 			savematerialrequest(blndArray);
 				
 			}
@@ -1723,8 +1580,6 @@ $('#upproduction').click(function(){
   				if(parseInt(method)>0)  
   				{	
   					$("#overlay, #PleaseWait").hide();
-  					//$('#hidblendsheetno').val(aa);
-  					//funloadbom();
   				$.messager.alert('Message', '  Material Request '+aa+' Successfully Created ');
   				 funclose();
   				
@@ -1792,7 +1647,6 @@ $('#upproduction').click(function(){
     	   var branch=$('#cmbbranch').val();
     	   var locm=$('#txtlocation').val();
     	   var sorddoc=$('#hidsorddoc').val();
-    	   //alert("branch=="+branch+"===location=="+locm);
        	 if(parseInt(trno)>0){
        		$.messager.alert('Warning','Production Already Completed.');
        		return false;
@@ -1844,14 +1698,10 @@ $('#upproduction').click(function(){
     function addGridFilters(id,filtervalue,datafield,filtertype,filtercondition){   
     	var filtergroup = new $.jqx.filter();
     	var filter_or_operator = 1;
-    	    //var filtercondition = 'contains';
 	    	var filter1 = filtergroup.createfilter(filtertype, filtervalue, filtercondition);
 	
 	    	filtergroup.addfilter(filter_or_operator, filter1);
-	    	//filtergroup.addfilter(filter_or_operator, filter2);
-	    	// add the filters.
 	    	$("#jqxsapGrid").jqxGrid('addfilter', datafield, filtergroup);
-	    	// apply the filters.
 	    	$("#jqxsapGrid").jqxGrid('applyfilters');     
     	
  	}
@@ -1859,11 +1709,8 @@ $('#upproduction').click(function(){
         var iKeyCode = (evt.which) ? evt.which : evt.keyCode
         if (iKeyCode != 46 && iKeyCode >> 31 && (iKeyCode << 48 || iKeyCode >> 57))
         	{
-     	  // document.getElementById("errormsg").innerText=" Enter Numbers Only";  
-           
             return false;
         	}
-       // document.getElementById("errormsg").innerText="";  
         return true;
     }
     function funRoundAmt(value,id){
@@ -1875,11 +1722,6 @@ $('#upproduction').click(function(){
     	var psrno=$('#hidpsrno').val();
     	var quality=$('#hidqualityno').val();
     	var finalval=$('#qaid').val();
-    	/* if(parseInt(quality)>0){
-    		$.messager.alert('Warning','Quality Assuarance Already Created.');
-    		return false;
-    	} */
-    	//alert("final===="+finalval);
     	var qlty=$('#hidqltychk').val();
     	if(parseInt(qlty)==1){
     		 $('#qaconfdiv').load("qualityConfigGrid.jsp?id="+finalval+"&docno="+psrno+"&chk="+1);
@@ -1913,7 +1755,6 @@ $('#upproduction').click(function(){
 	   if(mark=="end"){
 		   markdate=$('#enddate').val();
 	   }
-	  // alert("mark==="+mark);
 	   var x=new XMLHttpRequest();
 		x.onreadystatechange=function(){
 		if (x.readyState==4 && x.status==200){
@@ -1944,29 +1785,18 @@ $('#upproduction').click(function(){
 		x.onreadystatechange = function() {
 			if (x.readyState == 4 && x.status == 200) {
 				var items = x.responseText;
-			//alert(items);
 				items = items.split('####');
 				
 				var branchIdItems  = items[0].split(",");
 				var branchItems = items[1].split(",");
 				var perm = items[2];  
 				var optionsbranch;
-				/* if(perm==0){
-				 optionsbranch = '<option value="a" selected>All</option>';
-				}
-				else{    
-					
-				} */
 				for (var i = 0; i < branchItems.length; i++) {
 					optionsbranch += '<option value="' + branchIdItems[i].trim() + '">'
 							+ branchItems[i] + '</option>';
 				}
 				$("select#cmbbranch").html(optionsbranch);
-				/* if ($('#hidcmbbranch').val() != null) {
-					$('#cmbbranch').val($('#hidcmbbranch').val());
-				} */
 			} else {
-				//alert("Error");
 			}  
 		}
 		x.open("GET","<%=contextPath%>/com/dashboard/getBranch.jsp", true);
@@ -1978,29 +1808,18 @@ $('#upproduction').click(function(){
 		x.onreadystatechange = function() {
 			if (x.readyState == 4 && x.status == 200) {
 				var items = x.responseText;
-			//alert(items);
 				items = items.split('####');
 				
 				var branchIdItems  = items[0].split(",");
 				var branchItems = items[1].split(",");
 				var perm = items[2];  
 				var optionsbranch;
-				/* if(perm==0){
-				 optionsbranch = '<option value="a" selected>All</option>';
-				}
-				else{    
-					
-				} */
 				for (var i = 0; i < branchItems.length; i++) {
 					optionsbranch += '<option value="' + branchIdItems[i].trim() + '">'
 							+ branchItems[i] + '</option>';
 				}
 				$("select#txtlocation").html(optionsbranch);
-				/* if ($('#hidcmbbranch').val() != null) {
-					$('#cmbbranch').val($('#hidcmbbranch').val());
-				} */
 			} else {
-				//alert("Error");
 			}  
 		}
 		x.open("GET","searchlocation.jsp?branch="+brhid, true);
@@ -2018,7 +1837,6 @@ $('#upproduction').click(function(){
 			}
 
 			    var workno=$('#hidworkno').val();
-				//var type= $('#jqxpdpGrid').jqxGrid('getcellvalue', selectedrows[i], "otype");
 				var frmdet="";
 	   			var fname="";
 			
@@ -2033,14 +1851,6 @@ $('#upproduction').click(function(){
    function funbom()
    {
    	var doc=$('#hidbomdoc').val();
-   	/*  var barchval = document.getElementById("cmbbranch").value;
-   		if(barchval=="a" || barchval=="")
-   			{
-   			  $.messager.alert('Message','Branch is mandatory  ','warning');   
-   				 
-   			   return false;
-   			} */
-   	
       var url=document.URL;
    	var reurl=url.split("com/");
    	var mod="view";
@@ -2069,6 +1879,7 @@ $('#upproduction').click(function(){
 		 
 		  var temppsrno=document.getElementById("hidgispsrno").value; 
 		 var unit=document.getElementById("hidgisunit").value; 
+		 var brhid=document.getElementById("hidbrhid").value; 
 		 var temptrno=""; 
 		 
 		 if(temppsrno==""){
@@ -2079,7 +1890,7 @@ $('#upproduction').click(function(){
 		 
 
      	  
- 		var rows1 = $("#jqxgisGrid").jqxGrid('getrows');
+ 		var rows1 = $("#jqxthirdGrid").jqxGrid('getrows');
 	    var aa=0;
 	   
 	
@@ -2087,7 +1898,7 @@ $('#upproduction').click(function(){
    	 
 		 
 		 
- 		 $("#batchdiv").load('batchdet.jsp?psrno='+temppsrno+'&unit='+unit+'&temptrno='+temptrno+'&tempchk='+tempchk+"&aa=YES");
+ 		 $("#batchdiv").load('batchdet.jsp?psrno='+temppsrno+'&unit='+unit+'&temptrno='+temptrno+'&tempchk='+tempchk+"&aa=YES"+"&brhid="+brhid);
  		  setTimeout(function() {
  		     loaddatass1();
  		  }, 1000);
@@ -2096,91 +1907,81 @@ $('#upproduction').click(function(){
 	 {
 		 
 		 document.getElementById("qty1").value="";
-		 //document.getElementById("foc1").value="";
 		 document.getElementById("stkqty1").value="";
 		 document.getElementById("bt1").value="";
 		 document.getElementById("ed1").value="";
 		 document.getElementById("stkid1").value="";
+		 document.getElementById("dsc1").value="";
 		 
 		 document.getElementById("qty2").value="";
-		 //document.getElementById("foc2").value="";
 		 document.getElementById("stkqty2").value="";
 		 document.getElementById("bt2").value="";
 		 document.getElementById("ed2").value="";
 		 document.getElementById("stkid2").value="";
-		 
+		 document.getElementById("dsc2").value="";
 		 
 		 document.getElementById("qty3").value="";
-		// document.getElementById("foc3").value="";
 		 document.getElementById("stkqty3").value="";
 		 document.getElementById("bt3").value="";
 		 document.getElementById("ed3").value="";
 		 document.getElementById("stkid3").value="";
-		 
+		 document.getElementById("dsc3").value="";
 		 
 		 document.getElementById("qty4").value="";
-		// document.getElementById("foc4").value="";
 		 document.getElementById("stkqty4").value="";
 		 document.getElementById("bt4").value="";
 		 document.getElementById("ed4").value="";
 		 document.getElementById("stkid4").value="";
-		 
+		 document.getElementById("dsc4").value="";
 		 
 		 
 		 document.getElementById("qty5").value="";
-		// document.getElementById("foc5").value="";
 		 document.getElementById("stkqty5").value="";
 		 document.getElementById("bt5").value="";
 		 document.getElementById("ed5").value="";
 		 document.getElementById("stkid5").value="";
-		 
+		 document.getElementById("dsc5").value="";
 		 
 		 
 		 document.getElementById("qty6").value="";
-		// document.getElementById("foc6").value="";
 		 document.getElementById("stkqty6").value="";
 		 document.getElementById("bt6").value="";
 		 document.getElementById("ed6").value="";
 		 document.getElementById("stkid6").value="";
-		 
+		 document.getElementById("dsc6").value="";
 		 
 		 
 		 document.getElementById("qty7").value="";
-		// document.getElementById("foc7").value="";
 		 document.getElementById("stkqty7").value="";
 		 document.getElementById("bt7").value="";
 		 document.getElementById("ed7").value="";
 		 document.getElementById("stkid7").value="";
-		 
+		 document.getElementById("dsc7").value="";
 		 
 		 
 		 document.getElementById("qty8").value="";
-		 //document.getElementById("foc8").value="";
 		 document.getElementById("stkqty8").value="";
 		 document.getElementById("bt8").value="";
 		 document.getElementById("ed8").value="";
 		 document.getElementById("stkid8").value="";
-		 
+		 document.getElementById("dsc8").value="";
 		 
 		 
 		 
 		 document.getElementById("qty9").value="";
-		// document.getElementById("foc9").value="";
 		 document.getElementById("stkqty9").value="";
 		 document.getElementById("bt9").value="";
 		 document.getElementById("ed9").value="";
 		 document.getElementById("stkid9").value="";
-		 
+		 document.getElementById("dsc9").value="";
 		 
 		 
 		 document.getElementById("qty10").value="";
-		// document.getElementById("foc10").value="";
 		 document.getElementById("stkqty10").value="";
 		 document.getElementById("bt10").value="";
 		 document.getElementById("ed10").value="";
 		 document.getElementById("stkid10").value="";
-		
-		// document.getElementById("collqty").value="";
+		 document.getElementById("dsc10").value="";
 		 
 		 
  		$('#bt1').attr('readonly', true);
@@ -2213,6 +2014,18 @@ $('#upproduction').click(function(){
  		$('#stkqty8').attr('readonly', true);
  		$('#stkqty9').attr('readonly', true);
  		$('#stkqty10').attr('readonly', true);
+ 		
+ 		$('#dsc1').attr('readonly', true);
+ 		$('#dsc2').attr('readonly', true);
+ 		$('#dsc3').attr('readonly', true);
+ 		$('#dsc4').attr('readonly', true);
+ 		$('#dsc5').attr('readonly', true);
+ 		$('#dsc6').attr('readonly', true);
+ 		$('#dsc7').attr('readonly', true);
+ 		$('#dsc8').attr('readonly', true);
+ 		$('#dsc9').attr('readonly', true);
+ 		$('#dsc10').attr('readonly', true);
+ 		
 		   	 $('.trhideclass1').hide();
 			 $('.trhideclass2').hide();
 			 $('.trhideclass3').hide();
@@ -2234,14 +2047,13 @@ $('#upproduction').click(function(){
   	   var id5="stkqty"+kk;
   	   var id6="stkid"+kk;
   	   var id7="qty"+kk;
+  	   var id8="dsc"+kk;
   	   $(""+id1).show();	
 		   document.getElementById(""+id3).value= $('#batgrid').jqxGrid('getcellvalue', i, "batch_no");
   	   document.getElementById(""+id4).value= $('#batgrid').jqxGrid('getcelltext', i, "exp_date");
   	   document.getElementById(""+id5).value= $('#batgrid').jqxGrid('getcellvalue', i, "stkqty");
   	   document.getElementById(""+id6).value= $('#batgrid').jqxGrid('getcellvalue', i, "stockid");
-  	  /*  if($('#editdata').val()=="Editvalue"){
-  		   document.getElementById(""+id7).value= $('#batgrid').jqxGrid('getcellvalue', i, "setqty");
-  	   } */
+  	   document.getElementById(""+id8).value= $('#batgrid').jqxGrid('getcellvalue', i, "description");
   	  
          }
      		$('#divname').show();
@@ -2254,91 +2066,81 @@ $('#upproduction').click(function(){
 			
 			$("#batgrid").jqxGrid('clear'); 
 			 document.getElementById("qty1").value="";
-			// document.getElementById("foc1").value="";
 			 document.getElementById("stkqty1").value="";
 			 document.getElementById("bt1").value="";
 			 document.getElementById("ed1").value="";
 			 document.getElementById("stkid1").value="";
+			 document.getElementById("dsc1").value="";
 			 
 			 document.getElementById("qty2").value="";
-			// document.getElementById("foc2").value="";
 			 document.getElementById("stkqty2").value="";
 			 document.getElementById("bt2").value="";
 			 document.getElementById("ed2").value="";
 			 document.getElementById("stkid2").value="";
-			 
+			 document.getElementById("dsc2").value="";
 			 
 			 document.getElementById("qty3").value="";
-			// document.getElementById("foc3").value="";
 			 document.getElementById("stkqty3").value="";
 			 document.getElementById("bt3").value="";
 			 document.getElementById("ed3").value="";
 			 document.getElementById("stkid3").value="";
-			 
+			 document.getElementById("dsc3").value="";
 			 
 			 document.getElementById("qty4").value="";
-			// document.getElementById("foc4").value="";
 			 document.getElementById("stkqty4").value="";
 			 document.getElementById("bt4").value="";
 			 document.getElementById("ed4").value="";
 			 document.getElementById("stkid4").value="";
-			 
+			 document.getElementById("dsc4").value="";
 			 
 			 
 			 document.getElementById("qty5").value="";
-			// document.getElementById("foc5").value="";
 			 document.getElementById("stkqty5").value="";
 			 document.getElementById("bt5").value="";
 			 document.getElementById("ed5").value="";
 			 document.getElementById("stkid5").value="";
-			 
+			 document.getElementById("dsc5").value="";
 			 
 			 
 			 document.getElementById("qty6").value="";
-			// document.getElementById("foc6").value="";
 			 document.getElementById("stkqty6").value="";
 			 document.getElementById("bt6").value="";
 			 document.getElementById("ed6").value="";
 			 document.getElementById("stkid6").value="";
-			 
+			 document.getElementById("dsc6").value="";
 			 
 			 
 			 document.getElementById("qty7").value="";
-			// document.getElementById("foc7").value="";
 			 document.getElementById("stkqty7").value="";
 			 document.getElementById("bt7").value="";
 			 document.getElementById("ed7").value="";
 			 document.getElementById("stkid7").value="";
-			 
+			 document.getElementById("dsc7").value="";
 			 
 			 
 			 document.getElementById("qty8").value="";
-			// document.getElementById("foc8").value="";
 			 document.getElementById("stkqty8").value="";
 			 document.getElementById("bt8").value="";
 			 document.getElementById("ed8").value="";
 			 document.getElementById("stkid8").value="";
-			 
+			 document.getElementById("dsc8").value="";
 			 
 			 
 			 
 			 document.getElementById("qty9").value="";
-			// document.getElementById("foc9").value="";
 			 document.getElementById("stkqty9").value="";
 			 document.getElementById("bt9").value="";
 			 document.getElementById("ed9").value="";
 			 document.getElementById("stkid9").value="";
-			 
+			 document.getElementById("dsc9").value="";
 			 
 			 
 			 document.getElementById("qty10").value="";
-			// document.getElementById("foc10").value="";
 			 document.getElementById("stkqty10").value="";
 			 document.getElementById("bt10").value="";
 			 document.getElementById("ed10").value="";
 			 document.getElementById("stkid10").value="";
-			
-			// document.getElementById("collqty").value="";
+			 document.getElementById("dsc10").value="";
 			 
 			
 		}
@@ -2348,7 +2150,6 @@ $('#upproduction').click(function(){
 			if(parseFloat(value)>0)
 				{
 				  var id5="qty"+tf;
-	       	 //  var id6="foc"+tf;
 	       	 
 	       	   var id7="stkqty"+tf;
 				var qty=0;
@@ -2358,28 +2159,15 @@ $('#upproduction').click(function(){
 	       		qty=document.getElementById(""+id5).value;
 			   }
 	       	
-	     /* 	if(parseFloat(document.getElementById(""+id6).value)>0)
-			   {
-	     		foc=document.getElementById(""+id6).value;
-			   } */
-				
-	     	
 	     	if(parseFloat(document.getElementById(""+id7).value)<(parseFloat(qty)))
 	     		{
-	     		// document.getElementById("errormsg").innerText="Quantity Plus Foc  should not be greater than available stock quantity";
 	     		document.getElementById(""+id5).value=0;
-	     		//document.getElementById(""+id6).value=0;
 	     		document.getElementById(""+id5).focus();
 	     		return 0;
 	     		}
 	     	else
 	     		{
-	     		//document.getElementById("errormsg").innerText="";
 	     		}
-	       	
-	       	
-	       	
-				
 				}
 			
 			
@@ -2399,7 +2187,7 @@ $('#upproduction').click(function(){
 		}
 	
 	 
-	 function  chkfocss(chkid)
+	 function  chkfocss()
 	 
 	 {
     
@@ -2421,7 +2209,6 @@ $('#upproduction').click(function(){
         var bb=0;
  	   
  	   var id5="qty"+ss;
- 	  // var id6="foc"+ss;
  	   var id7="bt"+ss;
  	   var id8="ed"+ss;
  	   var id9="stkid"+ss;
@@ -2433,12 +2220,6 @@ $('#upproduction').click(function(){
  		   
  		   aa=document.getElementById(""+id5).value;
  		   }
- 	   
- 	  /*  if(parseFloat(document.getElementById(""+id6).value)>0)
-		   {
- 		   totfoc=parseFloat(totfoc)+parseFloat(document.getElementById(""+id6).value);
- 		   bb=parseFloat(document.getElementById(""+id6).value);
-		   } */
  	   
  	   
  	   if(parseFloat(document.getElementById(""+id5).value)>0 )
@@ -2455,7 +2236,6 @@ $('#upproduction').click(function(){
        }
     
    
- //   alert("batchnnnnnnnnno======"+stkid);
     
     if(document.getElementById("focvalidate").value==1)
 		{
@@ -2464,19 +2244,13 @@ $('#upproduction').click(function(){
 	else
 		{
 		  var rowid=document.getElementById("hidrow").value;
-		  if(parseInt(chkid)==1){
-			   $('#jqxqltyprcsGrid').jqxGrid('setcellvalue', rowid, "tobeissued",totqty);
-		       $('#jqxqltyprcsGrid').jqxGrid('setcellvalue', rowid, "stockid",stkid);
-		       $('#jqxqltyprcsGrid').jqxGrid('setcellvalue', rowid, "collqty",temp);
-		  }
-          if(parseInt(chkid)==2){
-        	  $('#jqxgisGrid').jqxGrid('setcellvalue', rowid, "qty",totqty);
-  	        $('#jqxgisGrid').jqxGrid('setcellvalue', rowid, "stockid",stkid);
-  	        $('#jqxgisGrid').jqxGrid('setcellvalue', rowid, "collqty",temp);
-		  }
+		  
+			   $('#jqxthirdGrid').jqxGrid('setcellvalue', rowid, "toberesqty",totqty);
+		       $('#jqxthirdGrid').jqxGrid('setcellvalue', rowid, "stockid",stkid);
+		       $('#jqxthirdGrid').jqxGrid('setcellvalue', rowid, "collqty",temp);
+		  
 	      
         $('#divname').hide();
-       // calculatedata();
      
 		}
     
@@ -2506,7 +2280,6 @@ $('#upproduction').click(function(){
 			    		  document.getElementById("collqty").value=collqty;
 				           document.getElementById("quantity").value=temp2;
 				           document.getElementById("stockid").value=stkid;
-				          // document.getElementById("focs").value=temp3;
 				           $('#divname').hide();
 				           calculatedata();
 			    		  }
