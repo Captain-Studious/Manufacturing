@@ -268,81 +268,194 @@ function save1()
 
 </script>
 
+
+<style>
+/* ===== MASTER LAYOUT ===== */
+html, body, #mainBG, .hidden-scrollbar {
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+    background-color: #f4f7f9;
+}
+
+.master-container {
+    display: flex;
+    width: 100%;
+    height: 100vh;
+    font-family: 'Segoe UI', 'Roboto', 'Arial', sans-serif;
+}
+
+/* ===== LEFT SIDEBAR ===== */
+.sidebar-filters {
+    width: 250px; 
+    flex: 0 0 250px; 
+    background: #fff;
+    border-right: 1px solid #e1e8ed;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    box-shadow: 2px 0 8px rgba(0,0,0,.05);
+    z-index: 10;
+}
+
+.sidebar-scroll-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 15px 15px 25px; 
+}
+
+/* Cards Layout Rules */
+.filter-card {
+    background: #f8fafc;
+    border: 1px solid #e3e8ee;
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 12px;
+}
+
+/* Internal Presentation Tables */
+.filter-table {
+    width: 100%;
+    border-spacing: 0 10px;
+}
+
+.filter-table .label-cell {
+    text-align: right;
+    padding-right: 10px;
+    font-size: 12px;
+    color: #4e5e71;
+    font-weight: 600;
+    width: 70px;
+}
+
+/* ===== UNIFORM 24px INPUTS & SELECTS ===== */
+input[type="text"], select,
+.filter-table input[type="text"],
+.filter-table select {
+    width: 100%;
+    height: 24px !important;             
+    padding: 2px 8px !important;         
+    border: 1px solid #ccd6e0 !important;
+    border-radius: 4px !important;       
+    font-size: 12px !important;          
+    background-color: #ffffff;
+    box-sizing: border-box;
+    color: #333;
+    outline: none;
+}
+
+
+
+/* ===== MASTER 30px BUTTON SYSTEM ===== */
+.btn-submit {
+    width: 100%;
+    height: 30px !important;            
+    padding: 0 12px !important;
+    background: #2563eb !important;
+    color: #fff !important;
+    border: none !important;
+    border-radius: 4px !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    cursor: pointer;
+    line-height: 30px !important;
+    white-space: nowrap;
+    text-align: center;
+    transition: all 0.2s ease;
+    box-shadow: none !important;
+    display: inline-block;
+    box-sizing: border-box;
+    margin-bottom: 8px;
+}
+
+.btn-submit:hover {
+    background: #1d4ed8 !important;
+}
+
+/* ===== RIGHT CONTENT AREA (Horizontally Aligned Heading) ===== */
+.main-content-wrapper {
+    flex: 1; 
+    display: flex;
+    flex-direction: column;
+    background: #ffffff;
+    height: 100%;
+    overflow: hidden;
+}
+
+.top-toolbar-container {
+    width: 100%;
+    padding: 10px 15px;
+    background: #ffffff;
+    border-bottom: 1px solid #e1e8ed;
+    box-sizing: border-box;
+}
+
+.scrollable-grid-area {
+    flex: 1;
+    padding: 15px 20px;
+    overflow: auto; 
+    box-sizing: border-box;
+}
+</style>
 </head>
 <body onload="getBranch();">
 <div id="mainBG" class="homeContent" data-type="background"> 
 <div class='hidden-scrollbar'>
-<table width="100%" >
-<tr>
-<td width="20%" >
-    <fieldset style="background: #ECF8E0;">
-	<table width="100%"  >
-	<jsp:include page="../../heading.jsp"></jsp:include>
-<!--  <tr><td colspan="2">&nbsp;</td></tr> -->
-<%-- 	  <tr><td  align="right" ><label class="branch">From</label></td><td align="left"><div id='fromdate' name='fromdate' value='<s:property value="fromdate"/>'></div> --%>
-<!--                     </td></tr> -->
-                    
-                    
-<%--                      <tr><td  align="right" ><label class="branch">To</label></td><td align="left"><div id='todate' name='todate' value='<s:property value="todate"/>'></div> --%>
-<!--            </td></tr> -->
-                  <tr><td colspan="2">&nbsp;</td></tr> 
-       
-	<tr><td align="right"><label class="branch">Product</label></td>
-	<td align="left"><input type="text" id="part_no" name="part_no" style="width:100%;height:20px;" readonly="readonly" placeholder="Press F3 to Search" value='<s:property value="part_no"/>' onkeydown="getAsset(event);"/></td></tr>
-	    <tr><td >&nbsp;</td><td ><input type="text" id="prdname" name="prdname" style="width:100%;height:20px;" readonly="readonly"  value='<s:property value="prdname"/>'></td></tr>
-	
-	            <tr><td colspan="2">&nbsp;</td></tr>    <tr><td colspan="2">&nbsp;</td></tr>
-<%--        <td align="left"><input type="hidden" id=txtsdocno name="txtsdocno" style="width:60%;height:20px;" readonly="readonly"  value='<s:property value="txtsdocno"/>' onkeydown="getAsset(event);"/></td></tr> --%>
-	     
-           
+
+<div class="master-container">
+
+    <div class="sidebar-filters">
+        <div class="sidebar-scroll-content">
+
+            <div class="filter-card">
+                <table class="filter-table">
+                    <tr>
+                        <td class="label-cell">Product</td>
+                        <td>
+                            <input type="text" id="part_no" name="part_no" readonly="readonly" placeholder="Press F3 to Search" value='<s:property value="part_no"/>' onkeydown="getAsset(event);"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label-cell"></td>
+                        <td>
+                            <input type="text" id="prdname" name="prdname" readonly="readonly" value='<s:property value="prdname"/>'>
+                        </td>
+                    </tr>
+                </table>
+
+                <hr style="border: 0; border-top: 1px solid #e1e8ed; margin: 15px 0;">
+
+                <input type="button" class="btn-submit" name="Update" id="update" value="Update" onclick="funupdates()">
+            </div>
+
+            <div style="display:none;">
+                <input type="hidden" id="psrno" name="psrno" value='<s:property value="psrno"/>' />
+            </div>
+
+        </div>
+    </div>
+
+    <div class="main-content-wrapper">
         
-<!--          <tr><td colspan="2">&nbsp;</td></tr> -->
-	 <tr>
-	 <td colspan="2" align="center">
-     <input type="button" class="myButton" name="Update" id="update"  value="Update" onclick="funupdates()">
-     </td></tr>
-    
-       <tr>
-	<input type="hidden" id="psrno" name="psrno" value='<s:property value="psrno"/>' />
-	 </tr>    
-           
-           
-              <tr><td colspan="2">&nbsp;</td></tr>
-              <tr><td colspan="2">&nbsp;</td></tr>
-              <tr><td colspan="2">&nbsp;</td></tr>
-              <tr><td colspan="2">&nbsp;</td></tr>
-              <tr><td colspan="2">&nbsp;</td></tr>
-              <tr><td colspan="2">&nbsp;</td></tr>
-              <tr><td colspan="2">&nbsp;</td></tr>
-              <tr><td colspan="2">&nbsp;</td></tr>
-              <tr><td colspan="2">&nbsp;</td></tr>
-              <tr><td colspan="2">&nbsp;</td></tr>
-              
-             
-              
-   </table>             
-</fieldset>
-</td>
-<td width="80%">
-		<table width="100%">
-		<tr>
-			 <td><div id="lisrsd"><jsp:include page="listgrid.jsp"></jsp:include></div></td>
-			 
-			 </tr>
-			
-	</table>
-	</td>
+        <div class="top-toolbar-container">
+            <jsp:include page="../../heading.jsp"></jsp:include>
+        </div>
 
+        <div class="scrollable-grid-area">
+            <div id="lisrsd">
+                <jsp:include page="listgrid.jsp"></jsp:include>
+            </div>
+        </div>
 
-</tr>
-</table>
-
+    </div>
 
 </div>
+
 <div id="DetailsWindow">
 	<div></div><div></div>
 </div>
 
+</div>
 </div>
 </body>
 </html>

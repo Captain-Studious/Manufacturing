@@ -14,45 +14,221 @@
 <%-- <script type="text/javascript" src="../../js/dashboard.js"></script> --%> 
 
 <style type="text/css">
- 
-.myButtons {
-	-moz-box-shadow:inset 0px -1px 3px 0px #91b8b3;
-	-webkit-box-shadow:inset 0px -1px 3px 0px #91b8b3;
-	box-shadow:inset 0px -1px 3px 0px #91b8b3;
-	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #768d87), color-stop(1, #6c7c7c));
-	background:-moz-linear-gradient(top, #768d87 5%, #6c7c7c 100%);
-	background:-webkit-linear-gradient(top, #768d87 5%, #6c7c7c 100%);
-	background:-o-linear-gradient(top, #768d87 5%, #6c7c7c 100%);
-	background:-ms-linear-gradient(top, #768d87 5%, #6c7c7c 100%);
-	background:linear-gradient(to bottom, #768d87 5%, #6c7c7c 100%);
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#768d87', endColorstr='#6c7c7c',GradientType=0);
-	background-color:#768d87;
-	border:1px solid #566963;
-	display:inline-block;
-	cursor:pointer;
-	color:#ffffff;
-	
-	font-size:8pt;
-	
-	padding:3px 17px;
-	text-decoration:none;
-	text-shadow:0px -1px 0px #2b665e;
-}
-.myButtons:hover {
-	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #6c7c7c), color-stop(1, #768d87));
-	background:-moz-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
-	background:-webkit-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
-	background:-o-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
-	background:-ms-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
-	background:linear-gradient(to bottom, #6c7c7c 5%, #768d87 100%);
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#6c7c7c', endColorstr='#768d87',GradientType=0);
-	background-color:#6c7c7c;
-}
-.myButtons:active {
-	position:relative;
-	top:1px;
+/* ===== MASTER LAYOUT ===== */
+html, body, #mainBG, .hidden-scrollbar {
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+    background-color: #f4f7f9;
 }
 
+.master-container {
+    display: flex;
+    width: 100%;
+    height: 100vh;
+    font-family: 'Segoe UI', 'Roboto', 'Arial', sans-serif;
+}
+
+/* ===== LEFT SIDEBAR ===== */
+.sidebar-filters {
+    width: 300px; 
+    flex: 0 0 300px; 
+    background: #fff;
+    border-right: 1px solid #e1e8ed;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    box-shadow: 2px 0 8px rgba(0,0,0,.05);
+    z-index: 10;
+}
+
+.sidebar-scroll-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 15px 15px 25px; 
+}
+
+/* Cards Layout Rules */
+.filter-card {
+    background: #f8fafc;
+    border: 1px solid #e3e8ee;
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 12px;
+}
+
+/* Internal Presentation Tables */
+.filter-table {
+    width: 100%;
+    border-spacing: 0 10px;
+}
+
+.filter-table .label-cell {
+    text-align: right;
+    padding-right: 10px;
+    font-size: 12px;
+    color: #4e5e71;
+    font-weight: 600;
+    width: 70px;
+}
+
+/* ===== UNIFORM 24px INPUTS & SELECTS ===== */
+input[type="text"], select,
+.filter-table input[type="text"],
+.filter-table select {
+    width: 100%;
+    height: 24px !important;             
+    padding: 2px 8px !important;         
+    border: 1px solid #ccd6e0 !important;
+    border-radius: 4px !important;       
+    font-size: 12px !important;          
+    background-color: #ffffff;
+    box-sizing: border-box;
+    color: #333;
+    outline: none;
+}
+
+/* Readonly fields override */
+input[readonly],
+input:disabled {
+    background-color: #f3f6f9 !important;
+    color: #555;
+    border-color: #e1e8ed !important;
+    cursor: text;
+}
+
+/* Textarea standardization */
+textarea {
+    width: 100%;
+    border: 1px solid #ccd6e0;
+    border-radius: 4px;
+    padding: 8px;
+    font-family: inherit;
+    font-size: 12px;
+    resize: vertical;
+    box-sizing: border-box;
+    outline: none;
+}
+
+/* Select specific styling */
+select {
+    padding: 2px 24px 2px 8px !important; 
+    font-family: inherit;
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%234e5e71' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 6px center;
+    background-size: 12px;
+}
+
+/* Checkboxes & Radios */
+.radio-group {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #4e5e71;
+}
+
+.radio-group label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.radio-group input[type="radio"],
+.radio-group input[type="checkbox"] {
+    margin: 0 5px 0 0;
+    vertical-align: middle;
+}
+
+/* Square Icon Buttons for + / - Search Triggers */
+.btn-square {
+    width: 24px !important;
+    height: 24px !important;
+    padding: 0 !important;
+    margin: 0 0 0 4px !important;
+    background: #2563eb !important;
+    color: #fff !important;
+    border: none !important;
+    border-radius: 4px !important;
+    font-size: 16px !important;
+    font-weight: bold !important;
+    line-height: 24px !important;
+    cursor: pointer;
+    display: inline-block;
+    vertical-align: middle;
+}
+.btn-square:hover {
+    background: #1d4ed8 !important;
+}
+
+/* ===== MASTER 30px BUTTON SYSTEM ===== */
+.btn-submit, .myButton {
+    width: 100%;
+    height: 30px !important;            
+    padding: 0 12px !important;
+    background: #2563eb !important;
+    color: #fff !important;
+    border: none !important;
+    border-radius: 4px !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    cursor: pointer;
+    line-height: 30px !important;
+    white-space: nowrap;
+    text-align: center;
+    transition: all 0.2s ease;
+    box-shadow: none !important;
+    display: inline-block;
+    box-sizing: border-box;
+    margin-bottom: 8px;
+}
+
+.btn-submit:hover, .myButton:hover {
+    background: #1d4ed8 !important;
+}
+
+/* Button Group Styling */
+.button-group-row {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.button-group-row .btn-submit {
+    flex: 1;
+    margin-bottom: 0;
+}
+
+/* ===== RIGHT CONTENT AREA (Horizontally Aligned Heading) ===== */
+.main-content-wrapper {
+    flex: 1; 
+    display: flex;
+    flex-direction: column;
+    background: #ffffff;
+    height: 100%;
+    overflow: hidden;
+}
+
+.top-toolbar-container {
+    width: 100%;
+    padding: 10px 15px;
+    background: #ffffff;
+    border-bottom: 1px solid #e1e8ed;
+    box-sizing: border-box;
+}
+
+.scrollable-grid-area {
+    flex: 1;
+    padding: 15px 20px;
+    overflow: auto; 
+    box-sizing: border-box;
+}
 </style>
 
 <script type="text/javascript">
@@ -554,130 +730,128 @@ function funPurchaseorder()
 <body onload="getBranch();">
 <div id="mainBG" class="homeContent" data-type="background"> 
 <div class='hidden-scrollbar'>
-<table width="100%" >
-<tr>
-<td width="23%" >
-    <fieldset style="background: #ECF8E0;">
-	<table width="100%" >
-	<jsp:include page="../../heading.jsp"></jsp:include>
-		
-	 <tr><td colspan="2">&nbsp;</td></tr>
-	 
-	<tr><td align="right"><label class="branch">Location</label></td>
-	<td align="left"><input type="text" id="txtlocation" name="txtlocation" style="width:90%;height:20px;" readonly="readonly" placeholder="Press F3 to Search" value='<s:property value="txtlocation"/>' onKeyDown="getLocation(event);"/></td></tr>
-	<td><input type="hidden" id="locid" name="locid" value='<s:property value="locid"/>' /> </td>
- 
- <tr><td colspan="2" align="center"><input type="radio" id="rsumm" name="stkled" onchange="fundisable();" value="rsumm"><label for="rsumm" class="branch">Summary</label>&nbsp;&nbsp;
-	
-	<tr><td align="right"><label class="branch">Vendor</label></td>
-	<td align="left"><input type="text" id="vendor" name="vendor" style="width:90%;height:20px;" readonly="readonly" placeholder="Press F3 to Search" value='<s:property value="vendor"/>' onKeyDown="getVendor(event);"/></td></tr>
-	<td><input type="hidden" id="locid" name="locid" value='<s:property value="locid"/>' /> </td>
-	
-	 <input type="radio" hidden="true" id="rdet" name="stkled" onchange="fundisable();" value="rdet"><label for="rdet" class="branch"></label></td></tr>
-	<td align="right"><label class="branch">Product</label></td>
-	  <td  align="left"><select name="prodsearchby" id="prodsearchby" style="width:52%;">
-		<option value="">--Select--</option>
-    	<option value="ptype">TYPE</option>
-    	<option value="pbrand">BRAND</option>
-    	<option value="pdept">DEPARTMENT</option>  
-    	<option value="pcategory">CATEGORY</option>
-		<option value="psubcategory">SUB CATEGORY</option>
-		<!-- <option value="pvendor">VENDOR</option> -->
-<!--     <option value="product">PRODUCT</option>  -->
-    </select>&nbsp;&nbsp;<button type="button" name="btnadditem" id="additem" class="myButtons" onClick="setprodSearch();">+</button>&nbsp;&nbsp;<button  type="button" name="btnremoveitem" id="btnremoveitem" class="myButtons" onclick="setRemove();">-</button></td>
-	  </tr> 
-	<tr >
-	  <td colspan="2"
-      align="right" ><textarea id="searchdetails" name="searchdetails" style="resize:none;font: 10px Tahoma;width:90%;" rows="13"  readonly></textarea></td>
-	  </tr>
-	
-	 <tr>
 
- 
+<div class="master-container">
 
+    <div class="sidebar-filters">
+        <div class="sidebar-scroll-content">
 
- 
-     <tr>
-	<td align="left"><input type="hidden" id="txtpartno" name="txtpartno" style="width:60%;height:20px;" readonly="readonly" placeholder="Press F3 to Search" value='<s:property value="txtpartno"/>' onKeyDown="getProduct(event);"/></td></tr>
-	<input type="hidden" id="psrno" name="psrno" value='<s:property value="psrno"/>' /> 
-	<tr><td>&nbsp;</td>
-	<td><input type="hidden" id="txtproductname" name="txtproductname" style="width:100%;height:20px;" readonly="readonly" value='<s:property value="txtproductname"/>' tabindex="-1"/></td></tr> 
- 
- 
-  
-     
-<tr><td colspan="2"  align="center" > <input type="button" name="btnclear" id="btnclear" value="Clear" class="myButtons" onclick="funClearData();"> </td>
- <tr><td colspan="2" align="center"><button type="button" class="myButtons" id="btnprint" onclick="funPrint();">Print</button></td></tr> 
-<tr><td colspan="2" align="center"><button type="button" class="myButton" id="btnpurchase" onclick="funPurchaseorder();">Purchase Order</button></td></tr>
-<tr><td colspan="2">
-			 <input type="hidden" name="hidbrandid" id="hidbrandid">
-			  <input type="hidden" name="hidtypeid" id="hidtypeid">
-			  <input type="hidden" name="hideptid" id="hideptid">
-			  <input type="hidden" name="hidcatid" id="hidcatid">
-			  <input type="hidden" name="hidsubcatid" id="hidsubcatid">
-			  <input type="hidden" name="hidproductid" id="hidproductid">
-			  <input type="hidden" name="hidvendoracno" id="hidvendoracno">
-			  <input type="hidden" name="hidvendorcldocno" id="hidvendorcldocno">
-			  <input type="hidden" name="hidvendoraccount" id="hidvendoraccount">
-			  
-			  <input type="hidden" name="hidbrand" id="hidbrand">
-			  <input type="hidden" name="hidept" id="hidept">
-			  <input type="hidden" name="hidtype" id="hidtype">
-			  <input type="hidden" name="hidcat" id="hidcat">
-			  <input type="hidden" name="hidsubcat" id="hidsubcat">
-			  <input type="hidden" name="hidproduct" id="hidproduct">
-			  <input type="hidden" name="hidvendor" id="hidvendor"></td>
-	<td colspan="2"><div id='paychaaaaa' style="width: 100% ; align:right; height: 60px;"></div></td>
-	</tr>	
-	</table>
-	</fieldset>
-	
-	 <input type="hidden" id="statusselect" name="statusselect" value='<s:property value="statusselect"/>'>
-   <input type="hidden" id="acno" name="acno" value='<s:property value="acno"/>'>
-</td>
-<td width="80%">
-	
-		<table width="100%">
-		<tr>
-			 <td><div id="stockLedgerDiv"><jsp:include page="stockGridSummary.jsp"></jsp:include></div></td>
-		</tr>
-		    <tr><td><div id="stockLedgerDetDiv">
-				 <jsp:include page="stockGridDetail.jsp"></jsp:include> 
-				</div></td></tr> 
-	</table>
-	
-</tr>
-</table>
+            <div class="filter-card">
+                <table class="filter-table">
+                    <tr>
+                        <td class="label-cell">Location</td>
+                        <td>
+                            <input type="text" id="txtlocation" name="txtlocation" readonly="readonly" placeholder="Press F3 to Search" value='<s:property value="txtlocation"/>' onKeyDown="getLocation(event);"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label-cell">Vendor</td>
+                        <td>
+                            <input type="text" id="vendor" name="vendor" readonly="readonly" placeholder="Press F3 to Search" value='<s:property value="vendor"/>' onKeyDown="getVendor(event);"/>
+                        </td>
+                    </tr>
+                </table>
+                
+                <div class="radio-group" style="margin-top: 10px;">
+                    <label>
+                        <input type="radio" id="rsumm" name="stkled" onchange="fundisable();" value="rsumm">
+                        Summary
+                    </label>
+                    <input type="radio" hidden="true" id="rdet" name="stkled" onchange="fundisable();" value="rdet">
+                </div>
+            </div>
+
+            <div class="filter-card">
+                <label class="branch" style="display:block; margin-bottom: 5px;">Product Search</label>
+                <div style="display: flex; align-items: center; justify-content: space-between;">
+                    <select name="prodsearchby" id="prodsearchby" style="flex: 1;">
+                        <option value="">--Select--</option>
+                        <option value="ptype">TYPE</option>
+                        <option value="pbrand">BRAND</option>
+                        <option value="pdept">DEPARTMENT</option>  
+                        <option value="pcategory">CATEGORY</option>
+                        <option value="psubcategory">SUB CATEGORY</option>
+                    </select>
+                    <button type="button" name="btnadditem" id="additem" class="btn-square" onClick="setprodSearch();">+</button>
+                    <button type="button" name="btnremoveitem" id="btnremoveitem" class="btn-square" onclick="setRemove();">-</button>
+                </div>
+                
+                <textarea id="searchdetails" name="searchdetails" rows="13" readonly style="margin-top: 10px;"></textarea>
+            </div>
+
+            <div class="filter-card">
+                <div class="button-group-row">
+                    <input type="button" name="btnclear" id="btnclear" value="Clear" class="btn-submit" onclick="funClearData();" style="background:#64748b !important;">
+                    <button type="button" class="btn-submit" id="btnprint" onclick="funPrint();" style="background:#10b981 !important;">Print</button>
+                </div>
+                <button type="button" class="btn-submit" id="btnpurchase" onclick="funPurchaseorder();">Purchase Order</button>
+            </div>
+
+            <div style="display:none;">
+                <input type="hidden" id="locid" name="locid" value='<s:property value="locid"/>' /> 
+                <input type="hidden" id="txtpartno" name="txtpartno" readonly="readonly" value='<s:property value="txtpartno"/>' onKeyDown="getProduct(event);"/>
+                <input type="hidden" id="psrno" name="psrno" value='<s:property value="psrno"/>' /> 
+                <input type="hidden" id="txtproductname" name="txtproductname" readonly="readonly" value='<s:property value="txtproductname"/>' tabindex="-1"/>
+                
+                <input type="hidden" name="hidbrandid" id="hidbrandid">
+                <input type="hidden" name="hidtypeid" id="hidtypeid">
+                <input type="hidden" name="hideptid" id="hideptid">
+                <input type="hidden" name="hidcatid" id="hidcatid">
+                <input type="hidden" name="hidsubcatid" id="hidsubcatid">
+                <input type="hidden" name="hidproductid" id="hidproductid">
+                <input type="hidden" name="hidvendoracno" id="hidvendoracno">
+                <input type="hidden" name="hidvendorcldocno" id="hidvendorcldocno">
+                <input type="hidden" name="hidvendoraccount" id="hidvendoraccount">
+                
+                <input type="hidden" name="hidbrand" id="hidbrand">
+                <input type="hidden" name="hidept" id="hidept">
+                <input type="hidden" name="hidtype" id="hidtype">
+                <input type="hidden" name="hidcat" id="hidcat">
+                <input type="hidden" name="hidsubcat" id="hidsubcat">
+                <input type="hidden" name="hidproduct" id="hidproduct">
+                <input type="hidden" name="hidvendor" id="hidvendor">
+                
+                <input type="hidden" id="statusselect" name="statusselect" value='<s:property value="statusselect"/>'>
+                <input type="hidden" id="acno" name="acno" value='<s:property value="acno"/>'>
+                
+                <div id='paychaaaaa' style="width: 100%; align:right; height: 60px;"></div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="main-content-wrapper">
+        
+        <div class="top-toolbar-container">
+            <jsp:include page="../../heading.jsp"></jsp:include>
+        </div>
+
+        <div class="scrollable-grid-area">
+            
+            <div id="stockLedgerDiv">
+                <jsp:include page="stockGridSummary.jsp"></jsp:include>
+            </div>
+            
+            <div id="stockLedgerDetDiv">
+                <jsp:include page="stockGridDetail.jsp"></jsp:include> 
+            </div> 
+
+        </div>
+
+    </div>
 
 </div>
  
-<div id="productDetailsWindow">
-	<div></div><div></div>
-</div>
-<div id="locationDetailsWindow">
-	<div></div><div></div>
-</div>
-<div id="ptypewindow">
-<div></div>
-</div>
-<div id="brandwindow">
-<div></div>
-</div>
-<div id="departmentwindow">
-<div></div>
-</div>
-<div id="productwindow">
-<div></div>
-</div>
-<div id="pcategorywindow">
-<div></div>
-</div>
-<div id="psubcategorywindow">
-<div></div>
-</div>
-<div id="pvendorwindow">
-<div></div>
-</div>
+<div id="productDetailsWindow"><div></div><div></div></div>
+<div id="locationDetailsWindow"><div></div><div></div></div>
+<div id="ptypewindow"><div></div></div>
+<div id="brandwindow"><div></div></div>
+<div id="departmentwindow"><div></div></div>
+<div id="productwindow"><div></div></div>
+<div id="pcategorywindow"><div></div></div>
+<div id="psubcategorywindow"><div></div></div>
+<div id="pvendorwindow"><div></div></div>
+
 </div>
 </body>
 </html>

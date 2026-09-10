@@ -9,21 +9,168 @@
 <title>GatewayERP(i)</title>
 <link href="../../../../css/dashboard.css" media="screen" rel="stylesheet" type="text/css" />  
 <style type="text/css">
-.account {
-	color: black;
-	background-color: #E0ECF8;
-	width: 100%;
-	height: 28px;
-	font-family: Myriad Pro;
-	font-weight: bold;
-}
-.accname {
-	color: black;
-	background-color: #E0ECF8;
-	width: 100%;
-	font-family: comic sans ms;
+
+/* ===== MASTER LAYOUT ===== */
+html, body, #mainBG, .hidden-scrollbar {
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+    background-color: #f4f7f9;
 }
 
+.master-container {
+    display: flex;
+    width: 100%;
+    height: 100vh;
+    font-family: 'Segoe UI', 'Roboto', 'Arial', sans-serif;
+}
+
+/* ===== LEFT SIDEBAR ===== */
+.sidebar-filters {
+    width: 280px; 
+    flex: 0 0 280px; 
+    background: #fff;
+    border-right: 1px solid #e1e8ed;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    box-shadow: 2px 0 8px rgba(0,0,0,.05);
+    z-index: 10;
+}
+
+.sidebar-scroll-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 15px 15px 25px; 
+}
+
+/* Cards Layout Rules */
+.filter-card {
+    background: #f8fafc;
+    border: 1px solid #e3e8ee;
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 12px;
+}
+
+/* Internal Presentation Tables */
+.filter-table {
+    width: 100%;
+    border-spacing: 0 10px;
+}
+
+.filter-table .label-cell {
+    text-align: right;
+    padding-right: 10px;
+    font-size: 12px;
+    color: #4e5e71;
+    font-weight: 600;
+    width: 60px;
+}
+
+/* ===== UNIFORM 24px INPUTS & SELECTS ===== */
+input[type="text"], select,
+.filter-table input[type="text"],
+.filter-table select {
+    width: 100%;
+    height: 24px !important;             
+    padding: 2px 8px !important;         
+    border: 1px solid #ccd6e0 !important;
+    border-radius: 4px !important;       
+    font-size: 12px !important;          
+    background-color: #ffffff;
+    box-sizing: border-box;
+    color: #333;
+    outline: none;
+}
+
+/* Select specific styling */
+select {
+    padding: 2px 24px 2px 8px !important; 
+    font-family: inherit;
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%234e5e71' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 6px center;
+    background-size: 12px;
+}
+
+/* Fieldset and Legend overrides */
+fieldset {
+    border: 1px solid #ccd6e0;
+    border-radius: 8px;
+    padding: 10px;
+    background: transparent;
+    margin-bottom: 15px;
+}
+legend {
+    font-size: 12px;
+    font-weight: bold;
+    color: #4e5e71;
+    padding: 0 5px;
+}
+
+/* Checkboxes */
+.checkbox-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 5px 0;
+}
+.checkbox-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #4e5e71;
+    cursor: pointer;
+}
+.checkbox-item input[type="checkbox"] {
+    margin: 0;
+    cursor: pointer;
+}
+
+/* Analysis Layout Container */
+.analysis-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+/* jqx Date Container Mapping Rules */
+.filter-table div[id^="fromdate"],
+.filter-table div[id^="todate"] {
+    width: 100%;
+}
+
+/* ===== RIGHT CONTENT AREA (Horizontally Aligned Heading) ===== */
+.main-content-wrapper {
+    flex: 1; 
+    display: flex;
+    flex-direction: column;
+    background: #ffffff;
+    height: 100%;
+    overflow: hidden;
+}
+
+.top-toolbar-container {
+    width: 100%;
+    padding: 10px 15px;
+    background: #ffffff;
+    border-bottom: 1px solid #e1e8ed;
+    box-sizing: border-box;
+}
+
+.scrollable-grid-area {
+    flex: 1;
+    padding: 15px 20px;
+    overflow: auto; 
+    box-sizing: border-box;
+}
 </style>
 <script type="text/javascript">
     
@@ -177,118 +324,100 @@
 <body onload="getBranch();">
 <div id="mainBG" class="homeContent" data-type="background"> 
 <div class='hidden-scrollbar'>
-<table width="100%" >
-  <tr>
-    <td width="20%" >
-    <fieldset style="background: #ECF8E0;">
-	 <table width="100%"  >
-	 <jsp:include page="../../heading.jsp"></jsp:include>
-		
-	 <tr><td colspan="2"><table width="100%">
-     <tr><%-- <td colspan="2" align="center"><input type="checkbox" id="chckanalysis" name="chckanalysis" value="" onchange="analysischeck();" onclick="$(this).attr('value', this.checked ? 1 : 0)"><label class="branch">Analysis</label>
-	 <input type="hidden" id="hidchckanalysis" name="hidchckanalysis" value='<s:property value="hidchckanalysis"/>'/></td> --%>
-     <td colspan="2">&nbsp;</td>
-     </tr>
-     <tr><td align="right"><label class="branch">Period</label></td>
-         <td align="left"><div id="fromdate" name="fromdate" value='<s:property value="fromdate"/>'></div></td>
-     </tr>
-     </table></tr> 
-	 <tr><td colspan="2"><div id="viewDiv">
-	 <%-- <table width="100%">
-     <tr>
-     <td colspan="2">
-     <table width="100%">
-	  <tr>
-	    <td width="17%" align="right"><label class="branch">To</label></td>
-        <td width="83%" align="left"><div id="todate" name="todate" value='<s:property value="todate"/>'></div></td>
-	 </tr>
-	 </table>
-     </td>
-     
-     </tr>
-     <tr>
-     <td colspan="2">&nbsp;</td>
-     </tr>
-     <tr>
-      <td colspan="2"><fieldset><legend><b><label class="branch">View</label></b></legend>
-	  <table width="100%">
-	  <tr>
-	    <td width="40%"><input type="checkbox" id="chckdetail" name="chckdetail" value="" onchange="detailcheck();" onclick="$(this).attr('value', this.checked ? 1 : 0)"><label class="branch">Detail</label>
-	    <input type="hidden" id="hidchckdetail" name="hidchckdetail" value='<s:property value="hidchckdetail"/>'/></td>
-	    <td width="60%"><input type="checkbox" id="chckgroup" name="chckgroup" value="" onchange="groupcheck();" onclick="$(this).attr('value', this.checked ? 1 : 0)"><label class="branch">Group</label>
-	    <input type="hidden" id="hidchckgroup" name="hidchckgroup" value='<s:property value="hidchckgroup"/>'/></td>
-	 </tr>
-	 </table>
-	 </fieldset></td>
-     </tr>
-     <tr><td colspan="2">&nbsp;</td></tr>
-      <tr><td align="right"><label class="branch">Description</label></td>
-	 <td align="left"><input type="text" id="txtdescription" name="txtdescription" style="width:100%;height:20px;" value='<s:property value="txtdescription"/>'/></td></tr>
-	<tr><td align="right"><label class="branch">Group</label></td>
-	 <td align="left"><input type="text" id="txtgroup" name="txtgroup" style="width:100%;height:20px;" value='<s:property value="txtgroup"/>'/></td></tr>
-	<tr><td align="right"><label class="branch">Amount</label></td>
-	 <td align="left"><input type="text" id="txtamount" name="txtamount" style="width:100%;height:20px;text-align: right;" onkeypress="javascript:return isNumber(event)" onblur="funRoundAmt(this.value,this.id);" value='<s:property value="txtamount"/>'/></td></tr>
-    </table> --%>
-    
-    <table width="100%">
-     <tr><td colspan="2">
-     <table width="100%"><tr>
-	    <td width="17%" align="right"><label class="branch">To</label></td>
-        <td width="83%" align="left"><div id="todate" name="todate" value='<s:property value="todate"/>'></div></td></tr></table>
-     </td></tr>
-     <tr><td colspan="2">&nbsp;</td></tr>
-     <tr><td colspan="2"><fieldset><legend><b><label class="branch">Levels</label></b></legend>
-     <table width="100%">
-	  <tr><td colspan="2">
-     <input type="checkbox" id="chcklevel1" name="chcklevel1" class="chcklevels" value="" onchange="checklevel1();" onclick="$(this).attr('value', this.checked ? 1 : 0)"><label class="branch">Level 1</label>
-	    <input type="hidden" id="hidchcklevel1" name="hidchcklevel1" value='<s:property value="hidchcklevel1"/>'/></td></tr>
-    <tr><td colspan="2"><input type="checkbox" id="chcklevel2" name="chcklevel2" class="chcklevels" value="" onchange="checklevel2();" onclick="$(this).attr('value', this.checked ? 1 : 0)"><label class="branch">Level 2</label>
-	    <input type="hidden" id="hidchcklevel2" name="hidchcklevel2" value='<s:property value="hidchcklevel2"/>'/></td></tr>
-    <tr><td colspan="2"><input type="checkbox" id="chcklevel3" name="chcklevel3" class="chcklevels" value="" onchange="checklevel3();" onclick="$(this).attr('value', this.checked ? 1 : 0)"><label class="branch">Level 3</label>
-	    <input type="hidden" id="hidchcklevel3" name="hidchcklevel3" value='<s:property value="hidchcklevel3"/>'/></td></tr>
-	<tr><td colspan="2"><input type="checkbox" id="chcklevel4" name="chcklevel4" class="chcklevels" value="" onchange="checklevel4();" onclick="$(this).attr('value', this.checked ? 1 : 0)"><label class="branch">Level 4</label>
-	    <input type="hidden" id="hidchcklevel4" name="hidchcklevel4" value='<s:property value="hidchcklevel4"/>'/></td></tr>
-	</table></fieldset>
-	</td></tr>
-	<tr><td colspan="2">&nbsp;</td></tr>
-	<tr><td colspan="2">&nbsp;</td></tr>
-    </table>
-    </div></td></tr>
-	<tr><td colspan="2"><div id="analysisDiv" hidden="true"><table width="100%">
-    <tr>
-      <td colspan="2"><select id="cmbchoose" name="cmbchoose" style="width:30%;" value='<s:property value="cmbchoose"/>'>
-      <option value="1">Days</option><option value="2">Monthly</option>
-      <option value="3">Quarterly</option><option value="4">Yearly</option></select>&nbsp;&nbsp;
-      <input type="text" id="txtnoofdays" name="txtnoofdays" style="width:50%;height:20px;" value='<s:property value="txtnoofdays"/>'/>
-      </td>
-    </tr>
-    <tr><td width="10%" align="right"><label class="branch">Frequency</label></td>
-	  <td width="90%" align="left"><input type="text" id="txtfrequency" name="txtfrequency" style="width:82%;height:20px;" value='<s:property value="txtfrequency"/>'/></td></tr>
-    <tr><td colspan="2">&nbsp;</td></tr>
-    <tr><td colspan="2">&nbsp;</td></tr>
-    <tr><td colspan="2">&nbsp;</td></tr>
-    <tr><td colspan="2">&nbsp;</td></tr>
-    <tr><td colspan="2">&nbsp;</td></tr>
-    <tr><td colspan="2">&nbsp;</td></tr>
-    <tr><td colspan="2">&nbsp;<br/><br/></td></tr>
-    </table></div></td></tr> 
-	<tr><td colspan="2">&nbsp;</td></tr>
-	<tr><td colspan="2">&nbsp;</td></tr>
-	<tr><td colspan="2">&nbsp;</td></tr>
-	<tr><td colspan="2">&nbsp;</td></tr>
-	<tr><td colspan="2">&nbsp;</td></tr>
-	
-	</table>
-	</fieldset>
-</td>
-<td width="80%">
-	<table width="100%">
-		 <tr>
-		    <td><div id="balanceSheetDiv"><jsp:include page="balanceSheetGrid.jsp"></jsp:include></div></td>
-		 </tr> 
-	</table>
-</td></tr>
-</table>
+
+<div class="master-container">
+
+    <div class="sidebar-filters">
+        <div class="sidebar-scroll-content">
+
+            <div class="filter-card">
+                <table class="filter-table">
+                    <tr>
+                        <td class="label-cell">Period</td>
+                        <td><div id="fromdate" name="fromdate" value='<s:property value="fromdate"/>'></div></td>
+                    </tr>
+                </table>
+            </div>
+
+            <div id="viewDiv">
+                <div class="filter-card">
+                    <table class="filter-table">
+                        <tr>
+                            <td class="label-cell">To</td>
+                            <td><div id="todate" name="todate" value='<s:property value="todate"/>'></div></td>
+                        </tr>
+                    </table>
+
+                    <fieldset>
+                        <legend>Levels</legend>
+                        <div class="checkbox-list">
+                            <label class="checkbox-item">
+                                <input type="checkbox" id="chcklevel1" name="chcklevel1" class="chcklevels" onchange="checklevel1();" onclick="$(this).attr('value', this.checked ? 1 : 0)">
+                                Level 1
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" id="chcklevel2" name="chcklevel2" class="chcklevels" onchange="checklevel2();" onclick="$(this).attr('value', this.checked ? 1 : 0)">
+                                Level 2
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" id="chcklevel3" name="chcklevel3" class="chcklevels" onchange="checklevel3();" onclick="$(this).attr('value', this.checked ? 1 : 0)">
+                                Level 3
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" id="chcklevel4" name="chcklevel4" class="chcklevels" onchange="checklevel4();" onclick="$(this).attr('value', this.checked ? 1 : 0)">
+                                Level 4
+                            </label>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+
+            <div id="analysisDiv" hidden="true">
+                <div class="filter-card">
+                    <div class="analysis-container">
+                        <select id="cmbchoose" name="cmbchoose" style="width:50%;" value='<s:property value="cmbchoose"/>'>
+                            <option value="1">Days</option>
+                            <option value="2">Monthly</option>
+                            <option value="3">Quarterly</option>
+                            <option value="4">Yearly</option>
+                        </select>
+                        <input type="text" id="txtnoofdays" name="txtnoofdays" style="width:50%;" value='<s:property value="txtnoofdays"/>'/>
+                    </div>
+                    <table class="filter-table">
+                        <tr>
+                            <td class="label-cell" style="width:80px;">Frequency</td>
+                            <td><input type="text" id="txtfrequency" name="txtfrequency" value='<s:property value="txtfrequency"/>'/></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div style="display:none;">
+                <input type="hidden" id="hidchcklevel1" name="hidchcklevel1" value='<s:property value="hidchcklevel1"/>'/>
+                <input type="hidden" id="hidchcklevel2" name="hidchcklevel2" value='<s:property value="hidchcklevel2"/>'/>
+                <input type="hidden" id="hidchcklevel3" name="hidchcklevel3" value='<s:property value="hidchcklevel3"/>'/>
+                <input type="hidden" id="hidchcklevel4" name="hidchcklevel4" value='<s:property value="hidchcklevel4"/>'/>
+                </div>
+
+        </div>
+    </div>
+
+    <div class="main-content-wrapper">
+        
+        <div class="top-toolbar-container">
+            <jsp:include page="../../heading.jsp"></jsp:include>
+        </div>
+
+        <div class="scrollable-grid-area">
+            
+            <div id="balanceSheetDiv">
+                <jsp:include page="balanceSheetGrid.jsp"></jsp:include>
+            </div>
+
+        </div>
+
+    </div>
+
 </div>
 
 </div> 

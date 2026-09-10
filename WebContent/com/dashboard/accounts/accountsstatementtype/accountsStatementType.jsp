@@ -12,87 +12,203 @@
 <script type="text/javascript" src="<%=contextPath%>/js/ajaxfileupload.js"></script>
 <script type="text/javascript" src="<%=contextPath%>/js/resample.js"></script>
 <style type="text/css">
+/* ===== MASTER LAYOUT ===== */
+html, body, #mainBG, .hidden-scrollbar {
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+    background-color: #f4f7f9;
+}
+
+.master-container {
+    display: flex;
+    width: 100%;
+    height: 100vh;
+    font-family: 'Segoe UI', 'Roboto', 'Arial', sans-serif;
+}
+
+/* ===== LEFT SIDEBAR ===== */
+.sidebar-filters {
+    width: 280px; 
+    flex: 0 0 280px; 
+    background: #fff;
+    border-right: 1px solid #e1e8ed;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    box-shadow: 2px 0 8px rgba(0,0,0,.05);
+    z-index: 10;
+}
+
+.sidebar-scroll-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 15px 15px 25px; 
+}
+
+/* Cards Layout Rules */
+.filter-card {
+    background: #f8fafc;
+    border: 1px solid #e3e8ee;
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 12px;
+}
+
+/* Internal Presentation Tables */
+.filter-table {
+    width: 100%;
+    border-spacing: 0 10px;
+}
+
+.filter-table .label-cell {
+    text-align: right;
+    padding-right: 10px;
+    font-size: 12px;
+    color: #4e5e71;
+    font-weight: 600;
+    width: 70px;
+}
+
+/* ===== UNIFORM 24px INPUTS & SELECTS ===== */
+input[type="text"], select,
+.filter-table input[type="text"],
+.filter-table select {
+    width: 100%;
+    height: 24px !important;             
+    padding: 2px 8px !important;         
+    border: 1px solid #ccd6e0 !important;
+    border-radius: 4px !important;       
+    font-size: 12px !important;          
+    background-color: #ffffff;
+    box-sizing: border-box;
+    color: #333;
+    outline: none;
+}
+
+/* Readonly fields override */
+input[readonly],
+input:disabled {
+    background-color: #f3f6f9 !important;
+    color: #555;
+    border-color: #e1e8ed !important;
+    cursor: text;
+}
+
+/* jqx Date Container Mapping Rules */
+.filter-table div[id^="fromdate"],
+.filter-table div[id^="todate"] {
+    width: 100%;
+}
+
+/* ===== MASTER 30px BUTTON SYSTEM ===== */
+.btn-submit, .myButton {
+    width: 100%;
+    height: 30px !important;            
+    padding: 0 12px !important;
+    background: #2563eb !important;
+    color: #fff !important;
+    border: none !important;
+    border-radius: 4px !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    cursor: pointer;
+    line-height: 30px !important;
+    white-space: nowrap;
+    text-align: center;
+    transition: all 0.2s ease;
+    box-shadow: none !important;
+    display: inline-block;
+    box-sizing: border-box;
+    margin-bottom: 8px;
+}
+
+.btn-submit:hover, .myButton:hover {
+    background: #1d4ed8 !important;
+}
+
+/* ===== RIGHT CONTENT AREA (Horizontally Aligned Heading) ===== */
+.main-content-wrapper {
+    flex: 1; 
+    display: flex;
+    flex-direction: column;
+    background: #ffffff;
+    height: 100%;
+    overflow: hidden;
+}
+
+.top-toolbar-container {
+    width: 100%;
+    padding: 10px 15px;
+    background: #ffffff;
+    border-bottom: 1px solid #e1e8ed;
+    box-sizing: border-box;
+}
+
+.scrollable-grid-area {
+    flex: 1;
+    padding: 15px 20px;
+    overflow: auto; 
+    box-sizing: border-box;
+}
+
+/* Account Banner Custom Styling Maintained */
+.account-banner {
+    background-color: #E0ECF8;
+    padding: 8px 15px;
+    border-radius: 6px;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+}
 .account {
-	color: black;
-	background-color: #E0ECF8;
-	width: 100%;
-	height: 28px;
-	font-family: Myriad Pro;
-	font-weight: bold;
+    color: black;
+    font-family: 'Myriad Pro', sans-serif;
+    font-weight: bold;
+    font-size: 13px;
 }
 .accname {
-	color: black;
-	background-color: #E0ECF8;
-	width: 100%;
-	font-family: comic sans ms;
-}
-.textbox {
-    border: 0;
-    height: 25px;
-    width: 20%;
-    border-radius: 5px;
-    -moz-border-radius: 5px;
-    -webkit-border-radius: 5px;
-    box-shadow: 1px 1px 0 0 #E0ECF8, 5px 5px 40px 2px #E0ECF8 inset;
-    -moz-box-shadow: 1px 1px 0 0 #E0ECF8, 5px 5px 40px 2px #E0ECF8 inset;
-    -webkit-box-shadow: 1px 1px 0 0 #E0ECF8, 5px 5px 40px 2px #E0ECF8 inset;
-    -webkit-background-clip: padding-box;
-    outline: 0;
+    color: black;
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    font-size: 13px;
 }
 
+/* Net Amount Footer Wrapper */
+.net-amount-footer {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-top: 15px;
+    padding: 12px 20px;
+    background: #fff;
+    border: 1px solid #e1e8ed;
+    border-radius: 8px;
+}
+.net-amount-label {
+    font-family: 'Myriad Pro', sans-serif;
+    font-size: 13px;
+    font-weight: bold;
+    color: #4e5e71;
+    margin-right: 10px;
+}
+
+/* Blinking Status Animation Maintained */
 .status {
-	color: #FD8725;
-	font-family: comic sans ms;
-	font-size: 25px;
-	font-weight: bold;
+    color: #FD8725;
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    font-size: 20px;
+    font-weight: bold;
+    display: inline-block;
+    margin-bottom: 10px;
 }
-
 #lblclientstatus {
-  -moz-animation-duration: 1s;
-  -moz-animation-name: blink;
-  -moz-animation-iteration-count: infinite;
-  -moz-animation-direction: alternate;
-  
-  -webkit-animation-duration: 1s;
-  -webkit-animation-name: blink;
-  -webkit-animation-iteration-count: infinite;
-  -webkit-animation-direction: alternate;
-  
-  animation-duration: 1s;
-  animation-name: blink;
-  animation-iteration-count: infinite;
-  animation-direction: alternate;
+  -moz-animation: blink 1s infinite alternate;
+  -webkit-animation: blink 1s infinite alternate;
+  animation: blink 1s infinite alternate;
 }
-
-@-moz-keyframes blink {
-  from {
-    opacity: 1;
-  }
-  
-  to {
-    opacity: 0;
-  }
-}
-
-@-webkit-keyframes blink {
-  from {
-    opacity: 1;
-  }
-  
-  to {
-    opacity: 0;
-  }
-}
-
-@keyframes blink {
-  from {
-    opacity: 1;
-  }
-  
-  to {
-    opacity: 0;
-  }
-}
+@-moz-keyframes blink { from { opacity: 1; } to { opacity: 0; } }
+@-webkit-keyframes blink { from { opacity: 1; } to { opacity: 0; } }
+@keyframes blink { from { opacity: 1; } to { opacity: 0; } }
 </style>
 <script type="text/javascript">
 
@@ -309,62 +425,91 @@
 <div id="mainBG" class="homeContent" data-type="background"> 
 <form id="frmAccountStatementType" action="saveAccountStatementType" method="post" autocomplete="off">
 <div class='hidden-scrollbar'>
-<table width="100%" >
-<tr>
-<td width="20%" >
-    <fieldset style="background: #ECF8E0;">
-	<table width="100%"  >
-	<jsp:include page="../../heading.jsp"></jsp:include>
-		
-	 <tr><td colspan="2">&nbsp;</td></tr>
-	 <tr>
-	 <td align="right"><label class="branch">Period</label></td>
-     <td align="left"><div id="fromdate" name="fromdate" onchange="getAccountFromPeriod();" value='<s:property value="fromdate"/>'></div></td></tr> 
-	<tr>
-	<td align="right"><label class="branch">To</label></td>
-    <td align="left"><div id="todate" name="todate" value='<s:property value="todate"/>'></div></td>
-	</tr>  
-	<tr><td colspan="2">&nbsp;</td></tr> 
-    <tr><td align="right"><label class="branch">Account</label></td>
-	<td align="left"><input type="text" id="txtaccid" name="txtaccid" style="width:60%;height:20px;" readonly="readonly" placeholder="Press F3 to Search" value='<s:property value="txtaccid"/>' onkeydown="getAccTypeFrom(event);"/></td></tr> 
-	<tr><td>&nbsp;</td>
-	<td><input type="text" id="txtaccname" name="txtaccname" style="width:100%;height:20px;" readonly="readonly" value='<s:property value="txtaccname"/>' tabindex="-1"/>
-    <input type="hidden" id="txtdocno" name="txtdocno" value='<s:property value="txtdocno"/>'/>
-    <input type="hidden" id="txtaccemail" name="txtaccemail" value='<s:property value="txtaccemail"/>'/></td></tr> 
-	<tr><td colspan="2" align="center">&nbsp;<label class="status" id="lblclientstatus" name="lblclientstatus"><s:property value="lblclientstatus"/></label></td></tr>
-	<tr><td colspan="2" align="center"><button class="myButton" type="button" id="btnPrintAccount" name="btnPrintAccount" onclick="funPrintAccountStatement(event);">Account Statement</button></td></tr>
-    <tr><td colspan="2">&nbsp;</td></tr>
-	<tr><td colspan="2">&nbsp;</td></tr>
-	<tr><td colspan="2">&nbsp;</td></tr>
-	<tr><td colspan="2">&nbsp;</td></tr>
-	<tr><td colspan="2">&nbsp;</td></tr>
-	<tr><td colspan="2">&nbsp;</td></tr>
-	<tr><td colspan="2">&nbsp;</td></tr>
-	</table>
-	</fieldset>
-</td>
-<td width="80%">
-	<table width="100%">
-	    <tr><td><label class="account">Account :&nbsp;</label><label class="accname" name="lblaccountname" id="lblaccountname"></label></td></tr> 
-		<tr>
-			 <td><div id="accountsStatementDiv"><jsp:include page="accountsStatementTypeGrid.jsp"></jsp:include></div></td>
-		</tr>
-	</table>
-</tr>
-</table>
-<table width="100%">
-<tr>
-		<td width="92%" align="right" style="font-family: Myriad Pro;font-size: 12px;font-weight: bold;">Net Amount :&nbsp;</td>
-        <td width="8%" align="left"><input type="text" class="textbox" id="txtnetamount" name="txtnetamount" style="width:80%;text-align: right;" value='<s:property value="txtnetamount"/>'/></td>
-</tr>
-</table>
 
-<input type="hidden" id="txtaccountperiodfrom" name="txtaccountperiodfrom" value='<s:property value="txtaccountperiodfrom"/>'/>
+<div class="master-container">
+
+    <div class="sidebar-filters">
+        <div class="sidebar-scroll-content">
+
+            <div class="filter-card">
+                <table class="filter-table">
+                    <tr>
+                        <td class="label-cell">Period</td>
+                        <td><div id="fromdate" name="fromdate" onchange="getAccountFromPeriod();" value='<s:property value="fromdate"/>'></div></td>
+                    </tr>
+                    <tr>
+                        <td class="label-cell">To</td>
+                        <td><div id="todate" name="todate" value='<s:property value="todate"/>'></div></td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="filter-card">
+                <table class="filter-table">
+                    <tr>
+                        <td class="label-cell">Account</td>
+                        <td>
+                            <input type="text" id="txtaccid" name="txtaccid" readonly="readonly" placeholder="Press F3 to Search" value='<s:property value="txtaccid"/>' onkeydown="getAccTypeFrom(event);"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <input type="text" id="txtaccname" name="txtaccname" readonly="readonly" value='<s:property value="txtaccname"/>' tabindex="-1"/>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="filter-card" style="text-align: center;">
+                <label class="status" id="lblclientstatus" name="lblclientstatus"><s:property value="lblclientstatus"/></label>
+                <hr style="border: 0; border-top: 1px solid #e1e8ed; margin: 12px 0;">
+                <button class="btn-submit" type="button" id="btnPrintAccount" name="btnPrintAccount" onclick="funPrintAccountStatement(event);">Account Statement</button>
+            </div>
+
+            <div style="display:none;">
+                <input type="hidden" id="txtdocno" name="txtdocno" value='<s:property value="txtdocno"/>'/>
+                <input type="hidden" id="txtaccemail" name="txtaccemail" value='<s:property value="txtaccemail"/>'/>
+                <input type="hidden" id="txtaccountperiodfrom" name="txtaccountperiodfrom" value='<s:property value="txtaccountperiodfrom"/>'/>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="main-content-wrapper">
+        
+        <div class="top-toolbar-container">
+            <jsp:include page="../../heading.jsp"></jsp:include>
+        </div>
+
+        <div class="scrollable-grid-area">
+            
+            <div class="account-banner">
+                <label class="account">Account :&nbsp;</label>
+                <label class="accname" name="lblaccountname" id="lblaccountname"></label>
+            </div>
+
+            <div id="accountsStatementDiv">
+                <jsp:include page="accountsStatementTypeGrid.jsp"></jsp:include>
+            </div>
+
+            <div class="net-amount-footer">
+                <span class="net-amount-label">Net Amount :</span>
+                <input type="text" id="txtnetamount" name="txtnetamount" style="width: 150px; text-align: right; font-weight: bold; background: #fff;" value='<s:property value="txtnetamount"/>' readonly/>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
 </div>
 </form>
+
 <div id="accountDetailsWindow">
 	<div></div><div></div>
 </div>
+
 </div> 
 </body>
 </html>

@@ -14,45 +14,172 @@
 <%-- <script type="text/javascript" src="../../js/dashboard.js"></script> --%> 
 
 <style type="text/css">
- 
-.myButtons {
-	-moz-box-shadow:inset 0px -1px 3px 0px #91b8b3;
-	-webkit-box-shadow:inset 0px -1px 3px 0px #91b8b3;
-	box-shadow:inset 0px -1px 3px 0px #91b8b3;
-	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #768d87), color-stop(1, #6c7c7c));
-	background:-moz-linear-gradient(top, #768d87 5%, #6c7c7c 100%);
-	background:-webkit-linear-gradient(top, #768d87 5%, #6c7c7c 100%);
-	background:-o-linear-gradient(top, #768d87 5%, #6c7c7c 100%);
-	background:-ms-linear-gradient(top, #768d87 5%, #6c7c7c 100%);
-	background:linear-gradient(to bottom, #768d87 5%, #6c7c7c 100%);
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#768d87', endColorstr='#6c7c7c',GradientType=0);
-	background-color:#768d87;
-	border:1px solid #566963;
-	display:inline-block;
-	cursor:pointer;
-	color:#ffffff;
-	
-	font-size:8pt;
-	
-	padding:3px 17px;
-	text-decoration:none;
-	text-shadow:0px -1px 0px #2b665e;
-}
-.myButtons:hover {
-	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #6c7c7c), color-stop(1, #768d87));
-	background:-moz-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
-	background:-webkit-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
-	background:-o-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
-	background:-ms-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
-	background:linear-gradient(to bottom, #6c7c7c 5%, #768d87 100%);
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#6c7c7c', endColorstr='#768d87',GradientType=0);
-	background-color:#6c7c7c;
-}
-.myButtons:active {
-	position:relative;
-	top:1px;
+/* ===== MASTER LAYOUT ===== */
+html, body, #mainBG, .hidden-scrollbar {
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+    background-color: #f4f7f9;
 }
 
+.master-container {
+    display: flex;
+    width: 100%;
+    height: 100vh;
+    font-family: 'Segoe UI', 'Roboto', 'Arial', sans-serif;
+}
+
+/* ===== LEFT SIDEBAR ===== */
+.sidebar-filters {
+    width: 320px;
+    flex: 0 0 320px;
+    background: #fff;
+    border-right: 1px solid #e1e8ed;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    box-shadow: 2px 0 8px rgba(0,0,0,.05);
+    z-index: 10;
+}
+
+.sidebar-scroll-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 15px 15px 25px;
+}
+
+.filter-card {
+    background: #f8fafc;
+    border: 1px solid #e3e8ee;
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 12px;
+}
+
+.filter-table {
+    width: 100%;
+    border-spacing: 0 10px;
+}
+
+.filter-table .label-cell {
+    text-align: right;
+    padding-right: 10px;
+    font-size: 12px;
+    color: #4e5e71;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+/* ===== UNIFORM 24px INPUTS & SELECTS ===== */
+input[type="text"], select,
+.filter-table input[type="text"],
+.filter-table select {
+    width: 100%;
+    height: 24px !important;
+    padding: 2px 8px !important;
+    border: 1px solid #ccd6e0 !important;
+    border-radius: 4px !important;
+    font-size: 12px !important;
+    background-color: #ffffff;
+    box-sizing: border-box;
+    color: #333;
+    outline: none;
+}
+
+input[readonly],
+input:disabled {
+    background-color: #f3f6f9 !important;
+    color: #555;
+    border-color: #e1e8ed !important;
+    cursor: text;
+}
+
+.filter-table div[id^="fromdate"],
+.filter-table div[id^="todate"],
+.filter-table div[id^="date"] {
+    width: 100%;
+}
+
+/* Radio group */
+.radio-group {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 10px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #4e5e71;
+}
+.radio-group label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    gap: 4px;
+}
+.radio-group input[type="radio"] {
+    margin: 0;
+}
+
+/* Fieldset sub-sections inside a card */
+.field-group {
+    border: 1px solid #e3e8ee;
+    border-radius: 8px;
+    padding: 10px 12px;
+    margin-top: 10px;
+}
+.field-group table {
+    margin-top: 4px;
+}
+
+/* ===== MASTER 30px BUTTON SYSTEM ===== */
+.btn-submit {
+    width: 100%;
+    height: 30px !important;
+    padding: 0 12px !important;
+    background: #2563eb !important;
+    color: #fff !important;
+    border: none !important;
+    border-radius: 4px !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    cursor: pointer;
+    line-height: 30px !important;
+    white-space: nowrap;
+    text-align: center;
+    transition: all 0.2s ease;
+    box-shadow: none !important;
+    display: inline-block;
+    box-sizing: border-box;
+    margin-bottom: 8px;
+}
+.btn-submit:hover {
+    background: #1d4ed8 !important;
+}
+
+/* ===== RIGHT CONTENT AREA ===== */
+.main-content-wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background: #ffffff;
+    height: 100%;
+    overflow: hidden;
+}
+
+.top-toolbar-container {
+    width: 100%;
+    padding: 10px 15px;
+    background: #ffffff;
+    border-bottom: 1px solid #e1e8ed;
+    box-sizing: border-box;
+}
+
+.scrollable-grid-area {
+    flex: 1;
+    padding: 15px 20px;
+    overflow: auto;
+    box-sizing: border-box;
+}
 </style>
 
 <script type="text/javascript">
@@ -470,85 +597,106 @@ function funRoundAmt4(value,id){
 </script>
 </head>
 <body onload="getBranch();disitems();">
-<div id="mainBG" class="homeContent" data-type="background"> 
+<div id="mainBG" class="homeContent" data-type="background">
 <div class='hidden-scrollbar'>
-<table width="100%" >
-<tr>
-<td width="20%" >
-    <fieldset style="background: #ECF8E0;">
-	<table width="100%"    >
-	<jsp:include page="../../heading.jsp"></jsp:include>
-		
-	 
-	  <tr><td  align="right" ><label class="branch">From</label></td><td align="left"><div id='fromdate' name='fromdate' value='<s:property value="fromdate"/>'></div>
-                    </td></tr>
-                    
-                    
-                     <tr><td  align="right" ><label class="branch">To</label></td><td align="left"><div id='todate' name='todate' value='<s:property value="todate"/>'></div>
-                    </td></tr>
-   
 
-  <tr><td colspan="2">&nbsp;</td></tr> 
- <tr><td colspan="2">&nbsp;</td></tr> 
- <tr><td colspan="2"><fieldset>
- <table  width="100%" >
-	 <tr><td colspan="2" align="center"><input type="radio" id="mr" name="stkled"  onchange="funchanges()" value="mr"><label for="rsumm" class="branch">Material Receipt</label>&nbsp;&nbsp;
-	 <input type="radio" id="cr" name="stkled" value="cr" onchange="funchanges()"><label for="rdet" class="branch">Credit Note</label></td></tr>
- 
+<div class="master-container">
 
-  <tr><td  align="right"><label class="branch">Ref No</label></td><td  align="left"  ><input type="text" id="refnos" style="height: 20px;" name="refnos" value='<s:property value="refnos"/>'></td></tr> 
-   <tr><td align="right" ><label class="branch">Date</label></td><td align="left" ><div id='date' name='date' value='<s:property value="date"/>'></div></td></tr>  
-  <tr><td  align="right"><label class="branch">Value</label></td><td  align="left"  ><input type="text" id="totvalue" readonly="readonly" style="height: 20px;text-align: right" name="totvalue" value='<s:property value="totvalue"/>'></td></tr> 
-  <tr><td  align="right"><label class="branch">CN&nbsp;Value</label></td><td  align="left"  ><input type="text" id="cnvalue" style="height: 20px;text-align: right" name="cnvalue" value='<s:property value="cnvalue"/>'onchange="calculateval()" ></td></tr> 
-  
-   <tr><td  align="right"><label class="branch">Balance</label></td><td  align="left"  ><input type="text" id="balance" readonly="readonly" style="height: 20px;text-align: right" name="balance" value='<s:property value="balance"/>'></td></tr>
-  
- <tr><td colspan="2" align="center"><input type="button" class="myButton" name="updatdata" id="updatdata"  value="Update" onclick="funupdatedatas()"></td></tr>  
- </table>
-</fieldset>
-<!-- 	<tr>
+    <div class="sidebar-filters">
+        <div class="sidebar-scroll-content">
+
+            <div class="filter-card">
+                <table class="filter-table">
+                    <tr>
+                        <td class="label-cell" style="width: 60px;">From</td>
+                        <td><div id='fromdate' name='fromdate' value='<s:property value="fromdate"/>'></div></td>
+                    </tr>
+                    <tr>
+                        <td class="label-cell" style="width: 60px;">To</td>
+                        <td><div id='todate' name='todate' value='<s:property value="todate"/>'></div></td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="filter-card">
+                <div class="radio-group">
+                    <label>
+                        <input type="radio" id="mr" name="stkled" onchange="funchanges()" value="mr">
+                        Material Receipt
+                    </label>
+                    <label>
+                        <input type="radio" id="cr" name="stkled" value="cr" onchange="funchanges()">
+                        Credit Note
+                    </label>
+                </div>
+
+                <fieldset class="field-group">
+                    <table class="filter-table">
+                        <tr>
+                            <td class="label-cell" style="width: 70px;">Ref No</td>
+                            <td><input type="text" id="refnos" name="refnos" value='<s:property value="refnos"/>'></td>
+                        </tr>
+                        <tr>
+                            <td class="label-cell" style="width: 70px;">Date</td>
+                            <td><div id='date' name='date' value='<s:property value="date"/>'></div></td>
+                        </tr>
+                        <tr>
+                            <td class="label-cell" style="width: 70px;">Value</td>
+                            <td><input type="text" id="totvalue" readonly="readonly" style="text-align: right" name="totvalue" value='<s:property value="totvalue"/>'></td>
+                        </tr>
+                        <tr>
+                            <td class="label-cell" style="width: 70px;">CN&nbsp;Value</td>
+                            <td><input type="text" id="cnvalue" style="text-align: right" name="cnvalue" value='<s:property value="cnvalue"/>' onchange="calculateval()"></td>
+                        </tr>
+                        <tr>
+                            <td class="label-cell" style="width: 70px;">Balance</td>
+                            <td><input type="text" id="balance" readonly="readonly" style="text-align: right" name="balance" value='<s:property value="balance"/>'></td>
+                        </tr>
+                    </table>
+                    <input type="button" class="btn-submit" name="updatdata" id="updatdata" value="Update" onclick="funupdatedatas()" style="margin-top: 10px;">
+                </fieldset>
+
+                <!-- 	<tr>
 	<td colspan="2"><div id='paychaaaaa' style="width: 100% ; align:right; height: 150px;"></div></td>
-	</tr> -->	
-	 <tr><td colspan="2">&nbsp;</td></tr> 
- <tr><td colspan="2">&nbsp;</td></tr> 
-  <tr><td colspan="2">&nbsp;</td></tr> 
- <tr><td colspan="2">&nbsp;</td></tr> 
- 
- 
- 
-	</table>
-	</fieldset>
-   <input type="hidden" id="acno" name="acno" value='<s:property value="acno"/>'>
-   <input type="hidden" id="docno" name="docno" value='<s:property value="docno"/>'>
-</td>
-<td width="80%">
-	<table width="100%">
-		<tr>
-			 <td><div id="listdiv"><jsp:include page="purchaselistGrid.jsp"></jsp:include></div></td>
-			 </tr>
-			 <tr>
-			 <td><div id="listdiv2"><jsp:include page="detailgrid.jsp"></jsp:include></div></td>
-	 
-		</tr>
-	</table>
-</tr>
-</table>
-<select id="statusselect" name="statusselect" hidden="true" style="width:70%;">
-	<option value="All">All</option>
- 
-		  
-		<input type="hidden" name="calcu" id="calcu">
-	
-	 </select>  
- 
- <input type="hidden" name="account" id="account" value='<s:property value="account"/>' readonly="readonly" placeholder="Press F3 To Search"   style="height:20px;width:70%;" onKeyDown="getaccountdetails(event);" >  
-  <input type="hidden" id="accname" name="accname" value='<s:property value="accname"/>'  readonly="readonly"  style="height:20px;width:100%;">
- 
-  
+	</tr> -->
+            </div>
+
+            <div style="display:none;">
+                <input type="hidden" id="acno" name="acno" value='<s:property value="acno"/>'>
+                <input type="hidden" id="docno" name="docno" value='<s:property value="docno"/>'>
+                <input type="hidden" name="calcu" id="calcu">
+                <select id="statusselect" name="statusselect">
+                    <option value="All">All</option>
+                </select>
+                <input type="hidden" name="account" id="account" value='<s:property value="account"/>' readonly="readonly" onKeyDown="getaccountdetails(event);">
+                <input type="hidden" id="accname" name="accname" value='<s:property value="accname"/>' readonly="readonly">
+            </div>
+
+        </div>
+    </div>
+
+    <div class="main-content-wrapper">
+
+        <div class="top-toolbar-container">
+            <jsp:include page="../../heading.jsp"></jsp:include>
+        </div>
+
+        <div class="scrollable-grid-area">
+            <div id="listdiv">
+                <jsp:include page="purchaselistGrid.jsp"></jsp:include>
+            </div>
+            <div id="listdiv2">
+                <jsp:include page="detailgrid.jsp"></jsp:include>
+            </div>
+        </div>
+
+    </div>
+
 </div>
-<div id="accountSearchwindow">
-   <div ></div>
-</div> 
+
+<div id="accountSearchwindow"><div></div></div>
+
+</div>
 </div>
 </body>
 </html>

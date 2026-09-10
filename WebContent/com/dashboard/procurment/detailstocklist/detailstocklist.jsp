@@ -14,45 +14,177 @@
 <%-- <script type="text/javascript" src="../../js/dashboard.js"></script> --%> 
 
 <style type="text/css">
- 
-.myButtons {
-	-moz-box-shadow:inset 0px -1px 3px 0px #91b8b3;
-	-webkit-box-shadow:inset 0px -1px 3px 0px #91b8b3;
-	box-shadow:inset 0px -1px 3px 0px #91b8b3;
-	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #768d87), color-stop(1, #6c7c7c));
-	background:-moz-linear-gradient(top, #768d87 5%, #6c7c7c 100%);
-	background:-webkit-linear-gradient(top, #768d87 5%, #6c7c7c 100%);
-	background:-o-linear-gradient(top, #768d87 5%, #6c7c7c 100%);
-	background:-ms-linear-gradient(top, #768d87 5%, #6c7c7c 100%);
-	background:linear-gradient(to bottom, #768d87 5%, #6c7c7c 100%);
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#768d87', endColorstr='#6c7c7c',GradientType=0);
-	background-color:#768d87;
-	border:1px solid #566963;
-	display:inline-block;
-	cursor:pointer;
-	color:#ffffff;
-	
-	font-size:8pt;
-	
-	padding:3px 17px;
-	text-decoration:none;
-	text-shadow:0px -1px 0px #2b665e;
-}
-.myButtons:hover {
-	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #6c7c7c), color-stop(1, #768d87));
-	background:-moz-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
-	background:-webkit-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
-	background:-o-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
-	background:-ms-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
-	background:linear-gradient(to bottom, #6c7c7c 5%, #768d87 100%);
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#6c7c7c', endColorstr='#768d87',GradientType=0);
-	background-color:#6c7c7c;
-}
-.myButtons:active {
-	position:relative;
-	top:1px;
+/* ===== MASTER LAYOUT ===== */
+html, body, #mainBG, .hidden-scrollbar {
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+    background-color: #f4f7f9;
 }
 
+.master-container {
+    display: flex;
+    width: 100%;
+    height: 100vh;
+    font-family: 'Segoe UI', 'Roboto', 'Arial', sans-serif;
+}
+
+/* ===== LEFT SIDEBAR ===== */
+.sidebar-filters {
+    width: 260px; 
+    flex: 0 0 260px; 
+    background: #fff;
+    border-right: 1px solid #e1e8ed;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    box-shadow: 2px 0 8px rgba(0,0,0,.05);
+    z-index: 10;
+}
+
+.sidebar-scroll-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 15px 15px 25px; 
+}
+
+/* Cards Layout Rules */
+.filter-card {
+    background: #f8fafc;
+    border: 1px solid #e3e8ee;
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 12px;
+}
+
+/* Internal Presentation Tables */
+.filter-table {
+    width: 100%;
+    border-spacing: 0 10px;
+}
+
+.filter-table .label-cell {
+    text-align: right;
+    padding-right: 10px;
+    font-size: 12px;
+    color: #4e5e71;
+    font-weight: 600;
+    width: 80px;
+}
+
+/* ===== UNIFORM 24px INPUTS & SELECTS ===== */
+input[type="text"], select,
+.filter-table input[type="text"],
+.filter-table select {
+    width: 100%;
+    height: 24px !important;             
+    padding: 2px 8px !important;         
+    border: 1px solid #ccd6e0 !important;
+    border-radius: 4px !important;       
+    font-size: 12px !important;          
+    background-color: #ffffff;
+    box-sizing: border-box;
+    color: #333;
+    outline: none;
+}
+
+/* Readonly fields override */
+input[readonly],
+input:disabled {
+    background-color: #f3f6f9 !important;
+    color: #555;
+    border-color: #e1e8ed !important;
+    cursor: text;
+}
+
+/* jqx Date Container Mapping Rules */
+.filter-table div[id^="fromdate"],
+.filter-table div[id^="todate"] {
+    width: 100%;
+}
+
+/* ===== MASTER 30px BUTTON SYSTEM ===== */
+.btn-submit, .myButton {
+    width: 100%;
+    height: 30px !important;            
+    padding: 0 12px !important;
+    background: #2563eb !important;
+    color: #fff !important;
+    border: none !important;
+    border-radius: 4px !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    cursor: pointer;
+    line-height: 30px !important;
+    white-space: nowrap;
+    text-align: center;
+    transition: all 0.2s ease;
+    box-shadow: none !important;
+    display: inline-block;
+    box-sizing: border-box;
+    margin-bottom: 8px;
+}
+
+.btn-submit:hover, .myButton:hover {
+    background: #1d4ed8 !important;
+}
+
+/* Text Labels styling */
+.info-label {
+    color: blue;
+    font-weight: bold;
+    font-size: 10px;
+    display: block;
+    text-align: center;
+    margin-top: 5px;
+}
+
+/* ===== RIGHT CONTENT AREA (Horizontally Aligned Heading) ===== */
+.main-content-wrapper {
+    flex: 1; 
+    display: flex;
+    flex-direction: column;
+    background: #ffffff;
+    height: 100%;
+    overflow: hidden;
+}
+
+.top-toolbar-container {
+    width: 100%;
+    padding: 10px 15px;
+    background: #ffffff;
+    border-bottom: 1px solid #e1e8ed;
+    box-sizing: border-box;
+}
+
+.scrollable-grid-area {
+    flex: 1;
+    padding: 15px 20px;
+    overflow: auto; 
+    box-sizing: border-box;
+}
+
+/* Grid Layout Styling for the Quadrants */
+.grid-section-title {
+    font-size: 12px;
+    font-family: sans-serif;
+    font-weight: bold;
+    text-decoration: underline;
+    margin-bottom: 5px;
+    display: block;
+}
+
+.dashboard-row {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.dashboard-col {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
 </style>
 
 <script type="text/javascript">   
@@ -184,115 +316,127 @@ function funreload(event)
 <body onload="getBranch();hidebranch();">
 <div id="mainBG" class="homeContent" data-type="background"> 
 <div class='hidden-scrollbar'>
-<table width="100%" >
-<tr>
-<td width="20%" >
-    <fieldset style="background: #ECF8E0;">
-	<table width="100%"  >
-	<jsp:include page="../../heading.jsp"></jsp:include>
-		
-	 
-	  <tr><td  align="right" ><label class="branch">From</label></td><td align="left"><div id='fromdate' name='fromdate' value='<s:property value="fromdate"/>'></div>
-                    </td></tr>
+
+<div class="master-container">
+
+    <div class="sidebar-filters">
+        <div class="sidebar-scroll-content">
+
+            <div class="filter-card">
+                <table class="filter-table">
+                    <tr>
+                        <td class="label-cell">From</td>
+                        <td><div id='fromdate' name='fromdate' value='<s:property value="fromdate"/>'></div></td>
+                    </tr>
+                    <tr>
+                        <td class="label-cell">To</td>
+                        <td><div id='todate' name='todate' value='<s:property value="todate"/>'></div></td>
+                    </tr> 
+                    <tr>
+                        <td class="label-cell">Product</td>
+                        <td>
+                            <div id="part"><jsp:include page="part.jsp"></jsp:include></div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="filter-card">
+                <input type="button" class="btn-submit" name="cs" id="cs" value="Stock Movement" onclick="chgitem(this.value)">
+            </div>
+
+            <div class="filter-card">
+                <table class="filter-table">
+                    <tr>
+                        <td class="label-cell">Stock</td> 
+                        <td><input type="text" id="stock" name="stock" style="text-align: right;" readonly="readonly" value='<s:property value="stock"/>' /></td>
+                    </tr> 
+                    <tr>
+                        <td class="label-cell">Reserve</td> 
+                        <td><input type="text" id="rsv" name="rsv" style="text-align: right;" readonly="readonly" value='<s:property value="rsv"/>' /></td>
+                    </tr> 
+                    <tr>
+                        <td class="label-cell">Balance</td> 
+                        <td><input type="text" id="bal" name="bal" style="text-align: right;" readonly="readonly" value='<s:property value="bal"/>' /></td>
+                    </tr> 
+                    <tr>
+                        <td class="label-cell">Selling Price</td> 
+                        <td><input type="text" id="sellprice" name="sellprice" style="text-align: right;" readonly="readonly" value='<s:property value="sellprice"/>' /></td>
+                    </tr> 
+                    <tr>
+                        <td class="label-cell">MRP</td> 
+                        <td><input type="text" id="mrp" name="mrp" style="text-align: right;" readonly="readonly" value='<s:property value="mrp"/>' /></td>
+                    </tr> 
+                </table>
+
+                <hr style="border: 0; border-top: 1px solid #e1e8ed; margin: 15px 0;">
+
+                <label id="prdname" name="prdname" class="info-label"><s:property value="prdname"/></label>
+                <label id="brname" name="brname" class="info-label"><s:property value="brname"/></label>
+            </div>
+
+            <div style="display:none;">
+                <input type="hidden" id="psrno" name="psrno" value='<s:property value="psrno"/>' /> 
+                <input type="hidden" id="statusselect" name="statusselect" value='<s:property value="statusselect"/>'>
+                <input type="hidden" id="acno" name="acno" value='<s:property value="acno"/>'>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="main-content-wrapper">
+        
+        <div class="top-toolbar-container">
+            <jsp:include page="../../heading.jsp"></jsp:include>
+        </div>
+
+        <div class="scrollable-grid-area">
+            
+            <div id="main">
+                <div class="dashboard-row">
+                    <div class="dashboard-col">
+                        <label class="grid-section-title">Pending Purchase Order</label>
+                        <div id="listdiv1"><jsp:include page="orderlistGrid.jsp"></jsp:include></div>
+
+                        <div style="height: 15px;"></div>
+
+                        <label class="grid-section-title">Purchase Details</label>
+                        <div id="listdiv2"><jsp:include page="purchaselistGrid.jsp"></jsp:include></div>
+                    </div>
                     
+                    <div class="dashboard-col">
+                        <label class="grid-section-title">Sales Details</label>
+                        <div id="listdiv3"><jsp:include page="saleslistGrid.jsp"></jsp:include></div>
+                    </div>
+                </div>
+
+                <div class="dashboard-row">
+                    <div class="dashboard-col">
+                        <label class="grid-section-title">Sales Slab</label>
+                        <div id="listdiv4"><jsp:include page="savelistGrid.jsp"></jsp:include></div>
+                    </div>
                     
-                     <tr><td  align="right" ><label class="branch">To</label></td><td align="left"><div id='todate' name='todate' value='<s:property value="todate"/>'></div>
-                    </td></tr> 
+                    <div class="dashboard-col">
+                        <label class="grid-section-title">Batch Wise Stock</label>
+                        <div id="listdiv5"><jsp:include page="batchlistGrid.jsp"></jsp:include></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="sub">
+                <div id="listdiv7"><jsp:include page="stockLedgerGridDetail.jsp"></jsp:include></div>
+            </div>
+            
+        </div>
 
- 
- 
- <tr><td colspan="2">&nbsp;</td></tr>
- 
-     <tr><td align="right"><label class="branch">Product</label></td>
- <td align="left"><div id="part"><jsp:include page="part.jsp"></jsp:include></div> </td></tr>
-	<input type="hidden" id="psrno" name="psrno" value='<s:property value="psrno"/>' /> 
-	 
- 
-  <tr><td colspan="2">&nbsp;</td></tr> 
- 
-<!-- 	  <tr><td colspan="2"> <tr><td colspan="2" align="center"><input type="button" class="myButton" name="cs" id="cs"  value="Current Stock"  ></td></tr>
-	   <tr><td colspan="2"> <tr><td colspan="2" align="center"><input type="button" class="myButton" name="cs" id="cs"  value="Pending Purchase Order"  ></td></tr>
-	    <tr><td colspan="2"> <tr><td colspan="2" align="center"><input type="button" class="myButton" name="cs" id="cs"  value="Sales Details"  ></td></tr>
-	     <tr><td colspan="2"> <tr><td colspan="2" align="center"><input type="button" class="myButton" name="cs" id="cs"  value="Purchase Details"  ></td></tr> -->
-	      <tr><td colspan="2"> <tr><td colspan="2" align="center"><input type="button" class="myButton" name="cs" id="cs"  value="Stock Movement"  onclick="chgitem(this.value)"></td></tr>
-	    <tr><td colspan="2">&nbsp;</td></tr>   
-<tr><td align="right"><label class="branch">Stock</label></td> <td><input type="text" id="stock" name="stock" style="width:100%;height:20px;text-align: right;" readonly="readonly" value='<s:property value="stock"/>' /></td></tr> 
-<tr><td align="right"><label class="branch">Reserve</label></td> <td><input type="text" id="rsv" name="rsv" style="width:100%;height:20px;text-align: right;" readonly="readonly" value='<s:property value="rsv"/>' /></td></tr> 
-	
-	<tr><td align="right"><label class="branch">Balance</label></td> <td><input type="text" id="bal" name="bal" style="width:100%;height:20px;text-align: right;" readonly="readonly" value='<s:property value="bal"/>' /></td></tr> 
-	
-	<tr><td align="right"><label class="branch">Selling Price</label></td> <td><input type="text" id="sellprice" name="sellprice" style="width:100%;height:20px;text-align: right;" readonly="readonly" value='<s:property value="sellprice"/>' /></td></tr> 
-	
-	<tr><td align="right"><label class="branch">MRP</label></td> <td><input type="text" id="mrp" name="mrp" style="width:100%;height:20px;text-align: right;" readonly="readonly" value='<s:property value="mrp"/>' /></td></tr> 
-		      
-
-	
-		
-			 <tr><td colspan="2">&nbsp;</td></tr> 
-		 	 <tr><td colspan="2">&nbsp;	<label id="prdname" name="prdname" style="color:blue;font-weight:bold;font-size: 10px;"><s:property value="prdname"/></td></tr>
-		 		 <tr><td colspan="2">	&nbsp;<label id="brname" name="brname" style="color:blue;font-weight:bold;font-size: 10px;"><s:property value="brname"/></td></tr>
-		 	 	 <tr><td colspan="2">&nbsp;</td></tr>
-		 	 	 	  <tr><td colspan="2">&nbsp;</td></tr>
-		 	 	 	 	 	 	 	 	 	       
-	</table>
-	</fieldset>
-	
-	 <input type="hidden" id="statusselect" name="statusselect" value='<s:property value="statusselect"/>'>
-   <input type="hidden" id="acno" name="acno" value='<s:property value="acno"/>'>
-   
- 
-   
-</td>
-<td width="80%">
-
-
-<div id="main" >
-  <table width="100%"  >
-		<tr>
-			 <td colspan="2"><label style="  font-size: 12PX;font-family: sans-serif; "><u><b>Pending Purchase Order</b></u></label><br><div id="listdiv1"><jsp:include page="orderlistGrid.jsp"></jsp:include></div></td>
-			 <td width="1%">&nbsp;</td>  
-			 <td  colspan="1" rowspan="3"  width="49.5%"><label style="  font-size: 12PX;font-family: sans-serif; "><u><b>Sales Details</b></u></label><br><div id="listdiv3"><jsp:include page="saleslistGrid.jsp"></jsp:include></div></td>
-		</tr>
-		<tr>
-			 <td  colspan="2" width="49.5%"><label style="  font-size: 12PX;font-family: sans-serif; "><u><b>Purchase Details</b></u></label><br><div id="listdiv2"><jsp:include page="purchaselistGrid.jsp"></jsp:include></div></td>
-			<td width="1%">&nbsp;</td>  
-			  
-		</tr>
-		 
-		<tr>
-			 <td  colspan="1" align="left"><label style="font-size: 12PX;font-family: sans-serif; "><u><b>Sales Slab</b></u></label><br><div id="listdiv4"><jsp:include page="savelistGrid.jsp"></jsp:include></div></td>
-			 
-			  <td  colspan="1" align="left"><label style="font-size: 12PX;font-family: sans-serif; "><u><b>Batch Wise Stock</b></u></label><br><div id="listdiv5"><jsp:include page="batchlistGrid.jsp"></jsp:include></div></td>
-		 <td width="1%">&nbsp;</td>  
-		</tr>
-	</table> 
-	
-	</div>
-	
-	<div id="sub">
-	
-	
-	  <table width="100%" >
-		<tr>
-			 <td  ><div id="listdiv7"><jsp:include page="stockLedgerGridDetail.jsp"></jsp:include></div></td>
-			 
-		</tr>
-	 
-	</table> 
-	
-	
-	
-	</div>
-	
- </td>
-	
-</tr>
-</table>
+    </div>
 
 </div>
  
 <div id="productDetailsWindow">
 	<div></div><div></div>
+</div>
+
 </div>
 </div>
 </body>

@@ -11,43 +11,184 @@
 <link href="../../../../css/dashboard.css" media="screen" rel="stylesheet" type="text/css" />  
 
 <style type="text/css">
-.myButtons {
-	-moz-box-shadow:inset 0px -1px 3px 0px #91b8b3;
-	-webkit-box-shadow:inset 0px -1px 3px 0px #91b8b3;
-	box-shadow:inset 0px -1px 3px 0px #91b8b3;
-	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #768d87), color-stop(1, #6c7c7c));
-	background:-moz-linear-gradient(top, #768d87 5%, #6c7c7c 100%);
-	background:-webkit-linear-gradient(top, #768d87 5%, #6c7c7c 100%);
-	background:-o-linear-gradient(top, #768d87 5%, #6c7c7c 100%);
-	background:-ms-linear-gradient(top, #768d87 5%, #6c7c7c 100%);
-	background:linear-gradient(to bottom, #768d87 5%, #6c7c7c 100%);
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#768d87', endColorstr='#6c7c7c',GradientType=0);
-	background-color:#768d87;
-	border:1px solid #566963;
-	display:inline-block;
-	cursor:pointer;
-	color:#ffffff;
-	
-	font-size:8pt;
-	
-	padding:3px 17px;
-	text-decoration:none;
-	text-shadow:0px -1px 0px #2b665e;
+
+/* ===== MASTER LAYOUT ===== */
+html, body, #mainBG, .hidden-scrollbar {
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+    background-color: #f4f7f9;
 }
-.myButtons:hover {
-	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #6c7c7c), color-stop(1, #768d87));
-	background:-moz-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
-	background:-webkit-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
-	background:-o-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
-	background:-ms-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
-	background:linear-gradient(to bottom, #6c7c7c 5%, #768d87 100%);
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#6c7c7c', endColorstr='#768d87',GradientType=0);
-	background-color:#6c7c7c;
+
+.master-container {
+    display: flex;
+    width: 100%;
+    height: 100vh;
+    font-family: 'Segoe UI', 'Roboto', 'Arial', sans-serif;
 }
-.myButtons:active {
-	position:relative;
-	top:1px;
+
+/* ===== LEFT SIDEBAR ===== */
+.sidebar-filters {
+    width: 280px; 
+    flex: 0 0 280px; 
+    background: #fff;
+    border-right: 1px solid #e1e8ed;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    box-shadow: 2px 0 8px rgba(0,0,0,.05);
+    z-index: 10;
 }
+
+.sidebar-scroll-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 15px 15px 25px; 
+}
+
+/* Cards Layout Rules */
+.filter-card {
+    background: #f8fafc;
+    border: 1px solid #e3e8ee;
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 12px;
+}
+
+/* Internal Presentation Tables */
+.filter-table {
+    width: 100%;
+    border-spacing: 0 10px;
+}
+
+.filter-table .label-cell {
+    text-align: right;
+    padding-right: 10px;
+    font-size: 12px;
+    color: #4e5e71;
+    font-weight: 600;
+    width: 80px;
+}
+
+/* ===== UNIFORM 24px INPUTS & SELECTS ===== */
+input[type="text"], select,
+.filter-table input[type="text"],
+.filter-table select {
+    width: 100%;
+    height: 24px !important;             
+    padding: 2px 8px !important;         
+    border: 1px solid #ccd6e0 !important;
+    border-radius: 4px !important;       
+    font-size: 12px !important;          
+    background-color: #ffffff;
+    box-sizing: border-box;
+    color: #333;
+    outline: none;
+}
+
+/* Readonly fields override */
+input[readonly],
+input:disabled {
+    background-color: #f3f6f9 !important;
+    color: #555;
+    border-color: #e1e8ed !important;
+    cursor: text;
+}
+
+/* Fieldset and Legend overrides */
+fieldset {
+    border: 1px solid #ccd6e0;
+    border-radius: 8px;
+    padding: 10px;
+    background: transparent;
+    margin-bottom: 15px;
+}
+legend {
+    font-size: 12px;
+    font-weight: bold;
+    color: #4e5e71;
+    padding: 0 5px;
+}
+
+/* Checkboxes & Radios */
+.radio-group {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 5px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #4e5e71;
+    flex-wrap: wrap;
+}
+.radio-group label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+.radio-group input[type="radio"],
+.radio-group input[type="checkbox"] {
+    margin: 0 5px 0 0;
+    vertical-align: middle;
+}
+
+/* jqx Date Container Mapping Rules */
+.filter-table div[id^="fromdate"],
+.filter-table div[id^="todate"] {
+    width: 100%;
+}
+
+/* ===== MASTER 30px BUTTON SYSTEM ===== */
+.btn-submit, .myButtons {
+    width: 100%;
+    height: 30px !important;            
+    padding: 0 12px !important;
+    background: #2563eb !important;
+    color: #fff !important;
+    border: none !important;
+    border-radius: 4px !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    cursor: pointer;
+    line-height: 30px !important;
+    white-space: nowrap;
+    text-align: center;
+    transition: all 0.2s ease;
+    box-shadow: none !important;
+    display: inline-block;
+    box-sizing: border-box;
+    margin-bottom: 8px;
+}
+
+.btn-submit:hover, .myButtons:hover {
+    background: #1d4ed8 !important;
+}
+
+/* ===== RIGHT CONTENT AREA (Horizontally Aligned Heading) ===== */
+.main-content-wrapper {
+    flex: 1; 
+    display: flex;
+    flex-direction: column;
+    background: #ffffff;
+    height: 100%;
+    overflow: hidden;
+}
+
+.top-toolbar-container {
+    width: 100%;
+    padding: 10px 15px;
+    background: #ffffff;
+    border-bottom: 1px solid #e1e8ed;
+    box-sizing: border-box;
+}
+
+.scrollable-grid-area {
+    flex: 1;
+    padding: 15px 20px;
+    overflow: auto; 
+    box-sizing: border-box;
+}
+
 </style>
 
 <script type="text/javascript">
@@ -281,78 +422,157 @@
 <body onload="getBranch();">
 <div id="mainBG" class="homeContent" data-type="background"> 
 <div class='hidden-scrollbar'>
-<table width="100%" >
-<tr>
-<td width="20%" >
-    <fieldset style="background: #ECF8E0;">
-	<table width="100%"  >
-	<jsp:include page="../../heading.jsp"></jsp:include>
-		
-    <tr><td colspan="2">&nbsp;</td></tr>
-    <tr><td align="right"><label class="branch">From</label></td>
-     <td align="left"><div id="fromdate" name="fromdate" value='<s:property value="fromdate"/>'></div></td></tr> 
-	<tr><td align="right"><label class="branch">To</label></td>
-    <td align="left"><div id="todate" name="todate" value='<s:property value="todate"/>'></div></td></tr>  
-	<tr><td colspan="2">
-	  <fieldset><legend><b><label class="branch">Report Type</label></b></legend>
-	   <table width="100%">
-       <tr>
-       <td width="48%" align="center"><input type="radio" id="rdpayment" name="rdo" value="FPP"><label for="rdpayment" class="branch">Payment</label></td>
-       <td width="52%" align="center"><input type="radio" id="rdreceipt" name="rdo" value="FRO"><label for="rdreceipt" class="branch">Receipt</label></td>
-       </tr>
-       </table>
-	  </fieldset>
-	</td></tr>
-	<tr><td colspan="2">
-	  <fieldset><legend><b><label class="branch">Type</label></b></legend>
-	   <table width="100%">
-       <tr>
-       <td width="48%" align="center"><input type="radio" id="rdall" name="rdos" value="rdall"><label for="rdall" class="branch">All</label></td>
-       <td width="52%" align="center"><input type="radio" id="rdpdc" name="rdos" value="rdpdc"><label for="rdpdc" class="branch">PDC</label></td>
-       </tr>
-       <tr>
-       <td colspan="2" align="center"><input type="radio" id="rduncleared" name="rdos" value="rduncleared"><label for="rduncleared" class="branch">Uncleared</label>&nbsp;&nbsp;
-       <input type="checkbox" id="chckunclrposted" name="chckunclrposted" value="" onchange="checkunclrposted();" onclick="$(this).attr('value', this.checked ? 1 : 0)"><label class="branch">Uncleared Posted</label>
-	    <input type="hidden" id="hidchckunclrposted" name="hidchckunclrposted" value='<s:property value="hidchckunclrposted"/>'/></td>
-       </tr>
-       </table>
-	  </fieldset>
-	</td></tr> 
-	<tr><td align="right"><label class="branch">Criteria</label></td>
-	<td align="left"><select id="cmbcriteria" name="cmbcriteria" style="width:75%;" onchange="dateDisable();" value='<s:property value="cmbcriteria"/>'>
-    <option value="1">All</option><option value="2">To be Posted</option><option value="3">Posted PDC</option>
-    <option value="4">Returned PDC</option><option value="5">Dishonoured PDC</option></select></td></tr>
-    <tr><td align="right"><label class="branch">Distribution</label></td>
-	<td align="left"><select id="cmbdistribution" name="cmbdistribution" style="width:60%;" value='<s:property value="cmbdistribution"/>'>
-    <option value="">--Select--</option><option value="monthwise">Month-Wise</option><option value="bankwise">Bank-Wise</option></select></td></tr>
-    <tr><td align="right"><label class="branch">Grouping</label></td>
-	<td align="left"><select id="cmbgroup" name="cmbgroup" style="width:40%;" value='<s:property value="cmbgroup"/>'>
-    <option value="">--Select--</option><option value="date">Date</option><option value="month">Month</option>
-    <option value="bank">Bank</option></select></td></tr> 
-	<tr><td align="right"><label class="branch">Acc. Type</label></td>
-	<td align="left"><select id="cmbtype" name="cmbtype" style="width:40%;" onchange="clearAccountInfo();" value='<s:property value="cmbtype"/>'>
-    <option value="0">--Select--</option><option value="BANK">Bank</option><option value="AP">AP</option><option value="AR">AR</option></select></td></tr>
-    <tr><td align="right"><label class="branch">Account</label></td>
-	<td align="left"><input type="text" id="txtaccid" name="txtaccid" style="width:60%;height:20px;" readonly="readonly" placeholder="Press F3 to Search" value='<s:property value="txtaccid"/>' onkeydown="getAccTypeFrom(event);"/></td></tr> 
-	<tr><td>&nbsp;</td>
-	<td><input type="text" id="txtaccname" name="txtaccname" style="width:100%;height:20px;" readonly="readonly" value='<s:property value="txtaccname"/>' tabindex="-1"/>
-    <input type="hidden" id="txtdocno" name="txtdocno" value='<s:property value="txtdocno"/>'/></td></tr>
-    <tr><td colspan="2">&nbsp;</td></tr>
-    <tr><td colspan="2" align="center"><input type="button" class="myButtons" name="clear" id="clear"  value="Clear" onclick="funClearInfo();"></td></tr>
-	</table>
-	</fieldset>
-</td>
-<td width="80%">
-	<table width="100%">
-		<tr>
-			 <td><div id="pdcListDiv"><jsp:include page="pdcListGrid.jsp"></jsp:include></div>
-			 <div id="pdcListGroupDiv" hidden="true"><jsp:include page="pdcListGroupingGrid.jsp"></jsp:include></div>
-			 <div id="pdcListDistributionDiv" hidden="true"><jsp:include page="pdcListDistributionGrid.jsp"></jsp:include></div></td>
-		</tr>
-	</table>
-</tr>
-</table>
+
+<div class="master-container">
+
+    <div class="sidebar-filters">
+        <div class="sidebar-scroll-content">
+
+            <div class="filter-card">
+                <table class="filter-table">
+                    <tr>
+                        <td class="label-cell">From</td>
+                        <td><div id="fromdate" name="fromdate" value='<s:property value="fromdate"/>'></div></td>
+                    </tr> 
+                    <tr>
+                        <td class="label-cell">To</td>
+                        <td><div id="todate" name="todate" value='<s:property value="todate"/>'></div></td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="filter-card">
+                <fieldset>
+                    <legend>Report Type</legend>
+                    <div class="radio-group">
+                        <label>
+                            <input type="radio" id="rdpayment" name="rdo" value="FPP">
+                            Payment
+                        </label>
+                        <label>
+                            <input type="radio" id="rdreceipt" name="rdo" value="FRO">
+                            Receipt
+                        </label>
+                    </div>
+                </fieldset>
+
+                <fieldset>
+                    <legend>Type</legend>
+                    <div class="radio-group">
+                        <label>
+                            <input type="radio" id="rdall" name="rdos" value="rdall">
+                            All
+                        </label>
+                        <label>
+                            <input type="radio" id="rdpdc" name="rdos" value="rdpdc">
+                            PDC
+                        </label>
+                    </div>
+                    <div class="radio-group" style="margin-top: 10px;">
+                        <label>
+                            <input type="radio" id="rduncleared" name="rdos" value="rduncleared">
+                            Uncleared
+                        </label>
+                    </div>
+                    <div class="radio-group" style="margin-top: 5px;">
+                        <label>
+                            <input type="checkbox" id="chckunclrposted" name="chckunclrposted" value="" onchange="checkunclrposted();" onclick="$(this).attr('value', this.checked ? 1 : 0)">
+                            Uncleared Posted
+                        </label>
+                    </div>
+                </fieldset>
+            </div>
+
+            <div class="filter-card">
+                <table class="filter-table">
+                    <tr>
+                        <td class="label-cell">Criteria</td>
+                        <td>
+                            <select id="cmbcriteria" name="cmbcriteria" onchange="dateDisable();" value='<s:property value="cmbcriteria"/>'>
+                                <option value="1">All</option>
+                                <option value="2">To be Posted</option>
+                                <option value="3">Posted PDC</option>
+                                <option value="4">Returned PDC</option>
+                                <option value="5">Dishonoured PDC</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label-cell">Distribution</td>
+                        <td>
+                            <select id="cmbdistribution" name="cmbdistribution" value='<s:property value="cmbdistribution"/>'>
+                                <option value="">--Select--</option>
+                                <option value="monthwise">Month-Wise</option>
+                                <option value="bankwise">Bank-Wise</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label-cell">Grouping</td>
+                        <td>
+                            <select id="cmbgroup" name="cmbgroup" value='<s:property value="cmbgroup"/>'>
+                                <option value="">--Select--</option>
+                                <option value="date">Date</option>
+                                <option value="month">Month</option>
+                                <option value="bank">Bank</option>
+                            </select>
+                        </td>
+                    </tr> 
+                    <tr>
+                        <td class="label-cell">Acc. Type</td>
+                        <td>
+                            <select id="cmbtype" name="cmbtype" onchange="clearAccountInfo();" value='<s:property value="cmbtype"/>'>
+                                <option value="0">--Select--</option>
+                                <option value="BANK">Bank</option>
+                                <option value="AP">AP</option>
+                                <option value="AR">AR</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label-cell">Account</td>
+                        <td>
+                            <input type="text" id="txtaccid" name="txtaccid" readonly="readonly" placeholder="Press F3 to Search" value='<s:property value="txtaccid"/>' onkeydown="getAccTypeFrom(event);"/>
+                        </td>
+                    </tr> 
+                    <tr>
+                        <td colspan="2">
+                            <input type="text" id="txtaccname" name="txtaccname" readonly="readonly" value='<s:property value="txtaccname"/>' tabindex="-1"/>
+                        </td>
+                    </tr>
+                </table>
+
+                <hr style="border: 0; border-top: 1px solid #e1e8ed; margin: 15px 0;">
+
+                <input type="button" class="btn-submit" name="clear" id="clear" value="Clear" onclick="funClearInfo();" style="background:#64748b !important;">
+            </div>
+
+            <div style="display:none;">
+                <input type="hidden" id="hidchckunclrposted" name="hidchckunclrposted" value='<s:property value="hidchckunclrposted"/>'/>
+                <input type="hidden" id="txtdocno" name="txtdocno" value='<s:property value="txtdocno"/>'/>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="main-content-wrapper">
+        
+        <div class="top-toolbar-container">
+            <jsp:include page="../../heading.jsp"></jsp:include>
+        </div>
+
+        <div class="scrollable-grid-area">
+            
+            <div id="pdcListDiv"><jsp:include page="pdcListGrid.jsp"></jsp:include></div>
+            <div id="pdcListGroupDiv" hidden="true"><jsp:include page="pdcListGroupingGrid.jsp"></jsp:include></div>
+            <div id="pdcListDistributionDiv" hidden="true"><jsp:include page="pdcListDistributionGrid.jsp"></jsp:include></div>
+
+        </div>
+
+    </div>
+
 </div>
+
 <div id="accountDetailsWindow">
 	<div></div><div></div>
 </div>
