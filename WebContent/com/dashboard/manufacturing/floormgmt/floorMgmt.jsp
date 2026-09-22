@@ -1,7 +1,7 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
-   
-<!DOCTYPE html>
+<jsp:include page="../../../../includes.jsp"></jsp:include>    
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%  String contextPath=request.getContextPath();%>
+<!DOCTYPE html>   
 <html lang="en">
 <head>
 <title>Floor Management</title>
@@ -14,37 +14,106 @@
 <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
 
-  <style type="text/css">
-    .custompanel{
-      border:1px solid #ccc;
-      float: left;
-      display: inline-block;
-      margin-top: 10px; 
-      margin-right: 10px;
-      padding-right: 10px;
-      padding-left: 10px;
-      padding-top: 10px;
-      padding-bottom: 10px;
-      border-radius: 8px;
+<style type="text/css">
+    /* ===== MODERN TOP ACTION BAR ===== */
+    .top-action-bar {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        align-items: center;
+        background: #f8fafc;
+        border: 1px solid #e3e8ee;
+        border-radius: 8px;
+        padding: 12px 15px;
+        margin-bottom: 15px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.05);
     }
-    /*.custompanel .buttoncontainer{
-    	clear:both;
-    	float:left;
-    	display:inline-block;
+
+    .action-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        background-color: #ffffff;
+        border: 1px solid #ccd6e0;
+        color: #333;
+        padding: 6px 14px;
+        font-size: 13px;
+        font-weight: 600;
+        border-radius: 6px;
+        transition: all 0.2s ease-in-out;
+        box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+        cursor: pointer;
+        position: relative;
     }
-     .custompanel div{
-    	float: left;
-      	display: inline-block;
-      	margin:0;
-      	padding:0;
-      	width:auto;
+
+    .action-btn:hover {
+        background-color: #f0f4f8;
+        border-color: #2563eb;
+        color: #2563eb;
     }
-    .custompanel button{
-       border:none;
-    }*/
-    .badge-notify{
-	   position:absolute;right:-5px;top:-8px;z-index:2;background-color:red;
-	} 
+
+    .action-btn i {
+        font-size: 14px;
+    }
+
+    .action-btn:focus {
+        outline: none;
+        box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
+    }
+
+    /* Active State for Toggle Filters */
+    .action-btn.active {
+        background-color: #2563eb;
+        color: #fff;
+        border-color: #1d4ed8;
+    }
+
+    .action-divider {
+        width: 1px;
+        height: 28px;
+        background-color: #ccd6e0;
+        margin: 0 5px;
+    }
+
+    .badge-wrapper {
+        position: relative;
+        display: inline-block;
+    }
+
+    .badge-notify {
+        position: absolute;
+        right: -8px;
+        top: -10px;
+        z-index: 2;
+        background-color: #ef4444;
+        color: white;
+        font-size: 10px;
+        font-weight: bold;
+        padding: 3px 6px;
+        border-radius: 12px;
+        box-shadow: 0 2px 4px rgba(239, 68, 68, 0.3);
+    }
+
+    /* Keep warningpanel display as flex to preserve structural layout while ensuring JS selectors still work */
+    .warningpanel {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        align-items: center;
+    }
+
+    /* Grid Area */
+    .grid-container {
+        background: #fff;
+        border: 1px solid #e1e8ed;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        padding: 15px;
+        overflow: hidden;
+    }
+
+    /* Legacy / Required UI Elements */
 	.comment{
       background-image: linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%);
       color: #000;
@@ -84,15 +153,13 @@
     	margin-bottom: 6px;
     }
     .load-wrapp {
-	    float: left;
 	    width: 100px;
 	    height: 100px;
-	    margin: 0 10px 10px 0;
-	    padding: 20px 20px 20px;
+	    padding: 20px;
 	    border-radius: 5px;
 	    text-align: center;
 	    background-color: #fff;
-	    position:absolute;
+	    position:fixed;
 	    z-index:9999;
 	    top:50%;
 	    left:50%;
@@ -105,7 +172,6 @@
 	    height: 45px;
 	    margin: 0 auto;
 	}
-	
 	.bubble-1,
 	.bubble-2 {
 	    position: absolute;
@@ -113,10 +179,8 @@
 	    width: 25px;
 	    height: 25px;
 	    border-radius: 100%;
-	    
 	    background-color: #000;
 	}
-	
 	.bubble-2 {
 	    top: auto;
 	    bottom: 0;
@@ -127,13 +191,11 @@
 	@keyframes loadingI {
 	    100% {transform: rotate(360deg);}
 	}
-	
 	@keyframes bounce  {
 	  0%, 100% {transform: scale(0.0);}
 	  50% {transform: scale(1.0);}
 	}
-			
-  </style>
+</style>
 </head>
 <body>
 	<div class="load-wrapp">
@@ -144,108 +206,134 @@
             </div>
         </div>
     </div>
-  <div class="container-fluid">
+  <div class="container-fluid" style="padding-top: 15px;">
+    
+    <!-- Modern Horizontal Top Action Bar -->
     <div class="row rowgap">
-      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <div class="primarypanel custompanel">
-  			<button type="button" class="btn btn-default" id="btnsubmit" data-toggle="tooltip" title="Submit" data-placement="bottom"><i class="fa fa-refresh" aria-hidden="true"></i></button>
-          	<button type="button" class="btn btn-default" id="btnexcel" data-toggle="tooltip" title="Excel Export" data-placement="bottom"><i class="fa fa-file-excel-o " aria-hidden="true"></i></button>
-        	
+      <div class="col-xs-12">
+        <div class="top-action-bar">
+            
+            <!-- Standard Actions -->
+  			<button type="button" class="action-btn" id="btnsubmit" data-toggle="tooltip" title="Submit">
+                  <i class="fa fa-refresh"></i> Refresh
+            </button>
+          	<button type="button" class="action-btn" id="btnexcel" data-toggle="tooltip" title="Excel Export">
+                  <i class="fa fa-file-excel-o"></i> Export
+            </button>
+            
+            <div class="action-divider"></div>
+            
+            <!-- Stage Filters wrapped in warningpanel to preserve JS selector -->
+            <div class="warningpanel">
+                <div class="badge-wrapper">
+                    <button type="button" class="action-btn" id="btnmrp" data-toggle="tooltip" title="Material Requirement Planning" data-filtervalue="N" data-datafield="mrp" data-filtertype="stringfilter" data-filtercondition="contains">
+                        <i class="fa fa-filter"></i> MRP
+                    </button>
+                    <span class="badge badge-notify badge-mrp">3</span>
+                </div>	
+                <div class="badge-wrapper">
+                    <button type="button" class="action-btn" id="btnwo" data-toggle="tooltip" title="Work Order" data-filtervalue="N" data-datafield="wo" data-filtertype="stringfilter" data-filtercondition="contains">
+                        <i class="fa fa-filter"></i> WO
+                    </button>
+                    <span class="badge badge-notify badge-wo">3</span>
+                </div>
+                <div class="badge-wrapper">
+                    <button type="button" class="action-btn" id="btnblnd" data-toggle="tooltip" title="Blending" data-filtervalue="N" data-datafield="blnd" data-filtertype="stringfilter" data-filtercondition="contains">
+                        <i class="fa fa-filter"></i> BLND
+                    </button>
+                    <span class="badge badge-notify badge-blnd">3</span>
+                </div>
+                <div class="badge-wrapper">
+                    <button type="button" class="action-btn" id="btnmr" data-toggle="tooltip" title="Material Request" data-filtervalue="N" data-datafield="mr" data-filtertype="stringfilter" data-filtercondition="contains">
+                        <i class="fa fa-filter"></i> MR
+                    </button>
+                    <span class="badge badge-notify badge-mr">3</span>
+                </div>
+                <div class="badge-wrapper">
+                    <button type="button" class="action-btn" id="btnmin" data-toggle="tooltip" title="Material Issue Note" data-filtervalue="N" data-datafield="min" data-filtertype="stringfilter" data-filtercondition="contains">
+                        <i class="fa fa-filter"></i> MIN
+                    </button>
+                    <span class="badge badge-notify badge-min">3</span>
+                </div>
+                <div class="badge-wrapper">
+                    <button type="button" class="action-btn" id="btnqa" data-toggle="tooltip" title="Quality Assurance" data-filtervalue="N" data-datafield="qa" data-filtertype="stringfilter" data-filtercondition="contains">
+                        <i class="fa fa-filter"></i> QA
+                    </button>
+                    <span class="badge badge-notify badge-qa">3</span>
+                </div>
+                <div class="badge-wrapper">
+                    <button type="button" class="action-btn" id="btnpc" data-toggle="tooltip" title="Production Complete" data-filtervalue="N" data-datafield="pc" data-filtertype="stringfilter" data-filtercondition="contains">
+                        <i class="fa fa-filter"></i> PC
+                    </button>
+                    <span class="badge badge-notify badge-pc">3</span>
+                </div>
+                <div class="badge-wrapper">
+                    <button type="button" class="action-btn" id="btnfp" data-toggle="tooltip" title="Finished Product" data-filtervalue="N" data-datafield="fp" data-filtertype="stringfilter" data-filtercondition="contains">
+                        <i class="fa fa-filter"></i> FP
+                    </button>
+                    <span class="badge badge-notify badge-fp">3</span>
+                </div>
+                <div class="badge-wrapper">
+                    <button type="button" class="action-btn" id="btndel" data-toggle="tooltip" title="Delivery" data-filtervalue="N" data-datafield="del" data-filtertype="stringfilter" data-filtercondition="contains">
+                        <i class="fa fa-filter"></i> DEL
+                    </button>
+                    <span class="badge badge-notify badge-del">3</span>
+                </div>
+                <div class="badge-wrapper">
+                    <button type="button" class="action-btn" id="btninv" data-toggle="tooltip" title="Invoice" data-filtervalue="N" data-datafield="inv" data-filtertype="stringfilter" data-filtercondition="contains">
+                        <i class="fa fa-filter"></i> INV
+                    </button>
+                    <span class="badge badge-notify badge-inv">3</span>
+                </div>
+            </div>
+            
         </div>
-        
-        <div class="warningpanel custompanel">
-          <div class="btn-group" role="group">
-          	<button type="button" class="btn btn-default" id="btnmrp" data-toggle="tooltip" title="MRP" data-placement="bottom" data-filtervalue="N" data-datafield="mrp" data-filtertype="stringfilter" data-filtercondition="contains">MRP</button>
-          	<span class="badge badge-notify badge-mrp">3</span>
-          </div>	
-          <div class="btn-group" role="group">
-          	<button type="button" class="btn btn-default" id="btnwo" data-toggle="tooltip" title="WO" data-placement="bottom" data-filtervalue="N" data-datafield="wo" data-filtertype="stringfilter" data-filtercondition="contains">WO</button>
-          	<span class="badge badge-notify badge-wo">3</span>
-          </div>
-          <div class="btn-group" role="group">
-          	<button type="button" class="btn btn-default" id="btnblnd" data-toggle="tooltip" title="BLND" data-placement="bottom" data-filtervalue="N" data-datafield="blnd" data-filtertype="stringfilter" data-filtercondition="contains">BLND</button>
-          	<span class="badge badge-notify badge-blnd">3</span>
-          </div>
-          <div class="btn-group" role="group">
-          	<button type="button" class="btn btn-default" id="btnmr" data-toggle="tooltip" title="MR" data-placement="bottom" data-filtervalue="N" data-datafield="mr" data-filtertype="stringfilter" data-filtercondition="contains">MR</button>
-          	<span class="badge badge-notify badge-mr">3</span>
-          </div>
-          <div class="btn-group" role="group">
-          	<button type="button" class="btn btn-default" id="btnmin" data-toggle="tooltip" title="MIN" data-placement="bottom" data-filtervalue="N" data-datafield="min" data-filtertype="stringfilter" data-filtercondition="contains">MIN</button>
-          	<span class="badge badge-notify badge-min">3</span>
-          </div>
-          <div class="btn-group" role="group">
-          	<button type="button" class="btn btn-default" id="btnqa" data-toggle="tooltip" title="QA" data-placement="bottom" data-filtervalue="N" data-datafield="qa" data-filtertype="stringfilter" data-filtercondition="contains">QA</button>
-          	<span class="badge badge-notify badge-qa">3</span>
-          </div>
-        	 <div class="btn-group" role="group">
-          	<button type="button" class="btn btn-default" id="btnpc" data-toggle="tooltip" title="PC" data-placement="bottom" data-filtervalue="N" data-datafield="pc" data-filtertype="stringfilter" data-filtercondition="contains" >PC</button>
-          	<span class="badge badge-notify badge-pc">3</span>
-          </div>
-          <div class="btn-group" role="group">
-          	<button type="button" class="btn btn-default" id="btnfp" data-toggle="tooltip" title="FP" data-placement="bottom" data-filtervalue="N" data-datafield="fp" data-filtertype="stringfilter" data-filtercondition="contains">FP</button>
-          	<span class="badge badge-notify badge-fp">3</span>
-          </div>
-          <div class="btn-group" role="group">
-          	<button type="button" class="btn btn-default" id="btndel" data-toggle="tooltip" title="DEL" data-placement="bottom" data-filtervalue="N" data-datafield="del" data-filtertype="stringfilter" data-filtercondition="contains">DEL</button>
-          	<span class="badge badge-notify badge-del">3</span>
-          </div>
-           <div class="btn-group" role="group">
-          	<button type="button" class="btn btn-default" id="btninv" data-toggle="tooltip" title="INV" data-placement="bottom" data-filtervalue="N" data-datafield="inv" data-filtertype="stringfilter" data-filtercondition="contains">INV</button>
-          	<span class="badge badge-notify badge-inv">3</span>
-          </div>
-        </div>
-       
       </div>
     </div>
+    
+    <!-- Main Grid Content -->
     <div class="row">
-      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <div id="floormgmtgriddiv"><jsp:include page="floorMgmtGrid.jsp"></jsp:include></div>
+      <div class="col-xs-12">
+        <div class="grid-container">
+            <div id="floormgmtgriddiv"><jsp:include page="floorMgmtGrid.jsp"></jsp:include></div>
+        </div>
       </div>
     </div>
-
-
-    <!-- Vehicle Movement Modal-->
-   
 
     <!-- Comments Modal-->
     <div id="modalcomments" class="modal fade" role="dialog">
       <div class="modal-dialog">
         <div class="modal-content">
-          <div class="modal-header">
+          <div class="modal-header" style="background-color:#f8fafc; border-bottom: 1px solid #e1e8ed;">
             <button type="button" class="close" data-dismiss="modal">&times;</button>
-            <h4 class="modal-title">Comments</h4>
+            <h4 class="modal-title" style="font-weight: 600;">Comments</h4>
           </div>
           <div class="modal-body">
             <div class="comments-outer-container container-fluid">
               <div class="comments-container">
-                
               </div>
               <div class="create-msg-container">
-                <!-- <div class="container-fluid"> -->
                   <div class="row">
-                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="col-xs-12">
                       <div class="input-group">
                         <input type="text" class="form-control" placeholder="Please Type In" id="txtcomment">
                         <div class="input-group-btn">
-                          <button type="button" id="btncommentsend" class="btn btn-default">
+                          <button type="button" id="btncommentsend" class="btn btn-primary" style="height: 34px;">
                             <i class="fa fa-paper-plane"></i>
                           </button>
                         </div>
                       </div>
                     </div>
                   </div>
-                <!-- </div> -->
               </div>
             </div>
           </div>
-          <!-- <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          </div> -->
         </div>
       </div>
     </div>
+    
   </div>
+
   <input type="hidden" name="jobcarddocno" id="jobcarddocno">
   <input type="hidden" name="jobcardvocno" id="jobcardvocno">
   <input type="hidden" name="z1count" id="z1count">
@@ -263,8 +351,6 @@
   <input type="hidden" name="z13count" id="z13count">
   <input type="hidden" name="z14count" id="z14count">
   
-  
-  <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@7.24.4/dist/sweetalert2.all.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
@@ -272,10 +358,6 @@
     $(document).ready(function(){
         $('[data-toggle="tooltip"]').tooltip(); 
        
-      /*   $("#baymovupdateindate").jqxDateTimeInput({ width: '125px', height: '15px', formatString:"dd.MM.yyyy"});
-        $("#baymovupdateintime").jqxDateTimeInput({ width: '80px', height: '15px', formatString:"HH:mm",showCalendarButton:false});
-        $("#baymovupdateoutdate").jqxDateTimeInput({ width: '125px', height: '15px', formatString:"dd.MM.yyyy"});
-        $("#baymovupdateouttime").jqxDateTimeInput({ width: '80px', height: '15px', formatString:"HH:mm",showCalendarButton:false}); */
         $('.load-wrapp').hide();
         
         $('#btnsubmit').click(function(){
@@ -283,8 +365,8 @@
         	 $('.load-wrapp').show();
         	$('#floormgmtgriddiv').load('floorMgmtGrid.jsp?id=1');
         });
-        $('#btnexcel').click(function(){
         
+        $('#btnexcel').click(function(){
         	$("#floorMgmtGrid").excelexportjs({
         		containerid: "floorMgmtGrid",
         		datatype: 'json',
@@ -295,7 +377,6 @@
         	});
         });
        
-        
         $('.actionpanel button,.detailpanel button,.otherpanel button').click(function(){
         	var jobcarddocno=$('#jobcarddocno').val();
         	if(jobcarddocno==""){
@@ -329,11 +410,9 @@
 				});
         		return false;
         	}
-        	
         	saveComment();
         });
         
-      
         $('.warningpanel div button').click(function(){
         	var gridrows=$('#floorMgmtGrid').jqxGrid('getrows');
         	if(gridrows.length==0){
@@ -354,28 +433,16 @@
         });
     });
   
-   
     function addGridFilters(id,filtervalue,datafield,filtertype,filtercondition){
     	var filtergroup = new $.jqx.filter();
     	var filter_or_operator = 1;
-    	/* if(id=="btnoverdue" || id=="btnextendeddate"){
-			var d=new Date();
-			var day=d.getDate();
-			var month=d.getMonth();
-			var year=d.getFullYear();    		
-    		filtervalue=new Date(year,month,day);
-    		filter_or_operator=0;
-    	}  */
-    	//var filtercondition = 'contains';
     	var filter1 = filtergroup.createfilter(filtertype, filtervalue, filtercondition);
 
     	filtergroup.addfilter(filter_or_operator, filter1);
-    	//filtergroup.addfilter(filter_or_operator, filter2);r
-    	// add the filters.
     	$("#floorMgmtGrid").jqxGrid('addfilter', datafield, filtergroup);
-    	// apply the filters.
     	$("#floorMgmtGrid").jqxGrid('applyfilters');
  	}
+ 	
     function saveComment(){
     	var comment=$('#txtcomment').val();
     	var jobcarddocno=$('#jobcarddocno').val();
@@ -386,13 +453,11 @@
 				var items=x.responseText.trim().split(",");
 				getComments();		
 			}
-			else
-			{
-			}
 		}
 		x.open("GET","saveComment.jsp?comment="+comment.replace(/ /g, "%20")+"&jobcarddocno="+jobcarddocno,true);
 		x.send();
     }
+    
     function getComments(){
     	var jobcarddocno=$('#jobcarddocno').val();
     	var x=new XMLHttpRequest();
@@ -408,17 +473,11 @@
 					}
 					$('.comments-container').html($.parseHTML(str));		
 				}
-			
-			}
-			else
-			{
 			}
 		}
 		x.open("GET","getComments.jsp?jobcarddocno="+jobcarddocno,true);
 		x.send();
     }
-    
-  
     
     function funGetCountData(){
     	var brhid=$('#cmbbranch').val();
@@ -437,92 +496,53 @@
 				$('.badge-fp').text(items[7]);
 				$('.badge-del').text(items[8]);
 				$('.badge-inv').text(items[9]);
-			/* 	for(var i=1,j=6;i<=14;i++,j++){
-					$('#z'+i+'count').val(items[j]);
-				} */
-			}
-			else
-			{
 			}
 		}
 		x.open("GET","getCountData.jsp?brhid="+brhid,true);
 		x.send();
     }
     
-     
-function JSONToCSVCon(JSONData, ReportTitle, ShowLabel) {
+    function JSONToCSVCon(JSONData, ReportTitle, ShowLabel) {
+        var arrData = typeof JSONData != 'object' ? JSON.parse(JSONData) : JSONData;
+        var CSV = '';    
+        CSV += ReportTitle + '\r\n\n';
 
-    var arrData = typeof JSONData != 'object' ? JSON.parse(JSONData) : JSONData;
-    
-   // alert("arrData");
-    var CSV = '';    
-    //Set Report title in first row or line
-    
-    CSV += ReportTitle + '\r\n\n';
-
-    //This condition will generate the Label/Header
-    if (ShowLabel) {
-        var row = "";
+        if (ShowLabel) {
+            var row = "";
+            for (var index in arrData[0]) {
+                row += index + ',';
+            }
+            row = row.slice(0, -1);
+            CSV += row + '\r\n';
+        }
         
-        //This loop will extract the label from 1st index of on array
-        for (var index in arrData[0]) {
-            
-            //Now convert each value to string and comma-seprated
-            row += index + ',';
+        for (var i = 0; i < arrData.length; i++) {
+            var row = "";
+            for (var index in arrData[i]) {
+                row += '"' + arrData[i][index] + '",';
+            }
+            row.slice(0, row.length - 1);
+            CSV += row + '\r\n';
         }
 
-        row = row.slice(0, -1);
+        if (CSV == '') {        
+            alert("Invalid data");
+            return;
+        }   
         
-        //append Label row with line break
-        CSV += row + '\r\n';
+        var fileName = "";
+        fileName += ReportTitle.replace(/ /g,"_");   
+        var uri = 'data:text/csv;charset=utf-8,' + escape(CSV);
+        
+        var link = document.createElement("a");    
+        link.href = uri;
+        link.style = "visibility:hidden";
+        link.download = fileName + ".csv";
+        
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
     }
-    
-    //1st loop is to extract each row
-    for (var i = 0; i < arrData.length; i++) {
-        var row = "";
-        
-        //2nd loop will extract each column and convert it in string comma-seprated
-        for (var index in arrData[i]) {
-            row += '"' + arrData[i][index] + '",';
-        }
-
-        row.slice(0, row.length - 1);
-        
-        //add a line break after each row
-        CSV += row + '\r\n';
-    }
-
-    if (CSV == '') {        
-        alert("Invalid data");
-        return;
-    }   
-    
-    //Generate a file name
-    var fileName = "";
-    //this will remove the blank-spaces from the title and replace it with an underscore
-    fileName += ReportTitle.replace(/ /g,"_");   
-    
-    //Initialize file format you want csv or xls
-    var uri = 'data:text/csv;charset=utf-8,' + escape(CSV);
-    
-    // Now the little tricky part.
-    // you can use either>> window.open(uri);
-    // but this will not work in some browsers
-    // or you will not get the correct file extension    
-    
-    //this trick will generate a temp <a /> tag
-    var link = document.createElement("a");    
-    link.href = uri;
-    
-    //set the visibility hidden so it will not effect on your web-layout
-    link.style = "visibility:hidden";
-    link.download = fileName + ".csv";
-    
-    //this part will append the anchor tag and remove it after automatic click
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-}
-  </script>
+</script>
 </body>
 </html>
